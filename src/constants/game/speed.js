@@ -1,3 +1,3 @@
-const SPEED = 10;
+const SPEED = 15;
 
 export {SPEED};

@@ -9,6 +9,8 @@ import {BlueNote, PinkNote} from './Note';
 import {MoveFinger, Spawn, Move} from './systems';
 import NoteLine from './NoteLine';
 import MatchLine from './MatchLine';
+import Piano from './Piano';
+
 import {HEIGHT, WIDTH} from '../../constants/dimensions';
 import Entypo from '../../assets/icon/Entypo';
 import EvilIcons from '../../assets/icon/EvilIcons';
@@ -18,11 +20,10 @@ export default class GameScreen extends PureComponent {
     super();
     this.state = {
       entity: {
-        1: {position: [WIDTH, HEIGHT / 2.2], renderer: <BlueNote />}, //-- Notice that each entity has a unique id (required)
-        2: {
-          position: [WIDTH + 200, HEIGHT / 3],
-          renderer: <PinkNote color="blue" />,
-        }, //-- and a map of components. Each entity has an optional
+        1: {position: [WIDTH, HEIGHT / 2.2], renderer: <BlueNote />},
+        2: {position: [WIDTH + 200, HEIGHT / 3], renderer: <PinkNote />},
+        3: {position: [WIDTH + 800, HEIGHT / 2.2], renderer: <BlueNote />},
+        4: {position: [WIDTH + 400, HEIGHT / 3], renderer: <PinkNote />},
       },
     };
   }
@@ -112,7 +113,19 @@ export default class GameScreen extends PureComponent {
             height: HEIGHT / 2,
             position: 'absolute',
             top: HEIGHT - HEIGHT / 2,
-          }}></View>
+            flexDirection: 'row',
+          }}>
+          <Piano />
+          <View
+            style={{
+              backgroundColor: 'gray',
+              width: 200,
+              height: 360,
+              marginTop: 70,
+            }}
+          />
+          <Piano />
+        </View>
         {/* end of footer */}
       </GameEngine>
     );

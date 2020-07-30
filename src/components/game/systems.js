@@ -1,5 +1,6 @@
 import {BlueNote} from './Note';
 import {SPEED} from '../../constants/game/speed';
+import {WIDTH} from '../../constants/dimensions';
 
 const MoveFinger = (entities, {touches}) => {
   //-- I'm choosing to update the game state (entities) directly for the sake of brevity and simplicity.
@@ -28,7 +29,10 @@ const Move = (state, {touches}) => {
   for (const key in state) {
     if (state.hasOwnProperty(key)) {
       const obj = state[key];
-      obj.position = [obj.position[0] - SPEED, obj.position[1]];
+      obj.position = [
+        obj.position[0] > 0 ? obj.position[0] - SPEED : WIDTH,
+        obj.position[1],
+      ];
     }
   }
   return state;
