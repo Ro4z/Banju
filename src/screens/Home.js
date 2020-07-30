@@ -5,18 +5,20 @@ import {
   View,
   ImageBackground,
   Dimensions,
+  Button,
 } from 'react-native';
 
 import Header from '../components/struct/Header';
 import {HEIGHT} from '../constants/dimensions';
 
-const Home = () => {
+const Home = ({navigation}) => {
   return (
     <View style={styles.mainContainer}>
       <ImageBackground
         style={styles.imgBackground}
         source={require('../assets/img/background_home.jpg')}>
         <Header />
+        <Button title="asdf" onPress={() => navigation.navigate('Practice')} />
       </ImageBackground>
     </View>
   );
