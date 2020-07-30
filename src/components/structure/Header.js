@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
-import Icon from '../vector-icon/Ionicons';
+import Icon from '../../assets/icon/Ionicons';
 // import Icon from 'react-native-vector-icons/Ionicons'
 
 const Header = () => {

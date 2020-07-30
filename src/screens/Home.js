@@ -8,7 +8,7 @@ import {
   Button,
 } from 'react-native';
 
-import Header from '../components/struct/Header';
+import Header from '../components/structure/Header';
 import {HEIGHT} from '../constants/dimensions';
 
 const Home = ({navigation}) => {
