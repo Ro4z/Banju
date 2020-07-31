@@ -5,8 +5,10 @@ import Youtube from 'react-native-youtube';
 import {Button} from 'react-native-elements';
 import * as Progress from 'react-native-progress';
 
+//using in GameEngine
 import {BlueNote, PinkNote} from './Note';
 import {MoveFinger, Spawn, Move} from './systems';
+import ChordTable from './ChordTable';
 import NoteLine from './NoteLine';
 import MatchLine from './MatchLine';
 import Piano from './Piano';
@@ -20,10 +22,10 @@ export default class GameScreen extends PureComponent {
     super();
     this.state = {
       entity: {
-        1: {position: [WIDTH, HEIGHT / 2.2], renderer: <BlueNote />},
-        2: {position: [WIDTH + 200, HEIGHT / 3], renderer: <PinkNote />},
-        3: {position: [WIDTH + 800, HEIGHT / 2.2], renderer: <BlueNote />},
-        4: {position: [WIDTH + 400, HEIGHT / 3], renderer: <PinkNote />},
+        1: {position: [WIDTH, HEIGHT / 2.0], renderer: <BlueNote />},
+        2: {position: [WIDTH + 200, HEIGHT / 2.5], renderer: <PinkNote />},
+        3: {position: [WIDTH + 800, HEIGHT / 2.0], renderer: <BlueNote />},
+        4: {position: [WIDTH + 400, HEIGHT / 2.5], renderer: <PinkNote />},
       },
     };
   }
@@ -99,10 +101,11 @@ export default class GameScreen extends PureComponent {
           </View>
         </View>
         {/* end of header */}
+        <ChordTable />
 
         {/* TODO: 줄 위치 convention 정할 것. */}
-        <NoteLine yPos={HEIGHT / 2.2} />
-        <NoteLine yPos={HEIGHT / 3} />
+        <NoteLine yPos={HEIGHT / 2.0} />
+        <NoteLine yPos={HEIGHT / 2.5} />
         <MatchLine xPos={WIDTH / 6} />
 
         {/* TODO: Footer를 Component 단위로 분리할 것 */}
@@ -110,18 +113,18 @@ export default class GameScreen extends PureComponent {
           style={{
             width: '100%',
             backgroundColor: '#fff',
-            height: HEIGHT / 2,
+            height: HEIGHT / 2.5,
             position: 'absolute',
-            top: HEIGHT - HEIGHT / 2,
+            top: HEIGHT - HEIGHT / 2.5,
             flexDirection: 'row',
+            padding: 20,
           }}>
           <Piano />
           <View
             style={{
               backgroundColor: 'gray',
               width: 200,
-              height: 360,
-              marginTop: 70,
+              height: HEIGHT / 2.5,
             }}
           />
           <Piano />
@@ -139,7 +142,7 @@ const styles = StyleSheet.create({
   },
   header: {
     width: '100%',
-    height: 300,
+    height: 180,
     backgroundColor: '#fff',
     flexDirection: 'row',
     padding: 20,
