@@ -1,3 +1,3 @@
-const RADIUS = 25;
+const RADIUS = 12;
 
 export {RADIUS};

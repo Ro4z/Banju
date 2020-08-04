@@ -27,6 +27,46 @@ const ChordTable = () => {
         <Item />
         <Item />
         <Item />
+        <Item />
+        <Item />
+        <Item />
+
+        <Item chord="Am" />
+        <Item />
+        <Item />
+        <Item />
+        <Item chord="G7" />
+        <Item />
+        <Item />
+        <Item />
+        <Item chord="C" />
+        <Item />
+        <Item />
+        <Item />
+        <Item chord="C" />
+        <Item />
+        <Item />
+        <Item />
+        <Item />
+        <Item />
+        <Item />
+
+        <Item chord="Am" />
+        <Item />
+        <Item />
+        <Item />
+        <Item chord="G7" />
+        <Item />
+        <Item />
+        <Item />
+        <Item chord="C" />
+        <Item />
+        <Item />
+        <Item />
+        <Item chord="C" />
+        <Item />
+        <Item />
+        <Item />
       </View>
     </View>
   );

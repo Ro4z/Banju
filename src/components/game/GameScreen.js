@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react';
 import {StyleSheet, View, Text} from 'react-native';
-import {GameEngine} from 'react-native-game-engine';
+import {GameEngine, GameLoop} from 'react-native-game-engine';
 import Youtube from 'react-native-youtube';
 import {Button} from 'react-native-elements';
 import * as Progress from 'react-native-progress';
@@ -12,7 +12,7 @@ import ChordTable from './ChordTable';
 import NoteLine from './NoteLine';
 import MatchLine from './MatchLine';
 import Piano from './Piano';
-
+import PianoEntireView from './PianoEntireView';
 import {HEIGHT, WIDTH} from '../../constants/dimensions';
 import Entypo from '../../assets/icon/Entypo';
 import EvilIcons from '../../assets/icon/EvilIcons';
@@ -22,10 +22,10 @@ export default class GameScreen extends PureComponent {
     super();
     this.state = {
       entity: {
-        1: {position: [WIDTH, HEIGHT / 2.0], renderer: <BlueNote />},
-        2: {position: [WIDTH + 200, HEIGHT / 2.5], renderer: <PinkNote />},
-        3: {position: [WIDTH + 800, HEIGHT / 2.0], renderer: <BlueNote />},
-        4: {position: [WIDTH + 400, HEIGHT / 2.5], renderer: <PinkNote />},
+        1: {position: [WIDTH / 4, HEIGHT / 3], renderer: <BlueNote />},
+        2: {position: [WIDTH / 2, HEIGHT / 2.5], renderer: <PinkNote />},
+        3: {position: [WIDTH / 3, HEIGHT / 2.0], renderer: <BlueNote />},
+        4: {position: [WIDTH / 2.5, HEIGHT / 3.5], renderer: <PinkNote />},
       },
     };
   }
@@ -34,7 +34,7 @@ export default class GameScreen extends PureComponent {
     return (
       <GameEngine
         style={styles.container}
-        systems={[MoveFinger, Spawn, Move]} //-- We can add as many systems as needed
+        systems={[Move]} //-- We can add as many systems as needed
         entities={this.state.entity}>
         {/* TODO: header 부분을 component로 분리할 것. */}
         <View style={styles.header}>
@@ -101,30 +101,39 @@ export default class GameScreen extends PureComponent {
           </View>
         </View>
         {/* end of header */}
-        <ChordTable />
 
         {/* TODO: 줄 위치 convention 정할 것. */}
-        <NoteLine yPos={HEIGHT / 2.0} />
+        {/* <NoteLine yPos={HEIGHT / 2.0} />
         <NoteLine yPos={HEIGHT / 2.5} />
-        <MatchLine xPos={WIDTH / 6} />
+        <MatchLine xPos={WIDTH / 6} /> */}
 
+        {/* middle of screen */}
+        <View
+          style={{
+            flex: 2,
+            justifyContent: 'flex-end',
+            padding: 40,
+            paddingBottom: 20,
+          }}>
+          <PianoEntireView />
+        </View>
+
+        {/* start of footer */}
         {/* TODO: Footer를 Component 단위로 분리할 것 */}
+        {/* TODO: 레이아웃 크기 조절할 것 */}
         <View
           style={{
             width: '100%',
             backgroundColor: '#fff',
-            height: HEIGHT / 2.5,
-            position: 'absolute',
-            top: HEIGHT - HEIGHT / 2.5,
             flexDirection: 'row',
-            padding: 20,
+            flex: 1,
           }}>
           <Piano />
           <View
             style={{
               backgroundColor: 'gray',
               width: 200,
-              height: HEIGHT / 2.5,
+              height: '100%',
             }}
           />
           <Piano />
@@ -142,7 +151,7 @@ const styles = StyleSheet.create({
   },
   header: {
     width: '100%',
-    height: 180,
+    height: HEIGHT / 5,
     backgroundColor: '#fff',
     flexDirection: 'row',
     padding: 20,
