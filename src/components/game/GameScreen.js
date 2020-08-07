@@ -13,22 +13,47 @@ import NoteLine from './NoteLine';
 import MatchLine from './MatchLine';
 import Piano from './Piano';
 import PianoEntireView from './PianoEntireView';
+//constant
 import {HEIGHT, WIDTH} from '../../constants/dimensions';
+import {RADIUS} from '../../constants/game/note';
+import {TEST_CHORD as test} from '../../constants/game/chord_test';
+//icon
 import Entypo from '../../assets/icon/Entypo';
 import EvilIcons from '../../assets/icon/EvilIcons';
 
 export default class GameScreen extends PureComponent {
   constructor() {
     super();
+    this.entity = {};
     this.state = {
-      entity: {
-        1: {position: [WIDTH / 4, HEIGHT / 3], renderer: <BlueNote />},
-        2: {position: [WIDTH / 2, HEIGHT / 2.5], renderer: <PinkNote />},
-        3: {position: [WIDTH / 3, HEIGHT / 2.0], renderer: <BlueNote />},
-        4: {position: [WIDTH / 2.5, HEIGHT / 3.5], renderer: <PinkNote />},
-      },
+      entity: this.entity,
     };
   }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  }
+
+  //처음부터 재생
+  _play = () => {
+    let noteNumber = 0;
+    this.interval = setInterval(() => {
+      this.entity[noteNumber] = {
+        position: test[noteNumber].position,
+        renderer: noteNumber % 2 ? <PinkNote /> : <BlueNote />,
+        code: test[noteNumber].note,
+      };
+      noteNumber++;
+      if (noteNumber === test.length) {
+        this._stop();
+      }
+    }, 500);
+  };
+
+  //clear play interval
+  _stop = () => {
+    clearInterval(this.interval);
+  };
 
   render() {
     return (
@@ -74,9 +99,25 @@ export default class GameScreen extends PureComponent {
                     style={[styles.icon, {color: '#fff', fontSize: 40}]}
                   />
                 )}
+                onPress={this._play.bind()}
               />
               <Button
-                title="Play"
+                title="Stop"
+                buttonStyle={{
+                  width: 120,
+                  backgroundColor: 'red',
+                  marginLeft: 15,
+                }}
+                icon={() => (
+                  <Entypo
+                    name="controller-stop"
+                    style={[styles.icon, {color: '#fff', fontSize: 40}]}
+                  />
+                )}
+                onPress={this._stop.bind()}
+              />
+              <Button
+                title="Reload"
                 buttonStyle={{
                   width: 120,
                   backgroundColor: '#00AA44',

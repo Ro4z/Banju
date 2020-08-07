@@ -36,7 +36,7 @@ const stroke = (note) => {
         console.log('failed to play the sound.');
       }
     });
-  }, 1);
+  }, 100);
 };
 
 const stop = (note) => {
@@ -48,7 +48,7 @@ const stop = (note) => {
     }
     sound[note].stop();
     sound[note].setVolume(1.0);
-  }, 1);
+  }, 1000);
 };
 
 export {stroke, stop};

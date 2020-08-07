@@ -1,13 +1,10 @@
 import {BlueNote} from './Note';
 import {SPEED} from '../../constants/game/speed';
 import {HEIGHT} from '../../constants/dimensions';
+import {RADIUS} from '../../constants/game/note';
+import {stroke, stop} from '../../utils/piano/SoundPlayer';
 
 const MoveFinger = (entities, {touches}) => {
-  //-- I'm choosing to update the game state (entities) directly for the sake of brevity and simplicity.
-  //-- There's nothing stopping you from treating the game state as immutable and returning a copy..
-  //-- Example: return { ...entities, t.id: { UPDATED COMPONENTS }};
-  //-- That said, it's probably worth considering performance implications in either case.
-
   touches
     .filter((t) => t.type === 'move')
     .forEach((t) => {
@@ -31,9 +28,17 @@ const Move = (state, {touches}) => {
       const obj = state[key];
       obj.position = [
         obj.position[0],
-        obj.position[1] < (HEIGHT * 3) / 5 ? obj.position[1] + SPEED : 0,
-        ,
+        obj.position[1] < (HEIGHT * 3) / 5
+          ? obj.position[1] + SPEED
+          : (HEIGHT * 3) / 5 + RADIUS * 2,
       ];
+      //end-line event
+      if (obj.position[1] > (HEIGHT * 3) / 5) {
+        console.log(obj.code);
+        stroke(obj.code);
+        stop(obj.code);
+        delete state[key];
+      }
     }
   }
   return state;
