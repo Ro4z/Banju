@@ -11,7 +11,7 @@ import {MoveFinger, Spawn, Move} from './systems';
 import ChordTable from './ChordTable';
 import NoteLine from './NoteLine';
 import MatchLine from './MatchLine';
-import Piano from './Piano';
+import PianoPartView from './PianoPartView';
 import PianoEntireView from './PianoEntireView';
 //constant
 import {HEIGHT, WIDTH} from '../../constants/dimensions';
@@ -153,7 +153,9 @@ export default class GameScreen extends PureComponent {
           style={{
             flex: 2,
             justifyContent: 'flex-end',
-            padding: 40,
+            paddingLeft: 40,
+            paddingRight: 40,
+            paddingBottom: 5,
           }}>
           <PianoEntireView />
         </View>
@@ -167,16 +169,12 @@ export default class GameScreen extends PureComponent {
             backgroundColor: '#fff',
             flexDirection: 'row',
             flex: 1,
+            paddingLeft: 40,
+            paddingRight: 40,
           }}>
-          <Piano />
-          <View
-            style={{
-              backgroundColor: 'gray',
-              width: 200,
-              height: '100%',
-            }}
-          />
-          <Piano />
+          <PianoPartView />
+          <View style={{flex: 0.7}}></View>
+          <PianoPartView />
         </View>
         {/* end of footer */}
       </GameEngine>

@@ -6,10 +6,10 @@ const PianoEntireView = () => {
   return (
     <View style={styles.mainContainer}>
       <Piano
-        noteRange={{first: 'a0', last: 'c8'}}
+        noteRange={{first: 'c4', last: 'b4'}}
         onPlayNoteInput={(midi) => {}}
         onStopNoteInput={(midi) => {}}
-        heightValue={70}
+        heightValue={150}
       />
     </View>
   );
@@ -20,7 +20,6 @@ export default PianoEntireView;
 //TODO: layout 점검
 const styles = StyleSheet.create({
   mainContainer: {
-    width: '100%',
-    height: 120,
+    flex: 1,
   },
 });

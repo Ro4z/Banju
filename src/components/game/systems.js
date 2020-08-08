@@ -2,7 +2,7 @@ import {BlueNote} from './Note';
 import {SPEED} from '../../constants/game/speed';
 import {HEIGHT} from '../../constants/dimensions';
 import {RADIUS} from '../../constants/game/note';
-import {stroke, stop} from '../../utils/piano/SoundPlayer';
+import {stroke, stop} from '../../utils/piano/sound_player';
 
 const MoveFinger = (entities, {touches}) => {
   touches
