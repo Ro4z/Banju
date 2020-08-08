@@ -18,7 +18,6 @@ const soundList = [
 //initialize local sound list using 'react-native-sound'
 let sound = [];
 soundList.forEach((note) => {
-  console.log(note);
   sound[note] = new Sound(note + '.mp3', Sound.MAIN_BUNDLE, (error) => {
     if (error) {
       console.log('failed to load the sound.', error);
@@ -36,19 +35,20 @@ const stroke = (note) => {
         console.log('failed to play the sound.');
       }
     });
-  }, 100);
+  }, 1);
 };
 
 const stop = (note) => {
   // stop sound
   setTimeout(() => {
     // gradually decrease the volume
-    for (let i = 0; i < 2000; i++) {
-      sound[note].setVolume(1.0 - i / 2000);
+    //TODO: setVolume 간격 정하기, 아마 변수로 나오지 않을까 싶다.
+    for (let i = 0; i < 1400; i++) {
+      sound[note].setVolume(1.0 - i / 1400);
     }
     sound[note].stop();
     sound[note].setVolume(1.0);
-  }, 1000);
+  }, 500);
 };
 
 export {stroke, stop};
