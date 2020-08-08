@@ -6,6 +6,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 import Home from './src/screens/Home';
 import Practice from './src/screens/Practice';
+import UserInfo from './src/screens/UserInfo';
 
 const Stack = createStackNavigator();
 const screenDefaultOptions = {
@@ -23,6 +24,7 @@ const App = () => {
           options={screenDefaultOptions}
         />
         <Stack.Screen name="Practice" component={Practice} />
+        <Stack.Screen name="UserInfo" component={UserInfo} />
       </Stack.Navigator>
     </NavigationContainer>
   );
