@@ -1,71 +1,17 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import Item from './ChordTableItem';
 
 const ChordTable = () => {
+  const [prevChord, setPrevChord] = useState('');
+  const [curChord, setCurChord] = useState('');
+  const [nextChord, setNextChord] = useState('');
+
   return (
     <View style={styles.mainConatainer}>
       <View style={styles.table}>
-        <Item chord="C" />
         <Item />
-        <Item />
-        <Item />
-
-        <Item chord="Am" />
-        <Item />
-        <Item />
-        <Item />
-        <Item chord="G7" />
-        <Item />
-        <Item />
-        <Item />
-        <Item chord="C" />
-        <Item />
-        <Item />
-        <Item />
-        <Item chord="C" />
-        <Item />
-        <Item />
-        <Item />
-        <Item />
-        <Item />
-        <Item />
-
-        <Item chord="Am" />
-        <Item />
-        <Item />
-        <Item />
-        <Item chord="G7" />
-        <Item />
-        <Item />
-        <Item />
-        <Item chord="C" />
-        <Item />
-        <Item />
-        <Item />
-        <Item chord="C" />
-        <Item />
-        <Item />
-        <Item />
-        <Item />
-        <Item />
-        <Item />
-
-        <Item chord="Am" />
-        <Item />
-        <Item />
-        <Item />
-        <Item chord="G7" />
-        <Item />
-        <Item />
-        <Item />
-        <Item chord="C" />
-        <Item />
-        <Item />
-        <Item />
-        <Item chord="C" />
-        <Item />
-        <Item />
+        <Item cur />
         <Item />
       </View>
     </View>
@@ -76,14 +22,12 @@ export default ChordTable;
 
 const styles = StyleSheet.create({
   mainConatainer: {
-    width: '100%',
-    marginTop: 30,
-    height: 120,
-    padding: 20,
+    width: 200,
+    height: 50,
   },
   table: {
-    width: '100%',
-    height: 120,
+    width: 200,
+    height: 50,
     backgroundColor: '#fff',
     flexDirection: 'row',
   },
