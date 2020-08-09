@@ -21,9 +21,12 @@ const MoveFinger = (entities, {touches}) => {
 };
 
 let wormIds = 0;
-
+var eng = /^[a-zA-Z]*$/;
 const Move = (state, {touches}) => {
   for (const key in state) {
+    if (eng.test(key)) {
+      continue;
+    }
     if (state.hasOwnProperty(key)) {
       const obj = state[key];
       obj.position = [

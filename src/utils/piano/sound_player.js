@@ -1,18 +1,18 @@
 import Sound from 'react-native-sound';
 
 const soundList = [
-  'C',
-  'Cs',
-  'D',
-  'Ds',
-  'E',
-  'F',
-  'Fs',
-  'G',
-  'Gs',
-  'A',
-  'As',
-  'B',
+  'C4',
+  'Cs4',
+  'D4',
+  'Ds4',
+  'E4',
+  'F4',
+  'Fs4',
+  'G4',
+  'Gs4',
+  'A4',
+  'As4',
+  'B4',
 ];
 
 //initialize local sound list using 'react-native-sound'
@@ -48,7 +48,7 @@ const stop = (note) => {
     }
     sound[note].stop();
     sound[note].setVolume(1.0);
-  }, 500);
+  }, 1);
 };
 
 export {stroke, stop};
