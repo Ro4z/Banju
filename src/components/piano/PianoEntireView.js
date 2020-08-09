@@ -1,13 +1,15 @@
 import React from 'react';
 import {StyleSheet, Text, View, Image} from 'react-native';
-import Piano from '../piano';
+import Piano from '.';
 
 const PianoEntireView = () => {
   return (
     <View style={styles.mainContainer}>
       <Piano
         noteRange={{first: 'a0', last: 'c8'}}
-        onPlayNoteInput={(midi) => {}}
+        onPlayNoteInput={(chord) => {
+          console.log(chord);
+        }}
         onStopNoteInput={(midi) => {}}
         heightValue={70}
       />
