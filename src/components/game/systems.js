@@ -3,6 +3,8 @@ import {SPEED} from '../../constants/game/speed';
 import {HEIGHT} from '../../constants/dimensions';
 import {RADIUS} from '../../constants/game/note';
 import {stroke, stop} from '../../utils/piano/sound_player';
+import {TEST_CHORD as test} from '../../constants/game/chord_test';
+import {TabBarIOSItem} from 'react-native';
 
 const MoveFinger = (entities, {touches}) => {
   touches
@@ -20,8 +22,8 @@ const MoveFinger = (entities, {touches}) => {
   return entities;
 };
 
-let wormIds = 0;
 var eng = /^[a-zA-Z]*$/;
+let curPoint = 0;
 const Move = (state, {touches}) => {
   for (const key in state) {
     if (eng.test(key)) {
@@ -37,9 +39,17 @@ const Move = (state, {touches}) => {
       ];
       //end-line event
       if (obj.position[1] > (HEIGHT * 3) / 5) {
-        console.log(obj.code);
+        curPoint++;
+        const table = state['table'];
+        console.log(curPoint);
+        table.chord = [
+          test[curPoint - 1].note,
+          curPoint < test.length ? test[curPoint].note : '',
+          curPoint < test.length - 1 ? test[curPoint + 1].note : '',
+        ];
         stroke(obj.code);
         stop(obj.code);
+
         delete state[key];
       }
     }
@@ -47,6 +57,7 @@ const Move = (state, {touches}) => {
   return state;
 };
 
+let wormIds = 0;
 const Spawn = (state, {touches}) => {
   touches
     .filter((t) => t.type === 'press')

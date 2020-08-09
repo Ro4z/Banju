@@ -11,8 +11,8 @@ import {MoveFinger, Spawn, Move} from './systems';
 import ChordTable from './ChordTable';
 import NoteLine from './NoteLine';
 import MatchLine from './MatchLine';
-import PianoPartView from './PianoPartView';
-import PianoEntireView from './PianoEntireView';
+import PianoPartView from '../piano/PianoPartView';
+import PianoEntireView from '../piano/PianoEntireView';
 //constant
 import {HEIGHT, WIDTH} from '../../constants/dimensions';
 import {RADIUS} from '../../constants/game/note';
@@ -24,7 +24,13 @@ import EvilIcons from '../../assets/icon/EvilIcons';
 export default class GameScreen extends PureComponent {
   constructor() {
     super();
-    this.entity = {};
+    this.entity = {
+      table: {
+        position: [40, 250],
+        renderer: <ChordTable />,
+        chord: ['', test[0].note, test[1].note],
+      },
+    };
     this.state = {
       entity: this.entity,
     };
@@ -84,12 +90,16 @@ export default class GameScreen extends PureComponent {
                   marginRight: 10,
                 }}
               />
-              <Text style={{fontSize: 23}}>
+              <Text style={{fontSize: 23, marginRight: 200}}>
                 너의 이름은 OST - 아무것도 아니야
               </Text>
             </View>
             <View
-              style={{flexDirection: 'row', marginTop: 30, marginBottom: 35}}>
+              style={{
+                flexDirection: 'row',
+                marginTop: 15,
+                marginBottom: 35,
+              }}>
               <Button
                 title="Play"
                 buttonStyle={{width: 120}}
@@ -122,6 +132,7 @@ export default class GameScreen extends PureComponent {
                   width: 120,
                   backgroundColor: '#00AA44',
                   marginLeft: 15,
+                  marginRight: 100,
                 }}
                 icon={() => (
                   <EvilIcons
@@ -133,7 +144,7 @@ export default class GameScreen extends PureComponent {
             </View>
             <Progress.Bar
               progress={0.4}
-              width={WIDTH - 390}
+              width={WIDTH - 440}
               height={15}
               color={'#00FF00'}
               unfilledColor={'rgba(128,128,128,0.5)'}
@@ -186,13 +197,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FFF',
+    zIndex: -1,
   },
   header: {
     width: '100%',
     height: HEIGHT / 5,
     backgroundColor: '#fff',
     flexDirection: 'row',
-    padding: 20,
+    padding: 40,
   },
   youtube: {height: 180, width: 320, marginRight: 20},
 });
