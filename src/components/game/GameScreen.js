@@ -9,6 +9,7 @@ import * as Progress from 'react-native-progress';
 import {BlueNote, PinkNote} from './Note';
 import {MoveFinger, Spawn, Move} from './systems';
 import ChordTable from './ChordTable';
+import ProgressBar from './ProgressBar';
 import NoteLine from './NoteLine';
 import MatchLine from './MatchLine';
 import PianoPartView from '../piano/PianoPartView';
@@ -29,6 +30,10 @@ export default class GameScreen extends PureComponent {
         position: [40, 250],
         renderer: <ChordTable />,
         chord: ['', test[0].note, test[1].note],
+      },
+      progressBar: {
+        position: [380, 200],
+        renderer: <ProgressBar />,
       },
     };
     this.state = {
@@ -142,14 +147,6 @@ export default class GameScreen extends PureComponent {
                 )}
               />
             </View>
-            <Progress.Bar
-              progress={0.4}
-              width={WIDTH - 440}
-              height={15}
-              color={'#00FF00'}
-              unfilledColor={'rgba(128,128,128,0.5)'}
-              borderColor={'white'}
-            />
           </View>
         </View>
         {/* end of header */}

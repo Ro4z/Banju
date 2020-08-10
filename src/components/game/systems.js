@@ -24,6 +24,7 @@ const MoveFinger = (entities, {touches}) => {
 
 var eng = /^[a-zA-Z]*$/;
 let curPoint = 0;
+let _progress = 0;
 const Move = (state, {touches}) => {
   for (const key in state) {
     if (eng.test(key)) {
@@ -47,9 +48,13 @@ const Move = (state, {touches}) => {
           curPoint < test.length ? test[curPoint].note : '',
           curPoint < test.length - 1 ? test[curPoint + 1].note : '',
         ];
+
         stroke(obj.code);
         stop(obj.code);
 
+        const progressBar = state['progressBar'];
+        _progress += 0.143;
+        progressBar.progress = _progress;
         delete state[key];
       }
     }
