@@ -8,10 +8,12 @@ import PitchTracker from '{path}/utils/engine/pitch_tracker'
 
 ## How to Use
 
+First, you must load the `onsets_frames_wavinput_uni.tflite` model to xcode project.  
+Add tflite file to project, and go to the project -> Build Phases -> Add the .tflite to 'Copy Bundle Resources' 
+
 ### Functions
 
 ```javascript
-PitchTracker.prepare() // Prepares pitchtracker engine
 PitchTracker.start() // Starts pitchtracker engine
 pitchTracker.stop() // Stops pitchtracker engine
 ```
@@ -30,5 +32,5 @@ PitchTracker.addListener(
 )
 // keyUp Event occured {"midiNum": 60}
 
-// response: {midiNum: (midi number of the note:int)}
+// {midiNum: (midi number of the note:int)}
 ```
