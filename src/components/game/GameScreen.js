@@ -35,6 +35,7 @@ export default class GameScreen extends PureComponent {
         position: [380, 200],
         renderer: <ProgressBar />,
       },
+      pianoRight: {position: [800, 700], renderer: <PianoPartView />},
     };
     this.state = {
       entity: this.entity,
@@ -173,16 +174,17 @@ export default class GameScreen extends PureComponent {
         {/* TODO: 레이아웃 크기 조절할 것 */}
         <View
           style={{
-            width: '100%',
+            width: 20,
+            zIndex: -1,
             backgroundColor: '#fff',
             flexDirection: 'row',
             flex: 1,
             paddingLeft: 40,
             paddingRight: 40,
           }}>
-          <PianoPartView />
+          {/* <PianoPartView />
           <View style={{flex: 0.7}}></View>
-          <PianoPartView />
+          <PianoPartView /> */}
         </View>
         {/* end of footer */}
       </GameEngine>
