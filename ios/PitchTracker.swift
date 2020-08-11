@@ -66,16 +66,6 @@ class PitchTracker: RCTEventEmitter {
     workingAudioInputManager.prepareMicrophone()
   }
   
-  @objc
-  func printModel() {
-    print(result)
-  }
-  
-  @objc
-  func getCount(_ callback: RCTResponseSenderBlock) {
-    callback([count])
-  }
-  
   private func runModel(onBuffer buffer: [Int16]) {
     result = modelDataHandler?.runModel(onBuffer: buffer)
     guard var nowKeys = result else {
@@ -94,10 +84,6 @@ class PitchTracker: RCTEventEmitter {
   
   override func supportedEvents() -> [String]! {
     return ["keyDown", "keyUp"]
-  }
-  
-  override func constantsToExport() -> [AnyHashable : Any]! {
-    return ["initialCount": 0]
   }
   
   override static func requiresMainQueueSetup() -> Bool {
