@@ -7,6 +7,7 @@ class PitchTracker extends NativeEventEmitter {
         this.printModel = nativeModule.printModel
         this.start = nativeModule.start
         this.stop = nativeModule.stop
+        this.prepare = nativeModule.prepare
         this.monitor = function() {
             while(1) {
                 console.log(this.printModel())

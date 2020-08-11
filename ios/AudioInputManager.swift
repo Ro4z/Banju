@@ -33,6 +33,8 @@ class AudioInputManager: NSObject {
 
   // MARK: Instance Variables
   private let conversionQueue = DispatchQueue(label: "conversionQueue")
+  
+  private var isRunning = false
 
   /**
    The initializer initializes the AudioInputManager with the required sample rate for the audio
@@ -46,11 +48,11 @@ class AudioInputManager: NSObject {
     super.init()
   }
 
-  func checkPermissionsAndStartTappingMicrophone() {
+  func checkPermissions() {
     switch AVAudioSession.sharedInstance().recordPermission {
 
     case .granted:
-      startTappingMicrophone()
+      return
     case .denied:
       delegate?.showCameraPermissionsDeniedAlert()
     case .undetermined:
@@ -61,29 +63,28 @@ class AudioInputManager: NSObject {
   func requestPermissions() {
     AVAudioSession.sharedInstance().requestRecordPermission { (granted) in
       if granted {
-        self.startTappingMicrophone()
+        return
       }
       else {
-        self.checkPermissionsAndStartTappingMicrophone()
+        self.checkPermissions()
       }
     }
   }
 
-  /** This method starts tapping the microphone input and converts it into the format for which the model is trained and periodically returns it in the block
-   */
-  func startTappingMicrophone() {
+  func prepareMicrophone() {
     let inputNode = audioEngine.inputNode
     let inputFormat = inputNode.outputFormat(forBus: 0)
     let recordingFormat = AVAudioFormat(commonFormat: .pcmFormatInt16, sampleRate: Double(sampleRate), channels: 1, interleaved: true)
     guard let formatConverter =  AVAudioConverter(from:inputFormat, to: recordingFormat!) else {
       return
     }
-
+    
+    print("Preparing")
     // We install a tap on the audio engine and specifying the buffer size and the input format.
     audioEngine.inputNode.installTap(onBus: 0, bufferSize: AVAudioFrameCount(bufferSize), format: inputFormat) { (buffer, time) in
 
       self.conversionQueue.async {
-
+        
         // An AVAudioConverter is used to convert the microphone input to the format required for the model.(pcm 16)
         let pcmBuffer = AVAudioPCMBuffer(pcmFormat: recordingFormat!, frameCapacity: AVAudioFrameCount(recordingFormat!.sampleRate * 2.0))
         var error: NSError? = nil
@@ -112,22 +113,32 @@ class AudioInputManager: NSObject {
 
       }
     }
+  }
+  /** This method starts tapping the microphone input and converts it into the format for which the model is trained and periodically returns it in the block
+   */
+  func startTappingMicrophone() {
+    if(audioEngine.isRunning || isRunning) {
+      print("AudioEngine is Running")
+      return;
+    }
 
     audioEngine.prepare()
+    print("Audio Engine Prepare")
     do {
       try audioEngine.start()
     }
     catch {
       print(error.localizedDescription)
     }
+    print("Audio Engine Start")
+    isRunning = true
   }
 
   func stopTappingMicrophone() {
-    do {
-      try audioEngine.stop()
-    }
-    catch {
-        print(error.localizedDescription)
-    }
+    audioEngine.stop()
+    print("Audio Engine Stop")
+    audioEngine.reset()
+    print("Audio Engine Reset")
+    isRunning = false
   }
 }

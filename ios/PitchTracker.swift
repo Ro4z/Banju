@@ -28,14 +28,6 @@ class PitchTracker: RCTEventEmitter {
   @objc
   func start() {
     prevKeys = Array(repeating: 0, count: 88)
-    print("Started Engine")
-    guard let handler = modelDataHandler else {
-      print("Handler failed")
-      return
-    }
-    print("Audio Loaded")
-    audioInputManager = AudioInputManager(sampleRate: handler.sampleRate)
-    audioInputManager?.delegate = self
 
     guard let workingAudioInputManager = audioInputManager else {
       return
@@ -44,7 +36,7 @@ class PitchTracker: RCTEventEmitter {
     
     bufferSize = workingAudioInputManager.bufferSize
 
-    workingAudioInputManager.checkPermissionsAndStartTappingMicrophone()
+    workingAudioInputManager.startTappingMicrophone()
   }
   
   @objc
@@ -53,6 +45,25 @@ class PitchTracker: RCTEventEmitter {
       return
     }
     workingAudioInputManager.stopTappingMicrophone()
+  }
+  
+  @objc
+  func prepare() {
+    
+    guard let handler = modelDataHandler else {
+      return
+    }
+    if(audioInputManager != nil) {
+      return
+    }
+    audioInputManager = AudioInputManager(sampleRate: handler.sampleRate)
+    audioInputManager?.delegate = self
+    
+    guard let workingAudioInputManager = audioInputManager else {
+      return
+    }
+    workingAudioInputManager.checkPermissions()
+    workingAudioInputManager.prepareMicrophone()
   }
   
   @objc

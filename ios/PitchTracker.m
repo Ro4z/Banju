@@ -12,6 +12,7 @@
 
 RCT_EXTERN_METHOD(start)
 RCT_EXTERN_METHOD(stop)
+RCT_EXTERN_METHOD(prepare)
 RCT_EXTERN_METHOD(printModel)
 RCT_EXTERN_METHOD(getCount: (RCTResponseSenderBlock)callback)
 
