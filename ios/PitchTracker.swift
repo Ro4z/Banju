@@ -81,18 +81,15 @@ class PitchTracker: RCTEventEmitter {
     guard var nowKeys = result else {
       return
     }
-    sendEvent(withName: "keyDown", body: ["keys": nowKeys])
-    /* Event Implementation
     for i in 0...87 {
       if(prevKeys[i]==0 && nowKeys[i]>0) {
-        sendEvent(withName: "keyDown", body: ["midiNum": i+21, "keys" : nowKeys])
+        sendEvent(withName: "keyDown", body: ["midiNum": i+21])
       }
       if(prevKeys[i]>0 && nowKeys[i]==0) {
-        sendEvent(withName: "keyUp", body: ["midiNum": i+21, "keys" : nowKeys])
+        sendEvent(withName: "keyUp", body: ["midiNum": i+21])
       }
       prevKeys[i] = nowKeys[i]
     }
-     */
   }
   
   override func supportedEvents() -> [String]! {
