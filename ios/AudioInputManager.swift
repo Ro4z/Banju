@@ -108,7 +108,6 @@ class AudioInputManager: NSObject {
 
           // Converted pcm 16 values are delegated to the controller.
           self.delegate?.didOutput(channelData: channelDataValueArray)
-         // completion(channelDataValueArray)
         }
 
       }
