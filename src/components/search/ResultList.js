@@ -5,6 +5,7 @@ import ResultListItem from './ResultListItem';
 const ResultList = ({navigation}) => {
   return (
     <View style={styles.mainContainer}>
+      {/* TODO: change scrollview to flatlist */}
       <ResultListItem cover2 navigation={navigation} />
       <ResultListItem navigation={navigation} />
       <ResultListItem cover2 />
