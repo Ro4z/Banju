@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
   mainContainer: {
     width: 1,
     height: 400,
-    backgroundColor: 'white',
+    backgroundColor: 'rgba(84, 84, 88, 1)',
     position: 'absolute',
     top: 220,
   },
