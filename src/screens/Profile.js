@@ -2,25 +2,29 @@ import React, {Component} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 
 import {BACKGROUND_COLOR} from '../constants/color';
-
+import UserInfo from '../components/profile/UserInfo';
+import UserGraph from '../components/profile/UserGraph';
+import PracticeList from '../components/profile/PracticeList';
 import Icon from '../assets/icon/Ionicons';
 
-class UserInfo extends Component {
+class Profile extends Component {
   render() {
     return (
       <View style={styles.mainContainer}>
         <View style={styles.leftContainer}>
           <Icon name="ios-person-circle-outline" style={styles.profile} />
-          <Text style={styles.text}>성환</Text>
-          <View style={styles.leftSubView}></View>
+          <UserInfo name="성환" followers={31} following={291} />
         </View>
-        <View style={styles.rightContainer}></View>
+        <View style={styles.rightContainer}>
+          <PracticeList />
+          <UserGraph />
+        </View>
       </View>
     );
   }
 }
 
-export default UserInfo;
+export default Profile;
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -38,15 +42,11 @@ const styles = StyleSheet.create({
   },
   rightContainer: {
     flex: 2.5,
+    padding: 40,
     backgroundColor: BACKGROUND_COLOR,
   },
   profile: {
     fontSize: 350,
     color: '#BBB',
-  },
-  text: {
-    color: 'white',
-    fontSize: 40,
-    fontWeight: 'bold',
   },
 });

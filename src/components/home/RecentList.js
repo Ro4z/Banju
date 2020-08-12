@@ -6,6 +6,7 @@ const RecentList = ({navigation}) => {
   return (
     <View style={styles.mainContainer}>
       <View style={styles.subMargin} />
+      {/* TODO: change scrollview to flatlist */}
       <ScrollView contentContainerStyle={styles.scrollView}>
         <Item1 navigation={navigation} />
         <Item2 />
