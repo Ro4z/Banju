@@ -6,7 +6,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 import Home from './src/screens/Home';
 import Practice from './src/screens/Practice';
-import UserInfo from './src/screens/UserInfo';
+import Profile from './src/screens/Profile';
 import Search from './src/screens/Search';
 
 import {NAVIGATION_BAR_COLOR} from './src/constants/color';
@@ -31,7 +31,17 @@ const App = () => {
           component={Practice}
           options={screenDefaultOptions}
         />
-        <Stack.Screen name="UserInfo" component={UserInfo} />
+        <Stack.Screen
+          name="Profile"
+          component={Profile}
+          options={{
+            title: '개인 프로필',
+            headerTitleStyle: {
+              color: 'white',
+            },
+            headerStyle: {backgroundColor: NAVIGATION_BAR_COLOR},
+          }}
+        />
         <Stack.Screen
           name="Search"
           component={Search}

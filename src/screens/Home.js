@@ -34,7 +34,7 @@ const Home = ({navigation}) => {
         <View style={styles.subContainer}>
           <TouchableOpacity
             style={styles.userBtn}
-            onPress={() => navigation.navigate('UserInfo')}>
+            onPress={() => navigation.navigate('Profile')}>
             <Icon name="ios-person-circle-outline" style={styles.profile} />
           </TouchableOpacity>
           <Text style={styles.text1}>안녕하세요 성환님!</Text>
