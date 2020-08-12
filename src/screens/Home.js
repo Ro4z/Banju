@@ -9,16 +9,20 @@ import {
 } from 'react-native';
 import {Button} from 'react-native-elements';
 
+import TodayList from '../components/home/TodayList';
+import TrendList from '../components/home/TrendList';
 import Header from '../components/structure/Header';
 import {HEIGHT} from '../constants/dimensions';
 import Icon from '../assets/icon/Ionicons';
+import {BACKGROUND_COLOR} from '../constants/color';
 
 const Home = ({navigation}) => {
   return (
     <View style={styles.mainContainer}>
       <ImageBackground
         style={styles.imgBackground}
-        source={require('../assets/img/background_home.jpg')}>
+        source={require('../assets/img/background_home.jpg')}
+        blurRadius={10}>
         <Header />
         <View style={styles.subContainer}>
           <TouchableOpacity
@@ -39,6 +43,10 @@ const Home = ({navigation}) => {
           />
         </View>
       </ImageBackground>
+      <View style={styles.footer}>
+        <TodayList />
+        <TrendList />
+      </View>
     </View>
   );
 };
@@ -49,6 +57,7 @@ const styles = StyleSheet.create({
   mainContainer: {
     width: '100%',
     height: '100%',
+    backgroundColor: BACKGROUND_COLOR,
   },
   imgBackground: {width: '100%', height: HEIGHT / 2},
   button: {
@@ -73,5 +82,9 @@ const styles = StyleSheet.create({
     fontSize: 40,
     fontWeight: 'bold',
     marginTop: 5,
+  },
+  footer: {
+    flexDirection: 'row',
+    padding: 20,
   },
 });
