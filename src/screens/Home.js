@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {Button} from 'react-native-elements';
+import Modal from 'react-native-modal';
 
 import TodayList from '../components/home/TodayList';
 import TrendList from '../components/home/TrendList';
@@ -17,6 +18,12 @@ import Icon from '../assets/icon/Ionicons';
 import {BACKGROUND_COLOR} from '../constants/color';
 
 const Home = ({navigation}) => {
+  const [openModal, setOpenModal] = useState(false);
+
+  const toggleModal = () => {
+    setOpenModal(!openModal);
+  };
+
   return (
     <View style={styles.mainContainer}>
       <ImageBackground
@@ -37,15 +44,20 @@ const Home = ({navigation}) => {
           <Button
             title="연습 시작"
             buttonStyle={styles.button}
-            onPress={() => {
-              navigation.navigate('Practice');
-            }}
+            onPress={() => navigation.navigate('Search')}
           />
         </View>
       </ImageBackground>
       <View style={styles.footer}>
-        <TodayList />
+        <TodayList navigation={navigation} />
         <TrendList />
+      </View>
+      <View>
+        <Modal isVisible={openModal}>
+          <View style={{flex: 1}}>
+            <Text>I am the modal content!</Text>
+          </View>
+        </Modal>
       </View>
     </View>
   );

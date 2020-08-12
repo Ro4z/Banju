@@ -1,9 +1,11 @@
 import React from 'react';
-import {StyleSheet, Text, View, Image} from 'react-native';
+import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 
-const Item1 = () => {
+const Item1 = ({navigation}) => {
   return (
-    <View style={styles.mainCard}>
+    <TouchableOpacity
+      style={styles.mainCard}
+      onPress={() => navigation.navigate('Practice')}>
       <View style={styles.imgView}>
         <Image
           source={require('../../assets/img/sample_cover1.png')}
@@ -21,11 +23,11 @@ const Item1 = () => {
           <Text style={styles.text2}>3 M Views | chords: A F G C</Text>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
-const Item2 = () => {
+const Item2 = ({navigation}) => {
   return (
     <View style={styles.mainCard1}>
       <View style={styles.imgView}>

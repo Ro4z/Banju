@@ -4,13 +4,13 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import List from './RecentList';
 Icon.loadFont();
 
-const TodayList = () => {
+const TodayList = ({navigation}) => {
   return (
     <View style={styles.mainContainer}>
       <Text style={styles.title}>
         <Icon name="music" style={[styles.title]} /> Today's Chord Progression
       </Text>
-      <List />
+      <List navigation={navigation} />
     </View>
   );
 };
