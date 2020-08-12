@@ -6,11 +6,11 @@ import Piano from './Piano';
 import {stroke, stop} from '../../utils/piano/sound_player';
 
 const PianoPartView = ({position}) => {
-  const x = position[0];
-  const y = position[1];
+  // const x = position[0];
+  // const y = position[1];
 
   return (
-    <View style={[styles.mainContainer, {left: x, top: y}]}>
+    <View style={[styles.mainContainer]}>
       <Piano
         noteRange={{first: 'c4', last: 'b4'}}
         onPlayNoteInput={(chord) => {
@@ -31,7 +31,6 @@ export default PianoPartView;
 //TODO: layout 점검
 const styles = StyleSheet.create({
   mainContainer: {
-    width: 500,
-    height: 300,
+    flex: 1,
   },
 });
