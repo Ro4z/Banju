@@ -31,7 +31,7 @@ const UserGraph = () => {
             },
           ],
         }}
-        width={(WIDTH * 2) / 3.3}
+        width={(WIDTH * 2) / 5}
         height={HEIGHT / 3}
         yAxisLabel=""
         yAxisSuffix="k"
