@@ -18,12 +18,6 @@ import Icon from '../assets/icon/Ionicons';
 import {BACKGROUND_COLOR} from '../constants/color';
 
 const Home = ({navigation}) => {
-  const [openModal, setOpenModal] = useState(false);
-
-  const toggleModal = () => {
-    setOpenModal(!openModal);
-  };
-
   return (
     <View style={styles.mainContainer}>
       <ImageBackground
@@ -51,13 +45,6 @@ const Home = ({navigation}) => {
       <View style={styles.footer}>
         <TodayList navigation={navigation} />
         <TrendList />
-      </View>
-      <View>
-        <Modal isVisible={openModal}>
-          <View style={{flex: 1}}>
-            <Text>I am the modal content!</Text>
-          </View>
-        </Modal>
       </View>
     </View>
   );
