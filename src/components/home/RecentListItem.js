@@ -15,9 +15,8 @@ const Item1 = ({navigation}) => {
       <View style={styles.textView}>
         <View style={styles.textSubView1}>
           {/* TODO: 자동 줄 바꿈하는 Text Component 사용해야 함. */}
-          <Text style={styles.text1}>
-            아무것도 아니야 (Nandemonaiya) {'\n'}너의 이름은 (Kimi no na wa) OST
-          </Text>
+          <Text style={styles.text1}>아무것도 아니야 (Nandemonaiya)</Text>
+          <Text style={styles.text1}>너의 이름은 (Kimi no na wa) OST</Text>
         </View>
         <View style={styles.textSubView2}>
           <Text style={styles.text2}>3 M Views | chords: A F G C</Text>
@@ -44,14 +43,37 @@ const Item2 = ({navigation}) => {
           </Text>
         </View>
         <View style={styles.textSubView2}>
-          <Text style={styles.text2}>3 M Views | chords: A F G C</Text>
+          <Text style={styles.text2}>128.9 M Views | chords: A F G C</Text>
         </View>
       </View>
     </View>
   );
 };
 
+const Item = (props) => {
+  return (
+    <TouchableOpacity
+      style={props.isBlack ? styles.mainCard : styles.mainCard1}
+      onPress={() => props.navigation.navigate('Practice')}>
+      <View style={styles.imgView}>
+        <Image source={{uri: props.uri}} style={styles.img} />
+      </View>
+      <View style={styles.textView}>
+        <View style={styles.textSubView1}>
+          {/* TODO: 자동 줄 바꿈하는 Text Component 사용해야 함. */}
+          <Text style={styles.text1}>{props.title}</Text>
+          <Text style={styles.text1}>{props.author}</Text>
+        </View>
+        <View style={styles.textSubView2}>
+          <Text style={styles.text2}>{props.info}</Text>
+        </View>
+      </View>
+    </TouchableOpacity>
+  );
+};
+
 export {Item1, Item2};
+export default Item;
 
 const styles = StyleSheet.create({
   mainCard: {

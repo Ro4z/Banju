@@ -6,8 +6,9 @@ import {Button} from 'react-native-elements';
 import * as Progress from 'react-native-progress';
 
 //using in GameEngine
+import ChordNote from './ChordNote';
 import {BlueNote, PinkNote} from './Note';
-import {MoveFinger, Spawn, Move} from './systems';
+import {Spawn, Move} from './systems';
 import ChordTable from './ChordTable';
 import ProgressBar from './ProgressBar';
 import BackgroundLine from './BackgroundLine';
@@ -36,6 +37,9 @@ export default class GameScreen extends PureComponent {
         position: [380, 190],
         renderer: <ProgressBar />,
       },
+      timer: {
+        isStart: false,
+      },
       // pianoRight: {position: [800, 700], renderer: <PianoPartView />},
     };
     this.state = {
@@ -49,11 +53,13 @@ export default class GameScreen extends PureComponent {
 
   //처음부터 재생
   _play = () => {
+    this.entity.timer.isStart = true;
+    return;
     let noteNumber = 0;
     this.interval = setInterval(() => {
       this.entity[noteNumber] = {
         position: test[noteNumber].position,
-        renderer: noteNumber % 2 ? <PinkNote /> : <BlueNote />,
+        renderer: <ChordNote />,
         code: test[noteNumber].note,
       };
       noteNumber++;
@@ -72,7 +78,7 @@ export default class GameScreen extends PureComponent {
     return (
       <GameEngine
         style={styles.container}
-        systems={[Move]} //-- We can add as many systems as needed
+        systems={[Move, Spawn]} //-- We can add as many systems as needed
         entities={this.state.entity}>
         {/* TODO: header 부분을 component로 분리할 것. */}
         <View style={styles.header}>
@@ -165,7 +171,6 @@ export default class GameScreen extends PureComponent {
             justifyContent: 'flex-end',
             paddingLeft: 40,
             paddingRight: 40,
-            paddingBottom: 5,
           }}>
           <PianoEntireView />
         </View>

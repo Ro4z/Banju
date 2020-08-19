@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import SearchBar from 'react-native-search-bar';
 import {BlurView} from '@react-native-community/blur';
-import ResultList from '../components/search/ResultList';
+import ResultList, {List1, List2} from '../components/search/ResultList';
 
 import {BACKGROUND_COLOR} from '../constants/color';
 
@@ -35,7 +35,8 @@ const Search = ({navigation}) => {
       />
       <ScrollView>
         <ResultList navigation={navigation} />
-        <ResultList />
+        <List1 />
+        <List2 />
         <ResultList />
       </ScrollView>
     </View>

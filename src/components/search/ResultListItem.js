@@ -28,7 +28,18 @@ const ResultListItem = ({cover2, navigation}) => {
     </TouchableOpacity>
   );
 };
-
+const Item = (props) => {
+  return (
+    <TouchableOpacity style={styles.mainContainer}>
+      <Image source={{uri: props.uri}} style={styles.img} />
+      <View style={{alignItems: 'flex-start', justifyContent: 'flex-start'}}>
+        <Text style={styles.title}>{props.title}</Text>
+        <Text style={styles.author}>{props.author}</Text>
+      </View>
+    </TouchableOpacity>
+  );
+};
+export {Item};
 export default ResultListItem;
 
 const styles = StyleSheet.create({
