@@ -46,9 +46,9 @@ const UserGraph = () => {
             borderRadius: 16,
           },
           propsForDots: {
-            r: '6',
-            strokeWidth: '2',
-            stroke: 'rgb(0,128,255)',
+            r: '7',
+            strokeWidth: '4',
+            stroke: 'rgb(50,190,70)',
           },
         }}
         bezier
