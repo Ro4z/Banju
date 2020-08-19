@@ -1,7 +1,8 @@
 
-
 # :musical_keyboard: Banju
-> AI기반 피아노 코드반주 학습 서비스
+***AI기반 피아노 코드반주 학습 서비스***
+
+> This project was bootstrapped with [react-native-cli](https://www.npmjs.com/package/react-native-cli) (2.0.1)
 
 **Software Maestro 11기 TEAM forte 🎼김성환 유인성 김하균**
 ![screenshot](./screenshot.png)
@@ -25,5 +26,10 @@
 - Node.js, Express.js, Sequelize.js
 ### MIR-Engine
 - PyTorch, TensorFlow Lite (Python/Swift)
+
+## 🔨 How to build (works on iOS only)
+- `npm install`
+- `npx pod-install ios`
+- `react-native run-ios`
 
 
