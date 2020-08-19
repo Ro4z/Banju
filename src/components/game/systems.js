@@ -74,7 +74,7 @@ const Spawn = (state, {touches}) => {
     if (rightChordArr[rightChordArrIdx].key[0].noteOn === 1) {
       rightChordArr[rightChordArrIdx].key.forEach((key) => {
         state[noteNumber] = {
-          position: [RADIUS * 2 * (key.midiNum - 30) + 40, -380],
+          position: [RADIUS * 2 * (key.midiNum - 30) + 40, 170],
           renderer: <ChordNote />,
           length: rightChordTimeArr[rightChordTimeArrIdx],
           isRight: true,
@@ -90,7 +90,7 @@ const Spawn = (state, {touches}) => {
     if (leftChordArr[leftChordArrIdx].key[0].noteOn === 1) {
       leftChordArr[leftChordArrIdx].key.forEach((key) => {
         state[noteNumber] = {
-          position: [RADIUS * 2 * (key.midiNum - 30) + 40, -380],
+          position: [RADIUS * 2 * (key.midiNum - 30) + 40, 170],
           renderer: <ChordNote />,
           length: leftChordTimeArr[leftChordTimeArrIdx],
         };
@@ -116,24 +116,25 @@ const Move = (state, {touches}) => {
           ? obj.position[1] + SPEED
           : (HEIGHT * 3) / 5 + RADIUS * 2,
       ];
+
       //end-line event
       if (obj.position[1] > (HEIGHT * 3) / 5) {
         curPoint++;
-        const table = state.chordTable;
-        console.log(curPoint);
-        table.chord = [
-          test[curPoint - 1].note,
-          curPoint < test.length ? test[curPoint].note : '',
-          curPoint < test.length - 1 ? test[curPoint + 1].note : '',
-        ];
+        // const table = state.chordTable;
+        // console.log(curPoint);
+        // table.chord = [
+        //   test[curPoint - 1].note,
+        //   curPoint < test.length ? test[curPoint].note : '',
+        //   curPoint < test.length - 1 ? test[curPoint + 1].note : '',
+        // ];
 
-        stroke(obj.code);
-        stop(obj.code);
+        // stroke(obj.code);
+        // stop(obj.code);
 
-        const progressBar = state.progressBar;
-        _progress += 0.143;
-        progressBar.progress = _progress;
-        delete state[key];
+        // const progressBar = state.progressBar;
+        // _progress += 0.143;
+        // progressBar.progress = _progress;
+        // delete state[key];
       }
     }
   }

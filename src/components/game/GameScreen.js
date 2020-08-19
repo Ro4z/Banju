@@ -171,7 +171,6 @@ export default class GameScreen extends PureComponent {
             justifyContent: 'flex-end',
             paddingLeft: 40,
             paddingRight: 40,
-            paddingBottom: 5,
           }}>
           <PianoEntireView />
         </View>
