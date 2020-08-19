@@ -1,6 +1,8 @@
 import React from 'react';
 import {StyleSheet, Text, View, Image} from 'react-native';
-import Piano from '.';
+
+import Piano from './Piano';
+import {BACKGROUND_COLOR} from '../../constants/color';
 
 const PianoEntireView = () => {
   return (
@@ -24,5 +26,6 @@ const styles = StyleSheet.create({
   mainContainer: {
     width: '100%',
     height: 120,
+    backgroundColor: BACKGROUND_COLOR,
   },
 });
