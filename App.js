@@ -6,7 +6,10 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 import Home from './src/screens/Home';
 import Practice from './src/screens/Practice';
-import UserInfo from './src/screens/UserInfo';
+import Profile from './src/screens/Profile';
+import Search from './src/screens/Search';
+
+import {NAVIGATION_BAR_COLOR} from './src/constants/color';
 
 const Stack = createStackNavigator();
 const screenDefaultOptions = {
@@ -23,8 +26,33 @@ const App = () => {
           component={Home}
           options={screenDefaultOptions}
         />
-        <Stack.Screen name="Practice" component={Practice} />
-        <Stack.Screen name="UserInfo" component={UserInfo} />
+        <Stack.Screen
+          name="Practice"
+          component={Practice}
+          options={screenDefaultOptions}
+        />
+        <Stack.Screen
+          name="Profile"
+          component={Profile}
+          options={{
+            title: '개인 프로필',
+            headerTitleStyle: {
+              color: 'white',
+            },
+            headerStyle: {backgroundColor: NAVIGATION_BAR_COLOR},
+          }}
+        />
+        <Stack.Screen
+          name="Search"
+          component={Search}
+          options={{
+            title: '',
+            headerStyle: {
+              backgroundColor: NAVIGATION_BAR_COLOR,
+              borderWidth: 0.5,
+            },
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -24,6 +24,7 @@ const MoveFinger = (entities, {touches}) => {
 
 var eng = /^[a-zA-Z]*$/;
 let curPoint = 0;
+let _progress = 0;
 const Move = (state, {touches}) => {
   for (const key in state) {
     if (eng.test(key)) {
@@ -40,16 +41,20 @@ const Move = (state, {touches}) => {
       //end-line event
       if (obj.position[1] > (HEIGHT * 3) / 5) {
         curPoint++;
-        const table = state['table'];
+        const table = state.chordTable;
         console.log(curPoint);
         table.chord = [
           test[curPoint - 1].note,
           curPoint < test.length ? test[curPoint].note : '',
           curPoint < test.length - 1 ? test[curPoint + 1].note : '',
         ];
+
         stroke(obj.code);
         stop(obj.code);
 
+        const progressBar = state.progressBar;
+        _progress += 0.143;
+        progressBar.progress = _progress;
         delete state[key];
       }
     }

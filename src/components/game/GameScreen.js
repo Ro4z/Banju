@@ -9,8 +9,8 @@ import * as Progress from 'react-native-progress';
 import {BlueNote, PinkNote} from './Note';
 import {MoveFinger, Spawn, Move} from './systems';
 import ChordTable from './ChordTable';
-import NoteLine from './NoteLine';
-import MatchLine from './MatchLine';
+import ProgressBar from './ProgressBar';
+import BackgroundLine from './BackgroundLine';
 import PianoPartView from '../piano/PianoPartView';
 import PianoEntireView from '../piano/PianoEntireView';
 //constant
@@ -20,16 +20,23 @@ import {TEST_CHORD as test} from '../../constants/game/chord_test';
 //icon
 import Entypo from '../../assets/icon/Entypo';
 import EvilIcons from '../../assets/icon/EvilIcons';
+//color
+import {BACKGROUND_COLOR} from '../../constants/color';
 
 export default class GameScreen extends PureComponent {
   constructor() {
     super();
     this.entity = {
-      table: {
-        position: [40, 250],
+      chordTable: {
+        position: [150, 50],
         renderer: <ChordTable />,
         chord: ['', test[0].note, test[1].note],
       },
+      progressBar: {
+        position: [380, 190],
+        renderer: <ProgressBar />,
+      },
+      // pianoRight: {position: [800, 700], renderer: <PianoPartView />},
     };
     this.state = {
       entity: this.entity,
@@ -90,7 +97,7 @@ export default class GameScreen extends PureComponent {
                   marginRight: 10,
                 }}
               />
-              <Text style={{fontSize: 23, marginRight: 200}}>
+              <Text style={{fontSize: 23, marginRight: 200, color: 'white'}}>
                 너의 이름은 OST - 아무것도 아니야
               </Text>
             </View>
@@ -142,18 +149,10 @@ export default class GameScreen extends PureComponent {
                 )}
               />
             </View>
-            <Progress.Bar
-              progress={0.4}
-              width={WIDTH - 440}
-              height={15}
-              color={'#00FF00'}
-              unfilledColor={'rgba(128,128,128,0.5)'}
-              borderColor={'white'}
-            />
           </View>
         </View>
         {/* end of header */}
-
+        <BackgroundLine />
         {/* TODO: 줄 위치 convention 정할 것. */}
         {/* <NoteLine yPos={HEIGHT / 2.0} />
         <NoteLine yPos={HEIGHT / 2.5} />
@@ -177,7 +176,8 @@ export default class GameScreen extends PureComponent {
         <View
           style={{
             width: '100%',
-            backgroundColor: '#fff',
+            zIndex: -1,
+            backgroundColor: 'rgb(37,37,37)',
             flexDirection: 'row',
             flex: 1,
             paddingLeft: 40,
@@ -196,13 +196,13 @@ export default class GameScreen extends PureComponent {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFF',
+    backgroundColor: BACKGROUND_COLOR,
     zIndex: -1,
   },
   header: {
-    width: '100%',
-    height: HEIGHT / 5,
-    backgroundColor: '#fff',
+    width: '60%',
+    height: HEIGHT / 5.5,
+    backgroundColor: BACKGROUND_COLOR,
     flexDirection: 'row',
     padding: 40,
   },

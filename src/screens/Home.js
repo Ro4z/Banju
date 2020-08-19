@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -8,22 +8,27 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {Button} from 'react-native-elements';
+import Modal from 'react-native-modal';
 
+import TodayList from '../components/home/TodayList';
+import TrendList from '../components/home/TrendList';
 import Header from '../components/structure/Header';
 import {HEIGHT} from '../constants/dimensions';
 import Icon from '../assets/icon/Ionicons';
+import {BACKGROUND_COLOR} from '../constants/color';
 
 const Home = ({navigation}) => {
   return (
     <View style={styles.mainContainer}>
       <ImageBackground
         style={styles.imgBackground}
-        source={require('../assets/img/background_home.jpg')}>
+        source={require('../assets/img/background_home.jpg')}
+        blurRadius={10}>
         <Header />
         <View style={styles.subContainer}>
           <TouchableOpacity
             style={styles.userBtn}
-            onPress={() => navigation.navigate('UserInfo')}>
+            onPress={() => navigation.navigate('Profile')}>
             <Icon name="ios-person-circle-outline" style={styles.profile} />
           </TouchableOpacity>
           <Text style={styles.text1}>안녕하세요 성환님!</Text>
@@ -33,12 +38,14 @@ const Home = ({navigation}) => {
           <Button
             title="연습 시작"
             buttonStyle={styles.button}
-            onPress={() => {
-              navigation.navigate('Practice');
-            }}
+            onPress={() => navigation.navigate('Search')}
           />
         </View>
       </ImageBackground>
+      <View style={styles.footer}>
+        <TodayList navigation={navigation} />
+        <TrendList />
+      </View>
     </View>
   );
 };
@@ -49,6 +56,7 @@ const styles = StyleSheet.create({
   mainContainer: {
     width: '100%',
     height: '100%',
+    backgroundColor: BACKGROUND_COLOR,
   },
   imgBackground: {width: '100%', height: HEIGHT / 2},
   button: {
@@ -73,5 +81,9 @@ const styles = StyleSheet.create({
     fontSize: 40,
     fontWeight: 'bold',
     marginTop: 5,
+  },
+  footer: {
+    flexDirection: 'row',
+    padding: 20,
   },
 });

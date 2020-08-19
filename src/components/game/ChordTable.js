@@ -10,7 +10,7 @@ const ChordTable = ({position, chord}) => {
   const next = chord[2];
 
   return (
-    <View style={[styles.mainContainer, {left: x, top: y, zIndex: 4}]}>
+    <View style={[styles.mainContainer, {right: x, top: y, zIndex: 4}]}>
       <View style={styles.table}>
         <Item chord={prev} />
         <Item chord={cur} cur />
@@ -24,15 +24,13 @@ export default ChordTable;
 
 const styles = StyleSheet.create({
   mainContainer: {
-    width: 200,
-    height: 50,
+    width: 300,
+    height: 100,
     position: 'absolute',
+    backgroundColor: '#fff',
     zIndex: 3,
   },
   table: {
-    width: 200,
-    height: 50,
-    backgroundColor: '#fff',
     flexDirection: 'row',
   },
 });
