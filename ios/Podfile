@@ -16,6 +16,7 @@ target 'Banju' do
   use_frameworks!
   pod 'TensorFlowLiteSwift'
   pod 'PianoKeyboard'
+  pod 'AudioKit'
   # Enables Flipper.
   #
   # Note that if you have use_frameworks! enabled, Flipper will not work and
