@@ -1,4 +1,4 @@
-# PitchTracker React Native
+# PianoSampler React Native
 
 ## How to Import
 
