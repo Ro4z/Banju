@@ -32,6 +32,10 @@
 		5D7F6DAF824C9982AC80A5A8 /* libPods-Banju-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19449A4CF9EFCFD330B87904 /* libPods-Banju-tvOS.a */; };
 		64C2BF112230FE8C12E4AF31 /* libPods-Banju-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EBA648C8CB21D162B1FD9E2 /* libPods-Banju-tvOSTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		E3CD9E0A24EE939600AACD4F /* Sounds in Resources */ = {isa = PBXBuildFile; fileRef = E3CD9E0924EE939500AACD4F /* Sounds */; };
+		E3CD9E0D24EE957D00AACD4F /* PianoSampler.m in Sources */ = {isa = PBXBuildFile; fileRef = E3CD9E0B24EE957D00AACD4F /* PianoSampler.m */; };
+		E3CD9E0E24EE957D00AACD4F /* PianoSampler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3CD9E0C24EE957D00AACD4F /* PianoSampler.swift */; };
+		E3CD9E1024EE958A00AACD4F /* Conductor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3CD9E0F24EE958A00AACD4F /* Conductor.swift */; };
 		E3F5341524E155B500F3D77F /* PitchTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F5341424E155B500F3D77F /* PitchTracker.swift */; };
 		E3F5341624E155B500F3D77F /* PitchTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F5341424E155B500F3D77F /* PitchTracker.swift */; };
 		E3F5341E24E1598100F3D77F /* PitchTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = E3F5341D24E1598100F3D77F /* PitchTracker.m */; };
@@ -95,6 +99,10 @@
 		6B48E58CE364A0C60A7720BC /* Pods_Banju_BanjuTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Banju_BanjuTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = Banju/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		ABC3B7E6DA057BEB482A509C /* Pods-Banju-BanjuTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Banju-BanjuTests.release.xcconfig"; path = "Target Support Files/Pods-Banju-BanjuTests/Pods-Banju-BanjuTests.release.xcconfig"; sourceTree = "<group>"; };
+		E3CD9E0924EE939500AACD4F /* Sounds */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sounds; sourceTree = "<group>"; };
+		E3CD9E0B24EE957D00AACD4F /* PianoSampler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PianoSampler.m; sourceTree = "<group>"; };
+		E3CD9E0C24EE957D00AACD4F /* PianoSampler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PianoSampler.swift; sourceTree = "<group>"; };
+		E3CD9E0F24EE958A00AACD4F /* Conductor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Conductor.swift; sourceTree = "<group>"; };
 		E3F5341224E155B500F3D77F /* Banju-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Banju-Bridging-Header.h"; sourceTree = "<group>"; };
 		E3F5341324E155B500F3D77F /* BanjuTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BanjuTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		E3F5341424E155B500F3D77F /* PitchTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PitchTracker.swift; sourceTree = "<group>"; };
@@ -166,6 +174,7 @@
 		13B07FAE1A68108700A75B9A /* Banju */ = {
 			isa = PBXGroup;
 			children = (
+				E3CD9E0924EE939500AACD4F /* Sounds */,
 				2411F38724D3607D003B4A7E /* B4.mp3 */,
 				2411F38424D3607D003B4A7E /* C4.mp3 */,
 				2411F37F24D3607C003B4A7E /* Cs4.mp3 */,
@@ -190,8 +199,11 @@
 				E3F5341324E155B500F3D77F /* BanjuTests-Bridging-Header.h */,
 				E3F5341724E156EC00F3D77F /* ModelDataHandler.swift */,
 				E3F5341A24E1570600F3D77F /* AudioInputManager.swift */,
+				E3CD9E0F24EE958A00AACD4F /* Conductor.swift */,
 				E3F5341424E155B500F3D77F /* PitchTracker.swift */,
 				E3F5341D24E1598100F3D77F /* PitchTracker.m */,
+				E3CD9E0C24EE957D00AACD4F /* PianoSampler.swift */,
+				E3CD9E0B24EE957D00AACD4F /* PianoSampler.m */,
 			);
 			name = Banju;
 			sourceTree = "<group>";
@@ -346,7 +358,7 @@
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1130;
+				LastUpgradeCheck = 1160;
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
@@ -368,7 +380,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Banju" */;
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject " " */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -404,6 +416,7 @@
 			files = (
 				2411F38E24D3607D003B4A7E /* C4.mp3 in Resources */,
 				2411F38824D3607D003B4A7E /* Gs4.mp3 in Resources */,
+				E3CD9E0A24EE939600AACD4F /* Sounds in Resources */,
 				2411F37D24D36064003B4A7E /* As4.mp3 in Resources */,
 				2411F37B24D36043003B4A7E /* A4.mp3 in Resources */,
 				E3F5342524E1748500F3D77F /* onsets_frames_wavinput_uni.tflite in Resources */,
@@ -504,8 +517,11 @@
 				"${BUILT_PRODUCTS_DIR}/RNCMaskedView/RNCMaskedView.framework",
 				"${BUILT_PRODUCTS_DIR}/RNGestureHandler/RNGestureHandler.framework",
 				"${BUILT_PRODUCTS_DIR}/RNReanimated/RNReanimated.framework",
+				"${BUILT_PRODUCTS_DIR}/RNSVG/RNSVG.framework",
 				"${BUILT_PRODUCTS_DIR}/RNScreens/RNScreens.framework",
+				"${BUILT_PRODUCTS_DIR}/RNSearchBar/RNSearchBar.framework",
 				"${BUILT_PRODUCTS_DIR}/RNSound/RNSound.framework",
+				"${BUILT_PRODUCTS_DIR}/RNSoundPlayer/RNSoundPlayer.framework",
 				"${BUILT_PRODUCTS_DIR}/RNVectorIcons/RNVectorIcons.framework",
 				"${BUILT_PRODUCTS_DIR}/React-Core/React.framework",
 				"${BUILT_PRODUCTS_DIR}/React-CoreModules/CoreModules.framework",
@@ -525,6 +541,7 @@
 				"${BUILT_PRODUCTS_DIR}/Yoga/yoga.framework",
 				"${BUILT_PRODUCTS_DIR}/YoutubePlayer-in-WKWebView/YoutubePlayer_in_WKWebView.framework",
 				"${BUILT_PRODUCTS_DIR}/glog/glog.framework",
+				"${BUILT_PRODUCTS_DIR}/react-native-blur/react_native_blur.framework",
 				"${BUILT_PRODUCTS_DIR}/react-native-safe-area-context/react_native_safe_area_context.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -538,8 +555,11 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNCMaskedView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNGestureHandler.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNReanimated.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNSVG.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNScreens.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNSearchBar.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNSound.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNSoundPlayer.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNVectorIcons.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/React.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CoreModules.framework",
@@ -559,6 +579,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/yoga.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YoutubePlayer_in_WKWebView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/glog.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/react_native_blur.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/react_native_safe_area_context.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -626,8 +647,11 @@
 				"${BUILT_PRODUCTS_DIR}/RNCMaskedView/RNCMaskedView.framework",
 				"${BUILT_PRODUCTS_DIR}/RNGestureHandler/RNGestureHandler.framework",
 				"${BUILT_PRODUCTS_DIR}/RNReanimated/RNReanimated.framework",
+				"${BUILT_PRODUCTS_DIR}/RNSVG/RNSVG.framework",
 				"${BUILT_PRODUCTS_DIR}/RNScreens/RNScreens.framework",
+				"${BUILT_PRODUCTS_DIR}/RNSearchBar/RNSearchBar.framework",
 				"${BUILT_PRODUCTS_DIR}/RNSound/RNSound.framework",
+				"${BUILT_PRODUCTS_DIR}/RNSoundPlayer/RNSoundPlayer.framework",
 				"${BUILT_PRODUCTS_DIR}/RNVectorIcons/RNVectorIcons.framework",
 				"${BUILT_PRODUCTS_DIR}/React-Core/React.framework",
 				"${BUILT_PRODUCTS_DIR}/React-CoreModules/CoreModules.framework",
@@ -647,6 +671,7 @@
 				"${BUILT_PRODUCTS_DIR}/Yoga/yoga.framework",
 				"${BUILT_PRODUCTS_DIR}/YoutubePlayer-in-WKWebView/YoutubePlayer_in_WKWebView.framework",
 				"${BUILT_PRODUCTS_DIR}/glog/glog.framework",
+				"${BUILT_PRODUCTS_DIR}/react-native-blur/react_native_blur.framework",
 				"${BUILT_PRODUCTS_DIR}/react-native-safe-area-context/react_native_safe_area_context.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -660,8 +685,11 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNCMaskedView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNGestureHandler.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNReanimated.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNSVG.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNScreens.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNSearchBar.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNSound.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNSoundPlayer.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNVectorIcons.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/React.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CoreModules.framework",
@@ -681,6 +709,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/yoga.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YoutubePlayer_in_WKWebView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/glog.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/react_native_blur.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/react_native_safe_area_context.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -767,9 +796,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E3CD9E0E24EE957D00AACD4F /* PianoSampler.swift in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 				E3F5341524E155B500F3D77F /* PitchTracker.swift in Sources */,
+				E3CD9E1024EE958A00AACD4F /* Conductor.swift in Sources */,
+				E3CD9E0D24EE957D00AACD4F /* PianoSampler.m in Sources */,
 				E3F5342024E164AF00F3D77F /* ModelDataHandler.swift in Sources */,
 				E3F5341E24E1598100F3D77F /* PitchTracker.m in Sources */,
 				E3F5342224E164B200F3D77F /* AudioInputManager.swift in Sources */,
@@ -1130,6 +1162,7 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -1173,7 +1206,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Banju" */ = {
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject " " */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,
