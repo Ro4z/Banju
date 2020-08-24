@@ -45,6 +45,7 @@ export default class GameScreen extends PureComponent {
     };
     this.state = {
       entity: this.entity,
+      yt_start: false,
     };
   }
 
@@ -54,8 +55,8 @@ export default class GameScreen extends PureComponent {
 
   //처음부터 재생
   _play = () => {
-    this.entity.timer.isStart = true;
-    this.entity.timer.startTime = Date.now();
+    this.setState({yt_start: true});
+
     return;
     let noteNumber = 0;
     this.interval = setInterval(() => {
@@ -73,7 +74,7 @@ export default class GameScreen extends PureComponent {
 
   //clear play interval
   _stop = () => {
-    clearInterval(this.interval);
+    this.entity.timer.isStart = false;
   };
 
   render() {
@@ -85,15 +86,22 @@ export default class GameScreen extends PureComponent {
         {/* TODO: header 부분을 component로 분리할 것. */}
         <View style={styles.header}>
           <Youtube
+            ref={(ref) => (this.ytRef = ref)}
             videoId="HHupVXtnjRs" // The YouTube video ID
-            play={false} // control playback of video with true/false
+            play={this.state.yt_start} // control playback of video with true/false
             fullscreen // control whether the video should play in fullscreen or inline
-            loop // control whether the video should loop when ended
-            onReady={(e) => this.setState({isReady: true})}
-            onChangeState={(e) => this.setState({status: e.state})}
+            onReady={(e) => console.log(e)}
+            onChangeState={(e) => {
+              if (e.state === 'playing') {
+                console.log(this.entity.timer.startTime);
+                this.entity.timer.isStart = true;
+                this.entity.timer.startTime = Date.now();
+              }
+            }}
             onChangeQuality={(e) => this.setState({quality: e.quality})}
             onError={(e) => this.setState({error: e.error})}
             style={styles.youtube}
+            controls={0}
           />
           <View>
             <View style={{flexDirection: 'row'}}>

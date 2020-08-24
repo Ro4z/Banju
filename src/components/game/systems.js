@@ -64,15 +64,15 @@ let rightChordArrIdx = 0;
 let leftChordTimeArrIdx = 0;
 let rightChordTimeArrIdx = 0;
 
-let leftChordNumber = 0;
-let rightChordNumber = 0;
+const startYPos = (3 * HEIGHT) / 5 - (882 / 2515) * HEIGHT - 548000 / 2516 + 80;
 let noteNumber = 0;
 const Spawn = (state, {touches}) => {
   if (!state.timer.isStart) return state;
 
   var elapsedTime = Date.now() - state.timer.startTime;
-  curTime = (elapsedTime / 1000).toFixed(3);
+  curTime = (elapsedTime / 1000 + 1.37).toFixed(3);
 
+  console.log(curTime);
   if (curTime > rightChordArr[rightChordArrIdx].second) {
     if (rightChordArr[rightChordArrIdx].key[0].noteOn === 1) {
       console.log('right note', rightChordArr[rightChordArrIdx].second);
@@ -81,7 +81,8 @@ const Spawn = (state, {touches}) => {
           isRight: true,
           position: [
             RADIUS * 2 * (key.midiNum - 30) + 40,
-            -400 - rightChordTimeArr[rightChordTimeArrIdx] * HEIGHT * 0.407,
+            startYPos -
+              rightChordTimeArr[rightChordTimeArrIdx] * HEIGHT * 0.407,
           ],
           renderer: <ChordNote />,
           second: rightChordTimeArr[rightChordTimeArrIdx],
@@ -90,6 +91,7 @@ const Spawn = (state, {touches}) => {
         };
         noteNumber++;
       });
+      console.log('right spawn');
       rightChordTimeArrIdx++;
     }
     rightChordArrIdx++;
@@ -102,7 +104,7 @@ const Spawn = (state, {touches}) => {
         state[noteNumber] = {
           position: [
             RADIUS * 2 * (key.midiNum - 30) + 40,
-            -400 - leftChordTimeArr[leftChordTimeArrIdx] * HEIGHT * 0.407,
+            startYPos - leftChordTimeArr[leftChordTimeArrIdx] * HEIGHT * 0.407,
           ],
           renderer: <ChordNote />,
           second: leftChordTimeArr[leftChordTimeArrIdx],
@@ -111,14 +113,17 @@ const Spawn = (state, {touches}) => {
         };
         noteNumber++;
       });
+      console.log('left spawn');
       leftChordTimeArrIdx++;
     }
+
     leftChordArrIdx++;
   }
 
   return state;
 };
 const Move = (state, {touches}) => {
+  if (!state.timer.isStart) return state;
   for (const key in state) {
     if (eng.test(key)) {
       continue;
@@ -133,17 +138,18 @@ const Move = (state, {touches}) => {
           : (HEIGHT * 3) / 5 + RADIUS * 2,
       ];
 
-      // check the note reach at end-line first
+      // check the note reach at end-line first, and played
       if (
         obj.position[1] > (HEIGHT * 3) / 5 - length + 40 &&
         obj.isPlayed === false
       ) {
-        console.log(obj.midiNum);
         obj.isPlayed = true;
+        console.log('played');
         PianoSampler.playNote(obj.midiNum, 115);
       }
 
-      if (obj.position[1] > (HEIGHT * 3) / 5) {
+      if (obj.position[1] > (HEIGHT * 3) / 5 + 100) {
+        PianoSampler.stopNote(obj.midiNum);
         delete state[key];
 
         // const table = state.chordTable;
