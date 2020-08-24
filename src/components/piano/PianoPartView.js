@@ -3,7 +3,9 @@ import {StyleSheet, Text, View, Image} from 'react-native';
 import Player from 'react-native-sound-player';
 
 import Piano from './Piano';
+import PianoSampler from '../../utils/engine/piano_sampler';
 import {stroke, stop} from '../../utils/piano/sound_player';
+import MidiNumbers from './MidiNumbers';
 
 const PianoPartView = ({position}) => {
   // const x = position[0];
@@ -13,9 +15,8 @@ const PianoPartView = ({position}) => {
     <View style={[styles.mainContainer]}>
       <Piano
         noteRange={{first: 'c4', last: 'b4'}}
-        onPlayNoteInput={(chord) => {
-          Player.playSoundFile(chord.replace('#', 's'), 'mp3');
-          //stroke(chord.replace('#', 's'));
+        onPlayNoteInput={(chord, midi) => {
+          PianoSampler.playNote(midi, 115);
         }}
         onStopNoteInput={(chord) => {
           //stop(chord.replace('#', 's'));
