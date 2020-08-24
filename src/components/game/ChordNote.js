@@ -3,7 +3,7 @@ import {StyleSheet, View} from 'react-native';
 import {RADIUS} from '../../constants/game/note';
 import {HEIGHT} from '../../constants/dimensions';
 
-const ChordNote = ({length, isRight, position}) => {
+const ChordNote = ({second, position, isRight}) => {
   const x = position[0] - RADIUS / 2;
   const y = position[1] - RADIUS;
   return (
@@ -14,7 +14,7 @@ const ChordNote = ({length, isRight, position}) => {
           left: x,
           top: y,
           backgroundColor: isRight ? 'rgb(150,190,230)' : 'rgb(170,230,110)',
-          height: length * HEIGHT * 0.407,
+          height: second * HEIGHT * 0.407,
         },
       ]}
     />

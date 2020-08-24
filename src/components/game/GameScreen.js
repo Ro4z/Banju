@@ -39,6 +39,7 @@ export default class GameScreen extends PureComponent {
       },
       timer: {
         isStart: false,
+        startTime: null,
       },
       // pianoRight: {position: [800, 700], renderer: <PianoPartView />},
     };
@@ -54,6 +55,7 @@ export default class GameScreen extends PureComponent {
   //처음부터 재생
   _play = () => {
     this.entity.timer.isStart = true;
+    this.entity.timer.startTime = Date.now();
     return;
     let noteNumber = 0;
     this.interval = setInterval(() => {
@@ -83,7 +85,7 @@ export default class GameScreen extends PureComponent {
         {/* TODO: header 부분을 component로 분리할 것. */}
         <View style={styles.header}>
           <Youtube
-            videoId="sqljo295DkE" // The YouTube video ID
+            videoId="HHupVXtnjRs" // The YouTube video ID
             play={false} // control playback of video with true/false
             fullscreen // control whether the video should play in fullscreen or inline
             loop // control whether the video should loop when ended

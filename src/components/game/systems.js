@@ -4,8 +4,7 @@ import {SPEED} from '../../constants/game/speed';
 import {HEIGHT} from '../../constants/dimensions';
 import {RADIUS} from '../../constants/game/note';
 import {stroke, stop} from '../../utils/piano/sound_player';
-import {TEST_CHORD as test} from '../../constants/game/chord_test';
-import {TabBarIOSItem} from 'react-native';
+import PianoSampler from '../../utils/engine/piano_sampler';
 
 import {SAMPLE} from '../../constants/game/output_sample';
 import ChordNote from '../../components/game/ChordNote';
@@ -38,6 +37,7 @@ var isStart = true;
 
 var startSecond = 0,
   prevSecond = 0;
+
 leftChordArr.forEach((note) => {
   if (isStart) {
     startSecond = note.second;
@@ -69,15 +69,24 @@ let rightChordNumber = 0;
 let noteNumber = 0;
 const Spawn = (state, {touches}) => {
   if (!state.timer.isStart) return state;
-  curTime += 0.016;
+
+  var elapsedTime = Date.now() - state.timer.startTime;
+  curTime = (elapsedTime / 1000).toFixed(3);
+
   if (curTime > rightChordArr[rightChordArrIdx].second) {
     if (rightChordArr[rightChordArrIdx].key[0].noteOn === 1) {
+      console.log('right note', rightChordArr[rightChordArrIdx].second);
       rightChordArr[rightChordArrIdx].key.forEach((key) => {
         state[noteNumber] = {
-          position: [RADIUS * 2 * (key.midiNum - 30) + 40, 170],
-          renderer: <ChordNote />,
-          length: rightChordTimeArr[rightChordTimeArrIdx],
           isRight: true,
+          position: [
+            RADIUS * 2 * (key.midiNum - 30) + 40,
+            -400 - rightChordTimeArr[rightChordTimeArrIdx] * HEIGHT * 0.407,
+          ],
+          renderer: <ChordNote />,
+          second: rightChordTimeArr[rightChordTimeArrIdx],
+          midiNum: key.midiNum,
+          isPlayed: false,
         };
         noteNumber++;
       });
@@ -88,11 +97,17 @@ const Spawn = (state, {touches}) => {
 
   if (curTime > leftChordArr[leftChordArrIdx].second) {
     if (leftChordArr[leftChordArrIdx].key[0].noteOn === 1) {
+      console.log('left note', leftChordArr[leftChordArrIdx].second);
       leftChordArr[leftChordArrIdx].key.forEach((key) => {
         state[noteNumber] = {
-          position: [RADIUS * 2 * (key.midiNum - 30) + 40, 170],
+          position: [
+            RADIUS * 2 * (key.midiNum - 30) + 40,
+            -400 - leftChordTimeArr[leftChordTimeArrIdx] * HEIGHT * 0.407,
+          ],
           renderer: <ChordNote />,
-          length: leftChordTimeArr[leftChordTimeArrIdx],
+          second: leftChordTimeArr[leftChordTimeArrIdx],
+          midiNum: key.midiNum,
+          isPlayed: false,
         };
         noteNumber++;
       });
@@ -110,6 +125,7 @@ const Move = (state, {touches}) => {
     }
     if (state.hasOwnProperty(key)) {
       const obj = state[key];
+      const length = obj.second * HEIGHT * 0.407;
       obj.position = [
         obj.position[0],
         obj.position[1] < (HEIGHT * 3) / 5
@@ -117,9 +133,19 @@ const Move = (state, {touches}) => {
           : (HEIGHT * 3) / 5 + RADIUS * 2,
       ];
 
-      //end-line event
+      // check the note reach at end-line first
+      if (
+        obj.position[1] > (HEIGHT * 3) / 5 - length + 40 &&
+        obj.isPlayed === false
+      ) {
+        console.log(obj.midiNum);
+        obj.isPlayed = true;
+        PianoSampler.playNote(obj.midiNum, 115);
+      }
+
       if (obj.position[1] > (HEIGHT * 3) / 5) {
-        curPoint++;
+        delete state[key];
+
         // const table = state.chordTable;
         // console.log(curPoint);
         // table.chord = [
