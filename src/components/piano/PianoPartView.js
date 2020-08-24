@@ -4,8 +4,7 @@ import Player from 'react-native-sound-player';
 
 import Piano from './Piano';
 import PianoSampler from '../../utils/engine/piano_sampler';
-import {stroke, stop} from '../../utils/piano/sound_player';
-import MidiNumbers from './MidiNumbers';
+import {BACKGROUND_COLOR} from '../../constants/color';
 
 const PianoPartView = ({position}) => {
   // const x = position[0];
@@ -33,5 +32,6 @@ export default PianoPartView;
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
+    backgroundColor: BACKGROUND_COLOR,
   },
 });

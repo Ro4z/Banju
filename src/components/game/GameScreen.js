@@ -17,21 +17,22 @@ import PianoEntireView from '../piano/PianoEntireView';
 //constant
 import {HEIGHT, WIDTH} from '../../constants/dimensions';
 import {RADIUS} from '../../constants/game/note';
-import {TEST_CHORD as test} from '../../constants/game/chord_test';
+import {SAMPLE} from '../../constants/game/output_sample';
 //icon
 import Entypo from '../../assets/icon/Entypo';
 import EvilIcons from '../../assets/icon/EvilIcons';
 //color
 import {BACKGROUND_COLOR} from '../../constants/color';
 
+const chordArr = SAMPLE.items.chord.notes;
 export default class GameScreen extends PureComponent {
   constructor() {
     super();
     this.entity = {
       chordTable: {
-        position: [150, 50],
+        position: [510, 0],
         renderer: <ChordTable />,
-        chord: ['', test[0].note, test[1].note],
+        chord: ['', chordArr[0].name, chordArr[1].name],
       },
       progressBar: {
         position: [380, 190],
@@ -192,14 +193,15 @@ export default class GameScreen extends PureComponent {
           style={{
             width: '100%',
             zIndex: -1,
-            backgroundColor: 'rgb(37,37,37)',
             flexDirection: 'row',
             flex: 1,
             paddingLeft: 40,
             paddingRight: 40,
           }}>
           <PianoPartView />
-          <View style={{flex: 0.7}}></View>
+          <View style={{flex: 0.7}}>
+            <Text>{this.state.entity.timer.startTime}</Text>
+          </View>
           <PianoPartView />
         </View>
         {/* end of footer */}
@@ -215,7 +217,7 @@ const styles = StyleSheet.create({
     zIndex: -1,
   },
   header: {
-    width: '60%',
+    width: '100%',
     height: HEIGHT / 5.5,
     backgroundColor: BACKGROUND_COLOR,
     flexDirection: 'row',

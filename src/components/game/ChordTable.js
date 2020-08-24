@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import Item from './ChordTableItem';
+import {BACKGROUND_COLOR} from '../../constants/color';
 
 const ChordTable = ({position, chord}) => {
   const x = position[0];
@@ -10,11 +11,11 @@ const ChordTable = ({position, chord}) => {
   const next = chord[2];
 
   return (
-    <View style={[styles.mainContainer, {right: x, top: y, zIndex: 4}]}>
+    <View style={[styles.mainContainer, {right: x, bottom: y}]}>
       <View style={styles.table}>
-        <Item chord={prev} />
+        <Item chord={prev} prev />
         <Item chord={cur} cur />
-        <Item chord={next} />
+        <Item chord={next} next />
       </View>
     </View>
   );
@@ -24,13 +25,14 @@ export default ChordTable;
 
 const styles = StyleSheet.create({
   mainContainer: {
-    width: 300,
-    height: 100,
+    width: 550,
+    height: 330,
     position: 'absolute',
-    backgroundColor: '#fff',
-    zIndex: 3,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: BACKGROUND_COLOR,
   },
   table: {
-    flexDirection: 'row',
+    flexDirection: 'column',
   },
 });
