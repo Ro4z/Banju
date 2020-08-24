@@ -218,7 +218,7 @@ const styles = StyleSheet.create({
   },
   header: {
     width: '100%',
-    height: HEIGHT / 5.5,
+    height: HEIGHT / 5.37,
     backgroundColor: BACKGROUND_COLOR,
     flexDirection: 'row',
     padding: 40,

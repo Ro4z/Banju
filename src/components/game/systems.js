@@ -59,6 +59,7 @@ var eng = /^[a-zA-Z]*$/;
 // These below variables are must be initialized
 let curTime = 0;
 let tableTime = 0;
+let progress = 0;
 
 let leftNoteArrIdx = 0;
 let rightNoteArrIdx = 0;
@@ -86,6 +87,11 @@ const Spawn = (state, {touches}) => {
       chordArrIdx < chordArr.length - 1 ? chordArr[chordArrIdx + 1].name : '',
     ];
   }
+
+  //move progress bar
+  const progressBar = state.progressBar;
+  progress = elapsedTime / 456000;
+  progressBar.progress = progress;
 
   if (curTime > rightNoteArr[rightNoteArrIdx].second) {
     if (rightNoteArr[rightNoteArrIdx].key[0].noteOn === 1) {
