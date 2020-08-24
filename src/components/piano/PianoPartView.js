@@ -18,8 +18,8 @@ const PianoPartView = ({position}) => {
         onPlayNoteInput={(chord, midi) => {
           PianoSampler.playNote(midi, 115);
         }}
-        onStopNoteInput={(chord) => {
-          //stop(chord.replace('#', 's'));
+        onStopNoteInput={(chord, midi) => {
+          PianoSampler.stopNote(midi);
         }}
         heightValue={150}
       />
