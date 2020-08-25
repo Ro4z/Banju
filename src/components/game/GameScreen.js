@@ -32,7 +32,7 @@ export default class GameScreen extends PureComponent {
       chordTable: {
         position: [510, 0],
         renderer: <ChordTable />,
-        chord: ['', chordArr[0].name, chordArr[1].name],
+        chord: [' ', chordArr[0].name, chordArr[1].name],
       },
       progressBar: {
         position: [380, 190],
