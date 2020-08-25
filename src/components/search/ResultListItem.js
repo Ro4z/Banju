@@ -2,7 +2,7 @@ import React from 'react';
 import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import {withTheme} from 'react-native-elements';
 
-const ResultListItem = ({cover2, navigation}) => {
+const ResultListItem = ({cover2, navigation, onPress}) => {
   return (
     <TouchableOpacity
       style={styles.mainContainer}

@@ -20,7 +20,7 @@ const App = () => {
     <NavigationContainer>
       {/* hide status bar */}
       <StatusBar hidden />
-      <Stack.Navigator initialRouteName="Home">
+      <Stack.Navigator initialRouteName="Main">
         <Stack.Screen
           name="Home"
           component={Home}

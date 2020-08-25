@@ -13,17 +13,28 @@ const ChordTableItem = ({chord, prev, cur, next, judge}) => {
         ]}>
         {chord}
       </Text>
-
-      <Text
-        style={[
-          styles.judgeText,
-          {
-            fontSize: cur ? 40 : 30,
-            color: cur ? 'rgb(90,160,240)' : 'rgba(90,160,240,0.3)',
-          },
-        ]}>
-        좋습니다!
-      </Text>
+      <View
+        style={{
+          flex: 3,
+          alignItems: 'center',
+          justifyContent: 'center',
+          marginTop: 20,
+        }}>
+        <Text
+          style={[
+            styles.judgeText,
+            {
+              fontSize: cur ? 40 : 30,
+              color: cur
+                ? 'rgb(125,125,125)'
+                : judge === '좋습니다!'
+                ? 'rgba(90,160,240,0.7)'
+                : 'rgba(240,160,90,0.7)',
+            },
+          ]}>
+          {cur ? '...' : judge}
+        </Text>
+      </View>
     </View>
   );
 };

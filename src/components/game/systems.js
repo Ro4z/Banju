@@ -68,7 +68,7 @@ let leftNoteTimeArrIdx = 0;
 let rightNoteTimeArrIdx = 0;
 let chordArrIdx = 0;
 
-const startYPos = (3 * HEIGHT) / 5 - (882 / 2515) * HEIGHT - 548000 / 2516 + 80;
+const startYPos = (3 * HEIGHT) / 5 - (882 / 2515) * HEIGHT - 548000 / 2516 + 90;
 let noteNumber = 0;
 const Spawn = (state, {touches}) => {
   if (!state.timer.isStart) return state;
@@ -82,10 +82,13 @@ const Spawn = (state, {touches}) => {
     const table = state.chordTable;
     chordArrIdx++;
     table.chord = [
-      chordArr[chordArrIdx - 1].name,
-      chordArrIdx < chordArr.length ? chordArr[chordArrIdx].name : '',
       chordArrIdx < chordArr.length - 1 ? chordArr[chordArrIdx + 1].name : '',
+      chordArrIdx < chordArr.length ? chordArr[chordArrIdx].name : '',
+      chordArr[chordArrIdx - 1].name,
     ];
+
+    var tmp = Math.random() * 10;
+    table.judge = [tmp < 7 ? '좋습니다!' : '아쉬워요', 'asdf'];
   }
 
   //move progress bar
@@ -101,7 +104,7 @@ const Spawn = (state, {touches}) => {
           isRight: true,
           position: [
             RADIUS * 2 * (key.midiNum - 30) + 40,
-            startYPos - rightNoteTimeArr[rightNoteTimeArrIdx] * HEIGHT * 0.407,
+            startYPos - rightNoteTimeArr[rightNoteTimeArrIdx] * HEIGHT * 0.457,
           ],
           renderer: <ChordNote />,
           second: rightNoteTimeArr[rightNoteTimeArrIdx],
@@ -122,7 +125,7 @@ const Spawn = (state, {touches}) => {
         state[noteNumber] = {
           position: [
             RADIUS * 2 * (key.midiNum - 30) + 40,
-            startYPos - leftNoteTimeArr[leftNoteTimeArrIdx] * HEIGHT * 0.407,
+            startYPos - leftNoteTimeArr[leftNoteTimeArrIdx] * HEIGHT * 0.457,
           ],
           renderer: <ChordNote />,
           second: leftNoteTimeArr[leftNoteTimeArrIdx],
@@ -146,7 +149,7 @@ const Move = (state, {touches}) => {
     }
     if (state.hasOwnProperty(key)) {
       const obj = state[key];
-      const length = obj.second * HEIGHT * 0.407;
+      const length = obj.second * HEIGHT * 0.457;
       obj.position = [
         obj.position[0],
         obj.position[1] < (HEIGHT * 3) / 5
@@ -156,7 +159,7 @@ const Move = (state, {touches}) => {
 
       // check the note reach at end-line first, and played
       if (
-        obj.position[1] > (HEIGHT * 3) / 5 - length + 40 &&
+        obj.position[1] > (HEIGHT * 3) / 5 - length &&
         obj.isPlayed === false
       ) {
         obj.isPlayed = true;

@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, ActivityIndicator} from 'react-native';
 import Modal from 'react-native-modal';
 
 import Game from '../components/game';
@@ -7,11 +7,18 @@ import Tutorial from '../components/game/Tutorial';
 
 const Practice = () => {
   const [openModal, setOpenModal] = useState(false);
+  const [openLoading, setOpenLoading] = useState(false);
 
   useEffect(() => {
-    setOpenModal(true);
+    // setOpenLoading(true);
+    setTimeout(() => {
+      setOpenModal(true);
+    }, 1700);
   }, []);
 
+  const toggleLoading = () => {
+    setOpenLoading(!openLoading);
+  };
   const toggleModal = () => {
     setOpenModal(!openModal);
   };
@@ -26,6 +33,13 @@ const Practice = () => {
         style={styles.modal}>
         <Tutorial onPress={toggleModal.bind()} />
       </Modal>
+      <Modal
+        isVisible={openLoading}
+        animationIn="zoomIn"
+        animationOut="fadeOut"
+        style={styles.modal}>
+        <ActivityIndicator size="large" color="#00ff00" />
+      </Modal>
     </View>
   );
 };
@@ -39,7 +53,7 @@ const styles = StyleSheet.create({
   },
   modal: {
     margin: 0, // This is the important style you need to set
-    alignItems: undefined,
+    alignItems: 'center',
     justifyContent: undefined,
   },
 });

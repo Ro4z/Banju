@@ -14,7 +14,7 @@ const ChordNote = ({second, position, isRight}) => {
           left: x,
           top: y,
           backgroundColor: isRight ? 'rgb(150,190,230)' : 'rgb(170,230,110)',
-          height: second * HEIGHT * 0.407,
+          height: second * HEIGHT * 0.457,
         },
       ]}
     />
