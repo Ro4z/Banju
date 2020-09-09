@@ -17,21 +17,22 @@ import PianoEntireView from '../piano/PianoEntireView';
 //constant
 import {HEIGHT, WIDTH} from '../../constants/dimensions';
 import {RADIUS} from '../../constants/game/note';
-import {TEST_CHORD as test} from '../../constants/game/chord_test';
+import {SAMPLE} from '../../constants/game/output_sample';
 //icon
 import Entypo from '../../assets/icon/Entypo';
 import EvilIcons from '../../assets/icon/EvilIcons';
 //color
 import {BACKGROUND_COLOR} from '../../constants/color';
 
+const chordArr = SAMPLE.items.chord.notes;
 export default class GameScreen extends PureComponent {
   constructor() {
     super();
     this.entity = {
       chordTable: {
-        position: [150, 50],
+        position: [510, 0],
         renderer: <ChordTable />,
-        chord: ['', test[0].note, test[1].note],
+        chord: [' ', chordArr[0].name, chordArr[1].name],
       },
       progressBar: {
         position: [380, 190],
@@ -39,11 +40,13 @@ export default class GameScreen extends PureComponent {
       },
       timer: {
         isStart: false,
+        startTime: null,
       },
       // pianoRight: {position: [800, 700], renderer: <PianoPartView />},
     };
     this.state = {
       entity: this.entity,
+      yt_start: false,
     };
   }
 
@@ -53,7 +56,8 @@ export default class GameScreen extends PureComponent {
 
   //처음부터 재생
   _play = () => {
-    this.entity.timer.isStart = true;
+    this.setState({yt_start: true});
+
     return;
     let noteNumber = 0;
     this.interval = setInterval(() => {
@@ -71,7 +75,7 @@ export default class GameScreen extends PureComponent {
 
   //clear play interval
   _stop = () => {
-    clearInterval(this.interval);
+    this.entity.timer.isStart = false;
   };
 
   render() {
@@ -83,15 +87,22 @@ export default class GameScreen extends PureComponent {
         {/* TODO: header 부분을 component로 분리할 것. */}
         <View style={styles.header}>
           <Youtube
-            videoId="sqljo295DkE" // The YouTube video ID
-            play={false} // control playback of video with true/false
+            ref={(ref) => (this.ytRef = ref)}
+            videoId="HHupVXtnjRs" // The YouTube video ID
+            play={this.state.yt_start} // control playback of video with true/false
             fullscreen // control whether the video should play in fullscreen or inline
-            loop // control whether the video should loop when ended
-            onReady={(e) => this.setState({isReady: true})}
-            onChangeState={(e) => this.setState({status: e.state})}
+            onReady={(e) => console.log(e)}
+            onChangeState={(e) => {
+              if (e.state === 'playing') {
+                console.log(this.entity.timer.startTime);
+                this.entity.timer.isStart = true;
+                this.entity.timer.startTime = Date.now();
+              }
+            }}
             onChangeQuality={(e) => this.setState({quality: e.quality})}
             onError={(e) => this.setState({error: e.error})}
             style={styles.youtube}
+            controls={0}
           />
           <View>
             <View style={{flexDirection: 'row'}}>
@@ -104,7 +115,7 @@ export default class GameScreen extends PureComponent {
                 }}
               />
               <Text style={{fontSize: 23, marginRight: 200, color: 'white'}}>
-                너의 이름은 OST - 아무것도 아니야
+                나는 예배자입니다 / 소원 (Official Lyrics)
               </Text>
             </View>
             <View
@@ -182,14 +193,15 @@ export default class GameScreen extends PureComponent {
           style={{
             width: '100%',
             zIndex: -1,
-            backgroundColor: 'rgb(37,37,37)',
             flexDirection: 'row',
             flex: 1,
             paddingLeft: 40,
             paddingRight: 40,
           }}>
           <PianoPartView />
-          <View style={{flex: 0.7}}></View>
+          <View style={{flex: 0.7}}>
+            <Text>{this.state.entity.timer.startTime}</Text>
+          </View>
           <PianoPartView />
         </View>
         {/* end of footer */}
@@ -205,8 +217,8 @@ const styles = StyleSheet.create({
     zIndex: -1,
   },
   header: {
-    width: '60%',
-    height: HEIGHT / 5.5,
+    width: '100%',
+    height: HEIGHT / 5.37,
     backgroundColor: BACKGROUND_COLOR,
     flexDirection: 'row',
     padding: 40,

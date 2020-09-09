@@ -1,18 +1,21 @@
-import React, {useRef} from 'react';
+import React, {useRef, useState} from 'react';
 import {
   StyleSheet,
   Text,
   View,
   ImageBackground,
   ScrollView,
+  ActivityIndicator,
 } from 'react-native';
 import SearchBar from 'react-native-search-bar';
 import {BlurView} from '@react-native-community/blur';
 import ResultList, {List1, List2} from '../components/search/ResultList';
+import Modal from 'react-native-modal';
 
 import {BACKGROUND_COLOR} from '../constants/color';
 
 const Search = ({navigation}) => {
+  const [openModal, setOpenModal] = useState(false);
   const searchBarRef = useRef(null);
   return (
     <View style={styles.mainContainer}>
@@ -34,11 +37,31 @@ const Search = ({navigation}) => {
         barStyle="black"
       />
       <ScrollView>
-        <ResultList navigation={navigation} />
+        <ResultList
+          navigation={navigation}
+          onPress={() => {
+            setOpenModal(!openModal);
+            setTimeout(async () => {
+              console.log(openModal);
+              setOpenModal(true);
+              console.log(openModal);
+            }, 1900);
+            // setTimeout(() => {
+            //   navigation.navigate('Practice');
+            // }, 2000);
+          }}
+        />
         <List1 />
         <List2 />
         <ResultList />
       </ScrollView>
+      <Modal
+        isVisible={openModal}
+        animationIn="zoomIn"
+        animationOut="fadeOut"
+        style={styles.modal}>
+        <ActivityIndicator size="large" color="#00ff00" />
+      </Modal>
     </View>
   );
 };
