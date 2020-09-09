@@ -115,7 +115,7 @@ export default class GameScreen extends PureComponent {
                 }}
               />
               <Text style={{fontSize: 23, marginRight: 200, color: 'white'}}>
-                너의 이름은 OST - 아무것도 아니야
+                나는 예배자입니다 / 소원 (Official Lyrics)
               </Text>
             </View>
             <View
