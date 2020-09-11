@@ -1,11 +1,12 @@
-import {NativeModules} from 'react-native';
-
 class PianoSampler {
   constructor() {
-    NativeModules.PianoSampler.prepare();
-    this.playNote = NativeModules.PianoSampler.playNote;
-    this.stopNote = NativeModules.PianoSampler.stopNote;
+    this.playNote = (midiNum, velocity) => {
+      return 0;
+    };
+    this.stopNote = (midiNum) => {
+      return 0;
+    };
   }
 }
 
-export default new PianoSampler(NativeModules.PianoSampler);
+export default new PianoSampler();
