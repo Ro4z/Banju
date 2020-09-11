@@ -13,19 +13,14 @@ target 'Banju' do
     # Pods for testing
   end
 
-  use_frameworks!
-  pod 'TensorFlowLiteSwift'
-  pod 'PianoKeyboard'
-  pod 'AudioKit'
   # Enables Flipper.
   #
   # Note that if you have use_frameworks! enabled, Flipper will not work and
   # you should disable these next few lines.
-  #use_flipper!
-  #post_install do |installer|
-  #  flipper_post_install(installer)
-  #end
-  
+  use_flipper!
+  post_install do |installer|
+    flipper_post_install(installer)
+  end
 end
 
 target 'Banju-tvOS' do

@@ -3,7 +3,6 @@ import React from 'react';
 import {SPEED} from '../../constants/game/speed';
 import {HEIGHT} from '../../constants/dimensions';
 import {RADIUS} from '../../constants/game/note';
-import {stroke, stop} from '../../utils/piano/sound_player';
 import PianoSampler from '../../utils/engine/piano_sampler';
 
 import {SAMPLE} from '../../constants/game/output_sample';

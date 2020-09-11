@@ -11,41 +11,15 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		1F7E2378E1A7550C07879DD0 /* Pods_Banju.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F78C7510E2A4F339A2B7BE33 /* Pods_Banju.framework */; };
-		2411F37B24D36043003B4A7E /* A4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2411F37A24D36043003B4A7E /* A4.mp3 */; };
-		2411F37D24D36064003B4A7E /* As4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2411F37C24D36064003B4A7E /* As4.mp3 */; };
-		2411F38824D3607D003B4A7E /* Gs4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2411F37E24D3607C003B4A7E /* Gs4.mp3 */; };
-		2411F38924D3607D003B4A7E /* Cs4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2411F37F24D3607C003B4A7E /* Cs4.mp3 */; };
-		2411F38A24D3607D003B4A7E /* G4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2411F38024D3607D003B4A7E /* G4.mp3 */; };
-		2411F38B24D3607D003B4A7E /* Fs4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2411F38124D3607D003B4A7E /* Fs4.mp3 */; };
-		2411F38C24D3607D003B4A7E /* E4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2411F38224D3607D003B4A7E /* E4.mp3 */; };
-		2411F38D24D3607D003B4A7E /* Ds4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2411F38324D3607D003B4A7E /* Ds4.mp3 */; };
-		2411F38E24D3607D003B4A7E /* C4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2411F38424D3607D003B4A7E /* C4.mp3 */; };
-		2411F38F24D3607D003B4A7E /* F4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2411F38524D3607D003B4A7E /* F4.mp3 */; };
-		2411F39024D3607D003B4A7E /* D4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2411F38624D3607D003B4A7E /* D4.mp3 */; };
-		2411F39124D3607D003B4A7E /* B4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2411F38724D3607D003B4A7E /* B4.mp3 */; };
+		1D04133B40ECEAC3B0752246 /* libPods-Banju-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 91845D54A62AA8CF6BAFF186 /* libPods-Banju-tvOSTests.a */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* BanjuTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* BanjuTests.m */; };
-		4C670BAB9A2BBE422D07ADF9 /* Pods_Banju_BanjuTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B48E58CE364A0C60A7720BC /* Pods_Banju_BanjuTests.framework */; };
-		5D7F6DAF824C9982AC80A5A8 /* libPods-Banju-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19449A4CF9EFCFD330B87904 /* libPods-Banju-tvOS.a */; };
-		64C2BF112230FE8C12E4AF31 /* libPods-Banju-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EBA648C8CB21D162B1FD9E2 /* libPods-Banju-tvOSTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		E3CD9E0A24EE939600AACD4F /* Sounds in Resources */ = {isa = PBXBuildFile; fileRef = E3CD9E0924EE939500AACD4F /* Sounds */; };
-		E3CD9E0D24EE957D00AACD4F /* PianoSampler.m in Sources */ = {isa = PBXBuildFile; fileRef = E3CD9E0B24EE957D00AACD4F /* PianoSampler.m */; };
-		E3CD9E0E24EE957D00AACD4F /* PianoSampler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3CD9E0C24EE957D00AACD4F /* PianoSampler.swift */; };
-		E3CD9E1024EE958A00AACD4F /* Conductor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3CD9E0F24EE958A00AACD4F /* Conductor.swift */; };
-		E3F5341524E155B500F3D77F /* PitchTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F5341424E155B500F3D77F /* PitchTracker.swift */; };
-		E3F5341624E155B500F3D77F /* PitchTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F5341424E155B500F3D77F /* PitchTracker.swift */; };
-		E3F5341E24E1598100F3D77F /* PitchTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = E3F5341D24E1598100F3D77F /* PitchTracker.m */; };
-		E3F5341F24E1598100F3D77F /* PitchTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = E3F5341D24E1598100F3D77F /* PitchTracker.m */; };
-		E3F5342024E164AF00F3D77F /* ModelDataHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F5341724E156EC00F3D77F /* ModelDataHandler.swift */; };
-		E3F5342124E164B000F3D77F /* ModelDataHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F5341724E156EC00F3D77F /* ModelDataHandler.swift */; };
-		E3F5342224E164B200F3D77F /* AudioInputManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F5341A24E1570600F3D77F /* AudioInputManager.swift */; };
-		E3F5342324E164B300F3D77F /* AudioInputManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F5341A24E1570600F3D77F /* AudioInputManager.swift */; };
-		E3F5342524E1748500F3D77F /* onsets_frames_wavinput_uni.tflite in Resources */ = {isa = PBXBuildFile; fileRef = E3F5342424E1748500F3D77F /* onsets_frames_wavinput_uni.tflite */; };
-		E3F5342624E1748500F3D77F /* onsets_frames_wavinput_uni.tflite in Resources */ = {isa = PBXBuildFile; fileRef = E3F5342424E1748500F3D77F /* onsets_frames_wavinput_uni.tflite */; };
+		9A192263018EC2090C319BB5 /* libPods-Banju-BanjuTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E326052DB3FBE2A0B874EE7C /* libPods-Banju-BanjuTests.a */; };
+		AB12A8EC41A5E48481E498E7 /* libPods-Banju-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 045E280AB7BA9E07F5C3838A /* libPods-Banju-tvOS.a */; };
+		DB6A010DD7E3778D307AE98B /* libPods-Banju.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 562CB9438713FE229AAC93DA /* libPods-Banju.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,52 +44,45 @@
 		00E356EE1AD99517003FC87E /* BanjuTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BanjuTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* BanjuTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BanjuTests.m; sourceTree = "<group>"; };
-		10006C6372EA3A5BD9F3D716 /* Pods-Banju-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Banju-tvOS.release.xcconfig"; path = "Target Support Files/Pods-Banju-tvOS/Pods-Banju-tvOS.release.xcconfig"; sourceTree = "<group>"; };
+		045E280AB7BA9E07F5C3838A /* libPods-Banju-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Banju-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		100C640A79584AF98782ABE2 /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Regular.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* Banju.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Banju.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Banju/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Banju/AppDelegate.m; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Banju/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Banju/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Banju/main.m; sourceTree = "<group>"; };
-		14703E24B2D1A8160F6C7CB6 /* Pods-Banju-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Banju-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-Banju-tvOS/Pods-Banju-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
-		19449A4CF9EFCFD330B87904 /* libPods-Banju-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Banju-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		2411F37A24D36043003B4A7E /* A4.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = A4.mp3; sourceTree = "<group>"; };
-		2411F37C24D36064003B4A7E /* As4.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = As4.mp3; sourceTree = "<group>"; };
-		2411F37E24D3607C003B4A7E /* Gs4.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Gs4.mp3; sourceTree = "<group>"; };
-		2411F37F24D3607C003B4A7E /* Cs4.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Cs4.mp3; sourceTree = "<group>"; };
-		2411F38024D3607D003B4A7E /* G4.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = G4.mp3; sourceTree = "<group>"; };
-		2411F38124D3607D003B4A7E /* Fs4.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Fs4.mp3; sourceTree = "<group>"; };
-		2411F38224D3607D003B4A7E /* E4.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = E4.mp3; sourceTree = "<group>"; };
-		2411F38324D3607D003B4A7E /* Ds4.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Ds4.mp3; sourceTree = "<group>"; };
-		2411F38424D3607D003B4A7E /* C4.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = C4.mp3; sourceTree = "<group>"; };
-		2411F38524D3607D003B4A7E /* F4.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = F4.mp3; sourceTree = "<group>"; };
-		2411F38624D3607D003B4A7E /* D4.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = D4.mp3; sourceTree = "<group>"; };
-		2411F38724D3607D003B4A7E /* B4.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = B4.mp3; sourceTree = "<group>"; };
-		2C5FFA1026684EE76902CF9C /* Pods-Banju-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Banju-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-Banju-tvOSTests/Pods-Banju-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
+		19B9AF9A7EE8A5F9F12A96C8 /* Pods-Banju-BanjuTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Banju-BanjuTests.debug.xcconfig"; path = "Target Support Files/Pods-Banju-BanjuTests/Pods-Banju-BanjuTests.debug.xcconfig"; sourceTree = "<group>"; };
+		1EF3B7A2793C42E38E0F934F /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
+		2B3F6C3B528243EEA3F97014 /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
+		2CCFF1A107CB46EB8F2E2A36 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* Banju-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Banju-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* Banju-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Banju-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		2EBA648C8CB21D162B1FD9E2 /* libPods-Banju-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Banju-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		36EBEA0B73FA604B99844509 /* Pods-Banju-BanjuTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Banju-BanjuTests.debug.xcconfig"; path = "Target Support Files/Pods-Banju-BanjuTests/Pods-Banju-BanjuTests.debug.xcconfig"; sourceTree = "<group>"; };
-		6B48E58CE364A0C60A7720BC /* Pods_Banju_BanjuTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Banju_BanjuTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		40A0268D1F612EC4EBA71C3F /* Pods-Banju.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Banju.release.xcconfig"; path = "Target Support Files/Pods-Banju/Pods-Banju.release.xcconfig"; sourceTree = "<group>"; };
+		4349256437F84575BA1452AE /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
+		562CB9438713FE229AAC93DA /* libPods-Banju.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Banju.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		725AFC603A5035C1F9427728 /* Pods-Banju-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Banju-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-Banju-tvOSTests/Pods-Banju-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
+		72D5E8EDEFAD46599D6F15AF /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
+		79FA66F9A40CBEB114D86EE9 /* Pods-Banju-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Banju-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-Banju-tvOS/Pods-Banju-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = Banju/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		ABC3B7E6DA057BEB482A509C /* Pods-Banju-BanjuTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Banju-BanjuTests.release.xcconfig"; path = "Target Support Files/Pods-Banju-BanjuTests/Pods-Banju-BanjuTests.release.xcconfig"; sourceTree = "<group>"; };
-		E3CD9E0924EE939500AACD4F /* Sounds */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sounds; sourceTree = "<group>"; };
-		E3CD9E0B24EE957D00AACD4F /* PianoSampler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PianoSampler.m; sourceTree = "<group>"; };
-		E3CD9E0C24EE957D00AACD4F /* PianoSampler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PianoSampler.swift; sourceTree = "<group>"; };
-		E3CD9E0F24EE958A00AACD4F /* Conductor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Conductor.swift; sourceTree = "<group>"; };
-		E3F5341224E155B500F3D77F /* Banju-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Banju-Bridging-Header.h"; sourceTree = "<group>"; };
-		E3F5341324E155B500F3D77F /* BanjuTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BanjuTests-Bridging-Header.h"; sourceTree = "<group>"; };
-		E3F5341424E155B500F3D77F /* PitchTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PitchTracker.swift; sourceTree = "<group>"; };
-		E3F5341724E156EC00F3D77F /* ModelDataHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelDataHandler.swift; sourceTree = "<group>"; };
-		E3F5341A24E1570600F3D77F /* AudioInputManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioInputManager.swift; sourceTree = "<group>"; };
-		E3F5341D24E1598100F3D77F /* PitchTracker.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PitchTracker.m; sourceTree = "<group>"; };
-		E3F5342424E1748500F3D77F /* onsets_frames_wavinput_uni.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = onsets_frames_wavinput_uni.tflite; sourceTree = "<group>"; };
+		84AD22B8CC9E4A318F7BCF55 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
+		87757ABAD991453F9D401B93 /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Solid.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
+		91845D54A62AA8CF6BAFF186 /* libPods-Banju-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Banju-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		927E17E5E8B84327A78826F1 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
+		A19D420632954118D823CC3A /* Pods-Banju-BanjuTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Banju-BanjuTests.release.xcconfig"; path = "Target Support Files/Pods-Banju-BanjuTests/Pods-Banju-BanjuTests.release.xcconfig"; sourceTree = "<group>"; };
+		B29E147688564063BFD5234F /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
+		BFB33FF95A9C4AA8A3A5BB30 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
+		BFC6FAA2A6FE4FFEA99F5F10 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
+		C2E0A31C87A51FCAEEA80ED5 /* Pods-Banju-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Banju-tvOS.release.xcconfig"; path = "Target Support Files/Pods-Banju-tvOS/Pods-Banju-tvOS.release.xcconfig"; sourceTree = "<group>"; };
+		CC1A2B3B7A2349D39C053CE0 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
+		CE886783E4F9AD0DF7CF5CE8 /* Pods-Banju.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Banju.debug.xcconfig"; path = "Target Support Files/Pods-Banju/Pods-Banju.debug.xcconfig"; sourceTree = "<group>"; };
+		D13D3E3EE73D4567ABFA770D /* Fontisto.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Fontisto.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf"; sourceTree = "<group>"; };
+		E326052DB3FBE2A0B874EE7C /* libPods-Banju-BanjuTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Banju-BanjuTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E9C84E70887B42DFBA83337F /* AntDesign.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = AntDesign.ttf; path = "../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
-		EF9BA035AA95CA57C220239E /* Pods-Banju-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Banju-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-Banju-tvOSTests/Pods-Banju-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
-		F208198049A0476DC6E6D733 /* Pods-Banju.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Banju.release.xcconfig"; path = "Target Support Files/Pods-Banju/Pods-Banju.release.xcconfig"; sourceTree = "<group>"; };
-		F78C7510E2A4F339A2B7BE33 /* Pods_Banju.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Banju.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F83096E84436F851F7E40156 /* Pods-Banju.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Banju.debug.xcconfig"; path = "Target Support Files/Pods-Banju/Pods-Banju.debug.xcconfig"; sourceTree = "<group>"; };
+		FB8B042D9B1D41DEA19E6BBE /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Brands.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; };
+		FEFD58D6DA46CE6DBE3966DB /* Pods-Banju-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Banju-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-Banju-tvOSTests/Pods-Banju-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,7 +90,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4C670BAB9A2BBE422D07ADF9 /* Pods_Banju_BanjuTests.framework in Frameworks */,
+				9A192263018EC2090C319BB5 /* libPods-Banju-BanjuTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -131,7 +98,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1F7E2378E1A7550C07879DD0 /* Pods_Banju.framework in Frameworks */,
+				DB6A010DD7E3778D307AE98B /* libPods-Banju.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -139,7 +106,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5D7F6DAF824C9982AC80A5A8 /* libPods-Banju-tvOS.a in Frameworks */,
+				AB12A8EC41A5E48481E498E7 /* libPods-Banju-tvOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -147,7 +114,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				64C2BF112230FE8C12E4AF31 /* libPods-Banju-tvOSTests.a in Frameworks */,
+				1D04133B40ECEAC3B0752246 /* libPods-Banju-tvOSTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -174,19 +141,6 @@
 		13B07FAE1A68108700A75B9A /* Banju */ = {
 			isa = PBXGroup;
 			children = (
-				E3CD9E0924EE939500AACD4F /* Sounds */,
-				2411F38724D3607D003B4A7E /* B4.mp3 */,
-				2411F38424D3607D003B4A7E /* C4.mp3 */,
-				2411F37F24D3607C003B4A7E /* Cs4.mp3 */,
-				2411F38624D3607D003B4A7E /* D4.mp3 */,
-				2411F38324D3607D003B4A7E /* Ds4.mp3 */,
-				2411F38224D3607D003B4A7E /* E4.mp3 */,
-				2411F38524D3607D003B4A7E /* F4.mp3 */,
-				2411F38124D3607D003B4A7E /* Fs4.mp3 */,
-				2411F38024D3607D003B4A7E /* G4.mp3 */,
-				2411F37E24D3607C003B4A7E /* Gs4.mp3 */,
-				2411F37C24D36064003B4A7E /* As4.mp3 */,
-				2411F37A24D36043003B4A7E /* A4.mp3 */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -194,18 +148,23 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
-				E3F5341224E155B500F3D77F /* Banju-Bridging-Header.h */,
-				E3F5342424E1748500F3D77F /* onsets_frames_wavinput_uni.tflite */,
-				E3F5341324E155B500F3D77F /* BanjuTests-Bridging-Header.h */,
-				E3F5341724E156EC00F3D77F /* ModelDataHandler.swift */,
-				E3F5341A24E1570600F3D77F /* AudioInputManager.swift */,
-				E3CD9E0F24EE958A00AACD4F /* Conductor.swift */,
-				E3F5341424E155B500F3D77F /* PitchTracker.swift */,
-				E3F5341D24E1598100F3D77F /* PitchTracker.m */,
-				E3CD9E0C24EE957D00AACD4F /* PianoSampler.swift */,
-				E3CD9E0B24EE957D00AACD4F /* PianoSampler.m */,
 			);
 			name = Banju;
+			sourceTree = "<group>";
+		};
+		1C819DA1EE8A2E073A8D0F3E /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				CE886783E4F9AD0DF7CF5CE8 /* Pods-Banju.debug.xcconfig */,
+				40A0268D1F612EC4EBA71C3F /* Pods-Banju.release.xcconfig */,
+				19B9AF9A7EE8A5F9F12A96C8 /* Pods-Banju-BanjuTests.debug.xcconfig */,
+				A19D420632954118D823CC3A /* Pods-Banju-BanjuTests.release.xcconfig */,
+				79FA66F9A40CBEB114D86EE9 /* Pods-Banju-tvOS.debug.xcconfig */,
+				C2E0A31C87A51FCAEEA80ED5 /* Pods-Banju-tvOS.release.xcconfig */,
+				FEFD58D6DA46CE6DBE3966DB /* Pods-Banju-tvOSTests.debug.xcconfig */,
+				725AFC603A5035C1F9427728 /* Pods-Banju-tvOSTests.release.xcconfig */,
+			);
+			path = Pods;
 			sourceTree = "<group>";
 		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
@@ -213,27 +172,12 @@
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
-				19449A4CF9EFCFD330B87904 /* libPods-Banju-tvOS.a */,
-				2EBA648C8CB21D162B1FD9E2 /* libPods-Banju-tvOSTests.a */,
-				F78C7510E2A4F339A2B7BE33 /* Pods_Banju.framework */,
-				6B48E58CE364A0C60A7720BC /* Pods_Banju_BanjuTests.framework */,
+				562CB9438713FE229AAC93DA /* libPods-Banju.a */,
+				E326052DB3FBE2A0B874EE7C /* libPods-Banju-BanjuTests.a */,
+				045E280AB7BA9E07F5C3838A /* libPods-Banju-tvOS.a */,
+				91845D54A62AA8CF6BAFF186 /* libPods-Banju-tvOSTests.a */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		8188190EF94337358146B921 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				F83096E84436F851F7E40156 /* Pods-Banju.debug.xcconfig */,
-				F208198049A0476DC6E6D733 /* Pods-Banju.release.xcconfig */,
-				36EBEA0B73FA604B99844509 /* Pods-Banju-BanjuTests.debug.xcconfig */,
-				ABC3B7E6DA057BEB482A509C /* Pods-Banju-BanjuTests.release.xcconfig */,
-				14703E24B2D1A8160F6C7CB6 /* Pods-Banju-tvOS.debug.xcconfig */,
-				10006C6372EA3A5BD9F3D716 /* Pods-Banju-tvOS.release.xcconfig */,
-				EF9BA035AA95CA57C220239E /* Pods-Banju-tvOSTests.debug.xcconfig */,
-				2C5FFA1026684EE76902CF9C /* Pods-Banju-tvOSTests.release.xcconfig */,
-			);
-			path = Pods;
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -251,7 +195,8 @@
 				00E356EF1AD99517003FC87E /* BanjuTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
-				8188190EF94337358146B921 /* Pods */,
+				ED21D1DC11064DC5B2022091 /* Resources */,
+				1C819DA1EE8A2E073A8D0F3E /* Pods */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -269,6 +214,29 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		ED21D1DC11064DC5B2022091 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				E9C84E70887B42DFBA83337F /* AntDesign.ttf */,
+				BFB33FF95A9C4AA8A3A5BB30 /* Entypo.ttf */,
+				B29E147688564063BFD5234F /* EvilIcons.ttf */,
+				2B3F6C3B528243EEA3F97014 /* Feather.ttf */,
+				72D5E8EDEFAD46599D6F15AF /* FontAwesome.ttf */,
+				FB8B042D9B1D41DEA19E6BBE /* FontAwesome5_Brands.ttf */,
+				100C640A79584AF98782ABE2 /* FontAwesome5_Regular.ttf */,
+				87757ABAD991453F9D401B93 /* FontAwesome5_Solid.ttf */,
+				D13D3E3EE73D4567ABFA770D /* Fontisto.ttf */,
+				4349256437F84575BA1452AE /* Foundation.ttf */,
+				84AD22B8CC9E4A318F7BCF55 /* Ionicons.ttf */,
+				2CCFF1A107CB46EB8F2E2A36 /* MaterialCommunityIcons.ttf */,
+				CC1A2B3B7A2349D39C053CE0 /* MaterialIcons.ttf */,
+				BFC6FAA2A6FE4FFEA99F5F10 /* Octicons.ttf */,
+				927E17E5E8B84327A78826F1 /* SimpleLineIcons.ttf */,
+				1EF3B7A2793C42E38E0F934F /* Zocial.ttf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -276,11 +244,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "BanjuTests" */;
 			buildPhases = (
-				41D4226956832AD125A67C90 /* [CP] Check Pods Manifest.lock */,
+				79397BEB961FB3E40CC49123 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				39ECC4325E7A9C7C632DBB84 /* [CP] Embed Pods Frameworks */,
+				2BB038870F8D6E0685AA38FE /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -296,13 +264,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Banju" */;
 			buildPhases = (
-				B6D7771DEECB181A2D77E72C /* [CP] Check Pods Manifest.lock */,
+				278C1F61F60BD7B48A5E080D /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				754A9283C2EE39DBAA280467 /* [CP] Embed Pods Frameworks */,
+				14A3C8AD026E2FE15FC5D9FB /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -317,7 +285,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "Banju-tvOS" */;
 			buildPhases = (
-				2188C9987A62F16B4FD17147 /* [CP] Check Pods Manifest.lock */,
+				7CF4EF9CE387F4EB2CC38B06 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F122414F3F0027D42C /* Start Packager */,
 				2D02E4771E0B4A5D006451C7 /* Sources */,
 				2D02E4781E0B4A5D006451C7 /* Frameworks */,
@@ -337,7 +305,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "Banju-tvOSTests" */;
 			buildPhases = (
-				570C5F5612DCC4A64AB6FB70 /* [CP] Check Pods Manifest.lock */,
+				51800EF1548F23E8B1E29116 /* [CP] Check Pods Manifest.lock */,
 				2D02E48C1E0B4A5D006451C7 /* Sources */,
 				2D02E48D1E0B4A5D006451C7 /* Frameworks */,
 				2D02E48E1E0B4A5D006451C7 /* Resources */,
@@ -362,12 +330,10 @@
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
-						LastSwiftMigration = 1160;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = 3W4B76N7XX;
-						LastSwiftMigration = 1160;
+						LastSwiftMigration = 1120;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -380,7 +346,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject " " */;
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Banju" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -406,7 +372,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E3F5342624E1748500F3D77F /* onsets_frames_wavinput_uni.tflite in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -414,21 +379,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2411F38E24D3607D003B4A7E /* C4.mp3 in Resources */,
-				2411F38824D3607D003B4A7E /* Gs4.mp3 in Resources */,
-				E3CD9E0A24EE939600AACD4F /* Sounds in Resources */,
-				2411F37D24D36064003B4A7E /* As4.mp3 in Resources */,
-				2411F37B24D36043003B4A7E /* A4.mp3 in Resources */,
-				E3F5342524E1748500F3D77F /* onsets_frames_wavinput_uni.tflite in Resources */,
-				2411F39024D3607D003B4A7E /* D4.mp3 in Resources */,
-				2411F38C24D3607D003B4A7E /* E4.mp3 in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
-				2411F38D24D3607D003B4A7E /* Ds4.mp3 in Resources */,
-				2411F38924D3607D003B4A7E /* Cs4.mp3 in Resources */,
-				2411F38B24D3607D003B4A7E /* Fs4.mp3 in Resources */,
-				2411F38F24D3607D003B4A7E /* F4.mp3 in Resources */,
-				2411F39124D3607D003B4A7E /* B4.mp3 in Resources */,
-				2411F38A24D3607D003B4A7E /* G4.mp3 in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -463,9 +414,61 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
+			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
 		};
-		2188C9987A62F16B4FD17147 /* [CP] Check Pods Manifest.lock */ = {
+		14A3C8AD026E2FE15FC5D9FB /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Banju/Pods-Banju-resources.sh",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Feather.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Foundation.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Octicons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Zocial.ttf",
+				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
+				"${PODS_ROOT}/YoutubePlayer-in-WKWebView/WKYTPlayerView/WKYTPlayerView.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AntDesign.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Entypo.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EvilIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Feather.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Brands.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Regular.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Solid.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Fontisto.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Foundation.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Ionicons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MaterialCommunityIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MaterialIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Octicons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SimpleLineIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Zocial.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/WKYTPlayerView.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Banju/Pods-Banju-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		278C1F61F60BD7B48A5E080D /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -480,11 +483,63 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Banju-tvOS-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Banju-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		2BB038870F8D6E0685AA38FE /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Banju-BanjuTests/Pods-Banju-BanjuTests-resources.sh",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Feather.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Foundation.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Octicons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Zocial.ttf",
+				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
+				"${PODS_ROOT}/YoutubePlayer-in-WKWebView/WKYTPlayerView/WKYTPlayerView.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AntDesign.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Entypo.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EvilIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Feather.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Brands.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Regular.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Solid.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Fontisto.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Foundation.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Ionicons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MaterialCommunityIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MaterialIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Octicons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SimpleLineIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Zocial.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/WKYTPlayerView.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Banju-BanjuTests/Pods-Banju-BanjuTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
@@ -501,115 +556,7 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
 		};
-		39ECC4325E7A9C7C632DBB84 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Banju-BanjuTests/Pods-Banju-BanjuTests-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/DoubleConversion/DoubleConversion.framework",
-				"${BUILT_PRODUCTS_DIR}/FBReactNativeSpec/FBReactNativeSpec.framework",
-				"${BUILT_PRODUCTS_DIR}/Folly/folly.framework",
-				"${BUILT_PRODUCTS_DIR}/PianoKeyboard/PianoKeyboard.framework",
-				"${BUILT_PRODUCTS_DIR}/RCTTypeSafety/RCTTypeSafety.framework",
-				"${BUILT_PRODUCTS_DIR}/RCTYouTube/RCTYouTube.framework",
-				"${BUILT_PRODUCTS_DIR}/RNCMaskedView/RNCMaskedView.framework",
-				"${BUILT_PRODUCTS_DIR}/RNGestureHandler/RNGestureHandler.framework",
-				"${BUILT_PRODUCTS_DIR}/RNReanimated/RNReanimated.framework",
-				"${BUILT_PRODUCTS_DIR}/RNSVG/RNSVG.framework",
-				"${BUILT_PRODUCTS_DIR}/RNScreens/RNScreens.framework",
-				"${BUILT_PRODUCTS_DIR}/RNSearchBar/RNSearchBar.framework",
-				"${BUILT_PRODUCTS_DIR}/RNSound/RNSound.framework",
-				"${BUILT_PRODUCTS_DIR}/RNSoundPlayer/RNSoundPlayer.framework",
-				"${BUILT_PRODUCTS_DIR}/RNVectorIcons/RNVectorIcons.framework",
-				"${BUILT_PRODUCTS_DIR}/React-Core/React.framework",
-				"${BUILT_PRODUCTS_DIR}/React-CoreModules/CoreModules.framework",
-				"${BUILT_PRODUCTS_DIR}/React-RCTAnimation/RCTAnimation.framework",
-				"${BUILT_PRODUCTS_DIR}/React-RCTBlob/RCTBlob.framework",
-				"${BUILT_PRODUCTS_DIR}/React-RCTImage/RCTImage.framework",
-				"${BUILT_PRODUCTS_DIR}/React-RCTLinking/RCTLinking.framework",
-				"${BUILT_PRODUCTS_DIR}/React-RCTNetwork/RCTNetwork.framework",
-				"${BUILT_PRODUCTS_DIR}/React-RCTSettings/RCTSettings.framework",
-				"${BUILT_PRODUCTS_DIR}/React-RCTText/RCTText.framework",
-				"${BUILT_PRODUCTS_DIR}/React-RCTVibration/RCTVibration.framework",
-				"${BUILT_PRODUCTS_DIR}/React-cxxreact/cxxreact.framework",
-				"${BUILT_PRODUCTS_DIR}/React-jsi/jsi.framework",
-				"${BUILT_PRODUCTS_DIR}/React-jsiexecutor/jsireact.framework",
-				"${BUILT_PRODUCTS_DIR}/React-jsinspector/jsinspector.framework",
-				"${BUILT_PRODUCTS_DIR}/ReactCommon/ReactCommon.framework",
-				"${BUILT_PRODUCTS_DIR}/Yoga/yoga.framework",
-				"${BUILT_PRODUCTS_DIR}/YoutubePlayer-in-WKWebView/YoutubePlayer_in_WKWebView.framework",
-				"${BUILT_PRODUCTS_DIR}/glog/glog.framework",
-				"${BUILT_PRODUCTS_DIR}/react-native-blur/react_native_blur.framework",
-				"${BUILT_PRODUCTS_DIR}/react-native-safe-area-context/react_native_safe_area_context.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DoubleConversion.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBReactNativeSpec.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/folly.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PianoKeyboard.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RCTTypeSafety.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RCTYouTube.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNCMaskedView.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNGestureHandler.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNReanimated.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNSVG.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNScreens.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNSearchBar.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNSound.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNSoundPlayer.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNVectorIcons.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/React.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CoreModules.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RCTAnimation.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RCTBlob.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RCTImage.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RCTLinking.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RCTNetwork.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RCTSettings.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RCTText.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RCTVibration.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/cxxreact.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/jsi.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/jsireact.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/jsinspector.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReactCommon.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/yoga.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YoutubePlayer_in_WKWebView.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/glog.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/react_native_blur.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/react_native_safe_area_context.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Banju-BanjuTests/Pods-Banju-BanjuTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		41D4226956832AD125A67C90 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Banju-BanjuTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		570C5F5612DCC4A64AB6FB70 /* [CP] Check Pods Manifest.lock */ = {
+		51800EF1548F23E8B1E29116 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -631,93 +578,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		754A9283C2EE39DBAA280467 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Banju/Pods-Banju-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/DoubleConversion/DoubleConversion.framework",
-				"${BUILT_PRODUCTS_DIR}/FBReactNativeSpec/FBReactNativeSpec.framework",
-				"${BUILT_PRODUCTS_DIR}/Folly/folly.framework",
-				"${BUILT_PRODUCTS_DIR}/PianoKeyboard/PianoKeyboard.framework",
-				"${BUILT_PRODUCTS_DIR}/RCTTypeSafety/RCTTypeSafety.framework",
-				"${BUILT_PRODUCTS_DIR}/RCTYouTube/RCTYouTube.framework",
-				"${BUILT_PRODUCTS_DIR}/RNCMaskedView/RNCMaskedView.framework",
-				"${BUILT_PRODUCTS_DIR}/RNGestureHandler/RNGestureHandler.framework",
-				"${BUILT_PRODUCTS_DIR}/RNReanimated/RNReanimated.framework",
-				"${BUILT_PRODUCTS_DIR}/RNSVG/RNSVG.framework",
-				"${BUILT_PRODUCTS_DIR}/RNScreens/RNScreens.framework",
-				"${BUILT_PRODUCTS_DIR}/RNSearchBar/RNSearchBar.framework",
-				"${BUILT_PRODUCTS_DIR}/RNSound/RNSound.framework",
-				"${BUILT_PRODUCTS_DIR}/RNSoundPlayer/RNSoundPlayer.framework",
-				"${BUILT_PRODUCTS_DIR}/RNVectorIcons/RNVectorIcons.framework",
-				"${BUILT_PRODUCTS_DIR}/React-Core/React.framework",
-				"${BUILT_PRODUCTS_DIR}/React-CoreModules/CoreModules.framework",
-				"${BUILT_PRODUCTS_DIR}/React-RCTAnimation/RCTAnimation.framework",
-				"${BUILT_PRODUCTS_DIR}/React-RCTBlob/RCTBlob.framework",
-				"${BUILT_PRODUCTS_DIR}/React-RCTImage/RCTImage.framework",
-				"${BUILT_PRODUCTS_DIR}/React-RCTLinking/RCTLinking.framework",
-				"${BUILT_PRODUCTS_DIR}/React-RCTNetwork/RCTNetwork.framework",
-				"${BUILT_PRODUCTS_DIR}/React-RCTSettings/RCTSettings.framework",
-				"${BUILT_PRODUCTS_DIR}/React-RCTText/RCTText.framework",
-				"${BUILT_PRODUCTS_DIR}/React-RCTVibration/RCTVibration.framework",
-				"${BUILT_PRODUCTS_DIR}/React-cxxreact/cxxreact.framework",
-				"${BUILT_PRODUCTS_DIR}/React-jsi/jsi.framework",
-				"${BUILT_PRODUCTS_DIR}/React-jsiexecutor/jsireact.framework",
-				"${BUILT_PRODUCTS_DIR}/React-jsinspector/jsinspector.framework",
-				"${BUILT_PRODUCTS_DIR}/ReactCommon/ReactCommon.framework",
-				"${BUILT_PRODUCTS_DIR}/Yoga/yoga.framework",
-				"${BUILT_PRODUCTS_DIR}/YoutubePlayer-in-WKWebView/YoutubePlayer_in_WKWebView.framework",
-				"${BUILT_PRODUCTS_DIR}/glog/glog.framework",
-				"${BUILT_PRODUCTS_DIR}/react-native-blur/react_native_blur.framework",
-				"${BUILT_PRODUCTS_DIR}/react-native-safe-area-context/react_native_safe_area_context.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DoubleConversion.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBReactNativeSpec.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/folly.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PianoKeyboard.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RCTTypeSafety.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RCTYouTube.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNCMaskedView.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNGestureHandler.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNReanimated.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNSVG.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNScreens.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNSearchBar.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNSound.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNSoundPlayer.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNVectorIcons.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/React.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CoreModules.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RCTAnimation.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RCTBlob.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RCTImage.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RCTLinking.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RCTNetwork.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RCTSettings.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RCTText.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RCTVibration.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/cxxreact.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/jsi.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/jsireact.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/jsinspector.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReactCommon.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/yoga.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YoutubePlayer_in_WKWebView.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/glog.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/react_native_blur.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/react_native_safe_area_context.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Banju/Pods-Banju-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		B6D7771DEECB181A2D77E72C /* [CP] Check Pods Manifest.lock */ = {
+		79397BEB961FB3E40CC49123 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -732,7 +593,29 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Banju-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Banju-BanjuTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7CF4EF9CE387F4EB2CC38B06 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Banju-tvOS-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -784,11 +667,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E3F5341F24E1598100F3D77F /* PitchTracker.m in Sources */,
 				00E356F31AD99517003FC87E /* BanjuTests.m in Sources */,
-				E3F5342124E164B000F3D77F /* ModelDataHandler.swift in Sources */,
-				E3F5342324E164B300F3D77F /* AudioInputManager.swift in Sources */,
-				E3F5341624E155B500F3D77F /* PitchTracker.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -796,15 +675,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E3CD9E0E24EE957D00AACD4F /* PianoSampler.swift in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
-				E3F5341524E155B500F3D77F /* PitchTracker.swift in Sources */,
-				E3CD9E1024EE958A00AACD4F /* Conductor.swift in Sources */,
-				E3CD9E0D24EE957D00AACD4F /* PianoSampler.m in Sources */,
-				E3F5342024E164AF00F3D77F /* ModelDataHandler.swift in Sources */,
-				E3F5341E24E1598100F3D77F /* PitchTracker.m in Sources */,
-				E3F5342224E164B200F3D77F /* AudioInputManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -843,11 +715,10 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 36EBEA0B73FA604B99844509 /* Pods-Banju-BanjuTests.debug.xcconfig */;
+			baseConfigurationReference = 19B9AF9A7EE8A5F9F12A96C8 /* Pods-Banju-BanjuTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_ENABLE_MODULES = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -862,20 +733,16 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "BanjuTests-Bridging-Header.h";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Banju.app/Banju";
 			};
 			name = Debug;
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = ABC3B7E6DA057BEB482A509C /* Pods-Banju-BanjuTests.release.xcconfig */;
+			baseConfigurationReference = A19D420632954118D823CC3A /* Pods-Banju-BanjuTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_ENABLE_MODULES = YES;
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = BanjuTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -887,20 +754,17 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "BanjuTests-Bridging-Header.h";
-				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Banju.app/Banju";
 			};
 			name = Release;
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F83096E84436F851F7E40156 /* Pods-Banju.debug.xcconfig */;
+			baseConfigurationReference = CE886783E4F9AD0DF7CF5CE8 /* Pods-Banju.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 3W4B76N7XX;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Banju/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -909,9 +773,8 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.Banju;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = Banju;
-				SWIFT_OBJC_BRIDGING_HEADER = "Banju-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 2;
@@ -921,12 +784,11 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F208198049A0476DC6E6D733 /* Pods-Banju.release.xcconfig */;
+			baseConfigurationReference = 40A0268D1F612EC4EBA71C3F /* Pods-Banju.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 3W4B76N7XX;
 				INFOPLIST_FILE = Banju/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -934,9 +796,8 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.Banju;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = Banju;
-				SWIFT_OBJC_BRIDGING_HEADER = "Banju-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 2;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -945,7 +806,7 @@
 		};
 		2D02E4971E0B4A5E006451C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 14703E24B2D1A8160F6C7CB6 /* Pods-Banju-tvOS.debug.xcconfig */;
+			baseConfigurationReference = 79FA66F9A40CBEB114D86EE9 /* Pods-Banju-tvOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -973,7 +834,7 @@
 		};
 		2D02E4981E0B4A5E006451C7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 10006C6372EA3A5BD9F3D716 /* Pods-Banju-tvOS.release.xcconfig */;
+			baseConfigurationReference = C2E0A31C87A51FCAEEA80ED5 /* Pods-Banju-tvOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -1001,7 +862,7 @@
 		};
 		2D02E4991E0B4A5E006451C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EF9BA035AA95CA57C220239E /* Pods-Banju-tvOSTests.debug.xcconfig */;
+			baseConfigurationReference = FEFD58D6DA46CE6DBE3966DB /* Pods-Banju-tvOSTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1028,7 +889,7 @@
 		};
 		2D02E49A1E0B4A5E006451C7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2C5FFA1026684EE76902CF9C /* Pods-Banju-tvOSTests.release.xcconfig */;
+			baseConfigurationReference = 725AFC603A5035C1F9427728 /* Pods-Banju-tvOSTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1162,7 +1023,6 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_COMPILATION_MODE = wholemodule;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -1206,7 +1066,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject " " */ = {
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Banju" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,
