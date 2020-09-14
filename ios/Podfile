@@ -21,6 +21,9 @@ target 'Banju' do
   post_install do |installer|
     flipper_post_install(installer)
   end
+  permissions_path = '../node_modules/react-native-permissions/ios'
+
+  pod 'Permission-Microphone', :path => "#{permissions_path}/Microphone.podspec"
 end
 
 target 'Banju-tvOS' do

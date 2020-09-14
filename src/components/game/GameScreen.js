@@ -3,11 +3,9 @@ import {StyleSheet, View, Text} from 'react-native';
 import {GameEngine, GameLoop} from 'react-native-game-engine';
 import Youtube from 'react-native-youtube';
 import {Button} from 'react-native-elements';
-import * as Progress from 'react-native-progress';
 
 //using in GameEngine
 import ChordNote from './ChordNote';
-import {BlueNote, PinkNote} from './Note';
 import {Spawn, Move} from './systems';
 import ChordTable from './ChordTable';
 import ProgressBar from './ProgressBar';
@@ -50,27 +48,9 @@ export default class GameScreen extends PureComponent {
     };
   }
 
-  componentWillUnmount() {
-    clearInterval(this.interval);
-  }
-
   //처음부터 재생
   _play = () => {
     this.setState({yt_start: true});
-
-    return;
-    let noteNumber = 0;
-    this.interval = setInterval(() => {
-      this.entity[noteNumber] = {
-        position: test[noteNumber].position,
-        renderer: <ChordNote />,
-        code: test[noteNumber].note,
-      };
-      noteNumber++;
-      if (noteNumber === test.length) {
-        this._stop();
-      }
-    }, 500);
   };
 
   //clear play interval
