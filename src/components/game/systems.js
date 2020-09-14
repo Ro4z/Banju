@@ -1,4 +1,5 @@
 import React from 'react';
+import PitchTracker from 'react-native-pitch-tracker';
 
 import {SPEED} from '../../constants/game/speed';
 import {HEIGHT} from '../../constants/dimensions';
@@ -11,6 +12,11 @@ import ChordNote from '../../components/game/ChordNote';
 const leftNoteArr = SAMPLE.items.noteLeft.items;
 const rightNoteArr = SAMPLE.items.noteRight.items;
 const chordArr = SAMPLE.items.chord.notes;
+
+// prepare pitch tracker
+PitchTracker.prepare();
+
+// Event Subscription (Add function to parameter)
 
 let leftNoteTimeArr = [];
 let rightNoteTimeArr = [];
@@ -69,8 +75,21 @@ let chordArrIdx = 0;
 
 const startYPos = (3 * HEIGHT) / 5 - (882 / 2515) * HEIGHT - 548000 / 2516 + 90;
 let noteNumber = 0;
+let isTrackerStart = false;
 const Spawn = (state, {touches}) => {
   if (!state.timer.isStart) return state;
+  if (state.timer.isStart && !isTrackerStart) {
+    isTrackerStart = true;
+    //TODO: connect with chord table
+    PitchTracker.noteOn((res) => {
+      console.log('Note On: ' + res['midiNum']);
+    });
+    PitchTracker.noteOff((res) => {
+      console.log('Note Off: ' + res['midiNum']);
+    });
+    // Start PitchTracker Engine
+    PitchTracker.start();
+  }
 
   var elapsedTime = Date.now() - state.timer.startTime;
   curTime = (elapsedTime / 1000 + 1.37).toFixed(3);
