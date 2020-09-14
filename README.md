@@ -1,4 +1,3 @@
-
 # :musical_keyboard: Banju
 ***AI기반 피아노 코드반주 학습 서비스***
 
@@ -27,9 +26,14 @@
 ### MIR-Engine
 - PyTorch, TensorFlow Lite (Python/Swift)
 
-## 🔨 How to build (works on iOS only)
+## 🙌 Pre-install
+### Please Refer to...
+- [react-native-piano-sampler](https://www.npmjs.com/package/react-native-piano-sampler)
+- [react-native-pitch-tracker](https://www.npmjs.com/package/react-native-pitch-tracker)
+
+## 🔨 How to build
 - `npm install`
-- `npx pod-install ios`
-- `react-native run-ios`
+- `npx pod-install ios` (if build in iOS)
+- `react-native run-ios` OR `react-native run-android`
 
 
