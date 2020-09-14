@@ -67,10 +67,10 @@ export default class GameScreen extends PureComponent {
         {/* TODO: header 부분을 component로 분리할 것. */}
         <View style={styles.header}>
           <Youtube
+            apiKey="AIzaSyCQ-t9tVNIlNhN4jKlAHsNmYoaMs7IuyWE" //For using Youtube API in Android
             ref={(ref) => (this.ytRef = ref)}
             videoId="HHupVXtnjRs" // The YouTube video ID
             play={this.state.yt_start} // control playback of video with true/false
-            fullscreen // control whether the video should play in fullscreen or inline
             onReady={(e) => console.log(e)}
             onChangeState={(e) => {
               if (e.state === 'playing') {
