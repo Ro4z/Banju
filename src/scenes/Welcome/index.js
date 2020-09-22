@@ -2,8 +2,11 @@ import React from 'react';
 import {Image, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import {BACKGROUND_COLOR} from '@constants/color';
 import {CardStyleInterpolators} from '@react-navigation/stack';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
-const Welcome = () => {
+import {colors} from '@constants/color';
+
+const Welcome = ({navigation}) => {
   return (
     <View style={styles.mainContainer}>
       <Image
@@ -40,7 +43,9 @@ const Welcome = () => {
 
       {/* Social Login Buttons */}
 
-      <TouchableOpacity style={styles.loginBtn}>
+      <TouchableOpacity
+        style={styles.loginBtn}
+        onPress={() => navigation.navigate('SignIn')}>
         <View style={styles.loginLogoFrame}>
           <Image
             style={styles.loginLogo}
@@ -88,7 +93,7 @@ const Welcome = () => {
 
 export default Welcome;
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
   mainContainer: {
     width: '100%',
     height: '100%',
@@ -105,15 +110,15 @@ const styles = StyleSheet.create({
   },
   subContainer_2: {},
   text_1: {
-    color: 'rgb(255,255,255)',
-    fontSize: 25,
+    color: colors.white2,
+    fontSize: '26rem',
     fontFamily: 'NanumSquareEB',
     letterSpacing: -0.72,
   },
   text_2: {
     color: 'rgb(203,203,203)',
     fontFamily: 'NanumSquareR',
-    fontSize: 15,
+    fontSize: '15rem',
     textAlign: 'center',
     lineHeight: 22,
     letterSpacing: -0.65,
@@ -125,7 +130,7 @@ const styles = StyleSheet.create({
     height: 45,
     borderWidth: 1,
     borderRadius: 30,
-    borderColor: 'rgb(38,38,38)',
+    borderColor: colors.grey152,
     flexDirection: 'row',
     alignItems: 'center',
     paddingLeft: 10,
@@ -135,7 +140,7 @@ const styles = StyleSheet.create({
     height: 28,
     width: 28,
     borderRadius: 28,
-    backgroundColor: 'rgb(242,242,242)',
+    backgroundColor: colors.grey952,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -145,27 +150,27 @@ const styles = StyleSheet.create({
   },
   loginBtnText: {
     fontFamily: 'OpenSauceSans-Regular',
-    fontSize: 11,
+    fontSize: '11rem',
     fontWeight: '600',
-    color: 'rgb(216,216,216)',
+    color: colors.grey85Text2,
   },
   termsText: {
     fontFamily: 'OpenSauceSans-Regular',
-    fontSize: 12,
+    fontSize: '13rem',
     color: 'rgb(75,75,75)',
     letterSpacing: -0.48,
     fontWeight: '300',
     textDecorationLine: 'underline',
-    marginTop: '15%',
+    marginTop: '20rem',
   },
   mainLogo: {
     width: 140,
     resizeMode: 'contain',
-    marginTop: '15%',
+    marginTop: '90rem',
   },
   backgroundText: {
     fontSize: 65,
     fontFamily: 'OpenSauceSans-Bold',
-    color: 'rgb(107,73,230)',
+    color: colors.neonText2,
   },
 });
