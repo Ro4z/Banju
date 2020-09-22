@@ -15,7 +15,7 @@
           "@navigations": "./src/navigations",
           "@scenes": "./src/scenes",
           "@services": "./src/services",
-          "@styles": "./src/styles",
+          "@constants": "./src/constants",
           "@utils": "./src/utils"
         }
       }

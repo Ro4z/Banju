@@ -3,6 +3,7 @@ module.exports = {
   extends: '@react-native-community',
    plugins: ['import'],
   settings: {
+    'babel-module': {},
     'import/resolver': {
       node: {
         paths: ['src'],
@@ -14,6 +15,7 @@ module.exports = {
           @organisms: './src/components/organisms',
           @navigations: './src/navigations',
           @scenes: './src/scenes',
+          @constatns: './src/constants',
           @services: './src/services',
           @styles: './src/styles',
           @utils: './src/utils',
