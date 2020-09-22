@@ -4,10 +4,10 @@ import {StyleSheet, Text, View, StatusBar} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 
-import Home from './src/screens/Home';
-import Practice from './src/screens/Practice';
-import Profile from './src/screens/Profile';
-import Search from './src/screens/Search';
+import Home from './src/scenes/Home';
+import Practice from './src/scenes/Practice';
+import Profile from './src/scenes/Profile';
+import Search from './src/scenes/Search';
 
 import {NAVIGATION_BAR_COLOR} from './src/constants/color';
 
