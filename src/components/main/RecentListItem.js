@@ -27,6 +27,7 @@ const styles = EStyleSheet.create({
     width: ItemWidth,
     alignItems: 'center',
     justifyContent: 'center',
+    marginRight: '5rem',
   },
   thumbnailImage: {
     height: ImageWidth,
