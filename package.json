@@ -29,7 +29,7 @@
     "react-native-gesture-handler": "^1.7.0",
     "react-native-modal": "^11.5.6",
     "react-native-permissions": "^2.2.0",
-    "react-native-pitch-tracker": "^0.2.0",
+    "react-native-pitch-tracker": "^0.3.1",
     "react-native-progress": "^4.1.2",
     "react-native-reanimated": "^1.10.1",
     "react-native-safe-area-context": "^3.1.1",
