@@ -1,25 +1,35 @@
 import React, {useState} from 'react';
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import {Text, View, TouchableOpacity, Image} from 'react-native';
 import Modal from 'react-native-modal';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
-import Icon from '../../assets/icon/Ionicons';
-import {WIDTH, HEIGHT} from '../../constants/dimensions';
-import NotiList from '../../components/notification/NotificationList';
+import Icon from '@assets/icon/Ionicons';
+import {WIDTH, HEIGHT} from '@constants/dimensions';
+import NotiList from '@components/notification/NotificationList';
 
-const Header = () => {
+const Header = ({navigation}) => {
+  const [imageUri, setImageUri] = useState(null);
   const [openModal, setOpenModal] = useState(false);
 
   const toggleModal = () => {
     setOpenModal(!openModal);
   };
 
+  const navigateProfile = () => {
+    navigation.navigate('Profile');
+  };
+
   return (
     <View style={styles.mainContainer}>
-      <TouchableOpacity onPress={() => alert('drawer!')}>
-        <Icon name="ios-menu-sharp" style={styles.icon} />
+      <TouchableOpacity onPress={navigateProfile.bind()}>
+        <Image
+          source={require('@assets/img/profile_sample2.png')}
+          style={styles.profileBtn}
+        />
       </TouchableOpacity>
-      <Text style={styles.title}>Banju</Text>
-      <TouchableOpacity onPress={toggleModal.bind()}>
+      <TouchableOpacity
+        onPress={toggleModal.bind()}
+        style={{justifyContent: 'center'}}>
         <Icon name="ios-notifications-outline" style={styles.icon} />
       </TouchableOpacity>
 
@@ -37,12 +47,21 @@ const Header = () => {
 
 export default Header;
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
   mainContainer: {
     width: '100%',
-    height: 80,
+    height: '20rem',
     flexDirection: 'row',
+    alignItems: 'center',
     justifyContent: 'space-between',
+    backgroundColor: 'transparent',
+    paddingHorizontal: '8rem',
+    marginTop: '8rem',
+  },
+  profileBtn: {
+    width: '16rem',
+    height: '16rem',
+    borderRadius: '16rem',
   },
   modalView: {
     width: WIDTH,
@@ -57,8 +76,7 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   icon: {
-    fontSize: 30,
+    fontSize: '10rem',
     color: '#fff',
-    margin: 10,
   },
 });
