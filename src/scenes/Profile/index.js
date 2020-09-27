@@ -1,27 +1,37 @@
 import React, {useState} from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
+import {Text, TouchableOpacity, View, ScrollView} from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
+import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+
 import Entypo from '@assets/icon/Entypo';
 import Ionicons from '@assets/icon/Ionicons';
 import {BACKGROUND_COLOR, colors} from '@constants/color';
-import EStyleSheet from 'react-native-extended-stylesheet';
-import {color} from 'react-native-reanimated';
+import {HEIGHT} from '@constants/dimensions';
+import FavoriteList from '@components/profile/FavoriteList';
+import UserGraph from '@components/profile/UserGraph';
+import MyPlayScreen from './MyPlay';
+import MyLibraryScreen from './MyLibrary';
 
-const Header = () => {
+const Tab = createMaterialTopTabNavigator();
+
+const Header = ({navigation}) => {
   return (
     <View
       style={{
         width: '100%',
-        height: 70,
+        height: '5%',
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
         paddingHorizontal: 30,
         marginTop: 10,
       }}>
-      <Ionicons
-        name="ios-chevron-back"
-        style={{color: colors.grey85Text2, fontSize: 24}}
-      />
+      <TouchableOpacity onPress={() => navigation.goBack()}>
+        <Ionicons
+          name="ios-chevron-back"
+          style={{color: colors.grey85Text2, fontSize: 24}}
+        />
+      </TouchableOpacity>
       <Text
         style={{
           color: colors.grey85Text2,
@@ -38,7 +48,7 @@ const Header = () => {
   );
 };
 
-const Profile = () => {
+const Profile = ({navigation}) => {
   const [openMenu1, setOpenMenu1] = useState(true);
 
   const toggleMenu = () => {
@@ -46,59 +56,35 @@ const Profile = () => {
   };
   return (
     <View style={styles.mainContainer}>
-      <Header />
+      <Header navigation={navigation} />
       <View style={styles.bodyContainer}>
         {/* TODO: replace with image */}
         <View style={styles.profileImg} />
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <Text style={styles.profileName}>김반주 </Text>
-          {/* <TouchableOpacity>
+        <View
+          style={{
+            flexDirection: 'row',
+            //justifyContent: 'center',
+          }}>
+          <Text style={styles.profileName}>김반반반주주주 </Text>
+          <TouchableOpacity>
             <Entypo name="pencil" style={styles.editIcon} />
-          </TouchableOpacity> */}
+          </TouchableOpacity>
         </View>
         <Text style={styles.profileEmail}>fortebanju@naver.com</Text>
       </View>
       <View style={styles.listContainer}>
-        <View style={styles.listHeader}>
-          <TouchableOpacity
-            style={[
-              styles.listHeaderMenu,
-              openMenu1 && {borderColor: colors.neon2, borderBottomWidth: 1.5},
-            ]}
-            onPress={toggleMenu.bind()}>
-            <Text
-              style={[
-                {
-                  fontSize: 20,
-                  fontFamily: 'OpenSauceSans-Bold',
-                },
-                openMenu1
-                  ? {color: colors.grey85Text2}
-                  : {color: '#cbcbcb', opacity: 0.3},
-              ]}>
-              LIBRARY
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[
-              styles.listHeaderMenu,
-              openMenu1 || {borderColor: colors.neon2, borderBottomWidth: 1.5},
-            ]}
-            onPress={toggleMenu.bind()}>
-            <Text
-              style={[
-                {
-                  fontSize: 20,
-                  fontFamily: 'OpenSauceSans-Bold',
-                },
-                !openMenu1
-                  ? {color: colors.grey85Text2}
-                  : {color: '#cbcbcb', opacity: 0.3},
-              ]}>
-              MY PLAY
-            </Text>
-          </TouchableOpacity>
-        </View>
+        <Tab.Navigator
+          tabBarOptions={{
+            style: {
+              backgroundColor: BACKGROUND_COLOR,
+            },
+            indicatorStyle: {backgroundColor: colors.neon2},
+            activeTintColor: colors.grey85Text2,
+          }}
+          swipeEnabled={false}>
+          <Tab.Screen name="Library" component={MyLibraryScreen} />
+          <Tab.Screen name="MY Play" component={MyPlayScreen} />
+        </Tab.Navigator>
       </View>
     </View>
   );
@@ -137,7 +123,12 @@ const styles = EStyleSheet.create({
     marginTop: '7rem',
     marginBottom: '4rem',
   },
-  editIcon: {fontSize: 26, color: colors.dusk},
+  editIcon: {
+    fontSize: 26,
+    color: colors.dusk,
+    position: 'absolute',
+    marginTop: '7rem',
+  },
   profileEmail: {
     fontFamily: 'OpenSauceSans-Regular',
     fontSize: 22,
@@ -152,5 +143,36 @@ const styles = EStyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+
+  //card view
+  cardView: {
+    backgroundColor: '#0d0d0d',
+    width: '100%',
+    height: HEIGHT / 2.4,
+    paddingHorizontal: '10rem',
+    paddingVertical: '7rem',
+    marginBottom: '7rem',
+  },
+  cardViewTitleView: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: '3rem',
+  },
+  cardViewListView: {
+    flex: 4,
+  },
+  cardViewTitle: {
+    fontFamily: 'OpenSauceSans-ExtraBold',
+    fontSize: '9rem',
+    color: colors.white2,
+    marginRight: '3rem',
+  },
+  cardViewTitleSub: {
+    fontFamily: 'NanumSquareR',
+    fontSize: '6rem',
+    color: colors.grey40Subtitle2,
   },
 });
