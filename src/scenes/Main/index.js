@@ -21,6 +21,8 @@ import {BACKGROUND_COLOR} from '@constants/color';
 import {colors} from '@constants/color';
 
 const Home = ({navigation}) => {
+  const [searchInput, setSearchInput] = useState('');
+
   return (
     <ScrollView style={styles.mainContainer} alwaysBounceVertical={false}>
       <ImageBackground
@@ -42,6 +44,10 @@ const Home = ({navigation}) => {
             style={styles.searchInput}
             placeholder="곡 제목을 검색하세요"
             placeholderTextColor={colors.grey40Subtitle2}
+            onChangeText={(text) => setSearchInput(text)}
+            onSubmitEditing={() =>
+              navigation.navigate('Search', {query: searchInput})
+            }
           />
           <TouchableOpacity>
             <Feather name="upload" style={styles.searchIcon} />
@@ -104,6 +110,7 @@ const styles = EStyleSheet.create({
     width: '100%',
     height: '100%',
     backgroundColor: BACKGROUND_COLOR,
+    paddingTop: 20,
   },
   imgBackground: {width: '100%', height: HEIGHT / 2, alignItems: 'center'},
   subContainer: {
