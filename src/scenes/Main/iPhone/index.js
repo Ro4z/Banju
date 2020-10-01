@@ -6,16 +6,21 @@ import {
   ImageBackground,
   Image,
   TouchableOpacity,
+  ScrollView,
 } from 'react-native';
 import {ifIphoneX} from 'react-native-iphone-x-helper';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import Header from '@components/structure/Header';
+import RecentList from '@components/main/RecentList';
+import NewChordList from '@components/main/NewChordList';
+import TrendList from '@components/main/TrendList';
 import {BACKGROUND_COLOR, colors} from '@constants/color';
 import Ionicons from '@assets/icon/Ionicons';
 import Feather from '@assets/icon/Feather';
+import {HEIGHT} from '@constants/dimensions';
 
-const Main = () => {
+const Main = ({navigation}) => {
   const [searchInput, setSearchInput] = useState('');
   return (
     <View style={styles.mainContainer}>
@@ -48,9 +53,55 @@ const Main = () => {
             </TouchableOpacity>
           </View>
         </View>
-        <Header />
+        <Header navigation={navigation} />
       </ImageBackground>
-      <View style={styles.footerContainer}></View>
+      <ScrollView style={styles.footerContainer}>
+        <View style={styles.cardView}>
+          <View style={styles.cardViewTitleView}>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Text style={styles.cardViewTitle}>HISTORY</Text>
+              <Text style={styles.cardViewTitleSub}>최근연습곡</Text>
+            </View>
+            <TouchableOpacity>
+              <Ionicons
+                name="ios-chevron-forward"
+                style={{color: colors.grey85Text2, fontSize: 24}}
+              />
+            </TouchableOpacity>
+          </View>
+          <RecentList />
+        </View>
+        <View style={styles.cardView}>
+          <View style={styles.cardViewTitleView}>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Text style={styles.cardViewTitle}>NEWCHORDED</Text>
+              <Text style={styles.cardViewTitleSub}>최신업데이트</Text>
+            </View>
+            <TouchableOpacity>
+              <Ionicons
+                name="ios-chevron-forward"
+                style={{color: colors.grey85Text2, fontSize: 24}}
+              />
+            </TouchableOpacity>
+          </View>
+          <NewChordList />
+        </View>
+        <View style={styles.cardView}>
+          <View style={styles.cardViewTitleView}>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Text style={styles.cardViewTitle}>TRENDING</Text>
+              <Text style={styles.cardViewTitleSub}>인기순위</Text>
+            </View>
+            <TouchableOpacity>
+              <Ionicons
+                name="ios-chevron-forward"
+                style={{color: colors.grey85Text2, fontSize: 24}}
+              />
+            </TouchableOpacity>
+          </View>
+          <TrendList />
+        </View>
+      </ScrollView>
     </View>
   );
 };
@@ -75,17 +126,16 @@ const styles = EStyleSheet.create({
   },
   footerContainer: {
     flex: 1,
-    backgroundColor: 'green',
   },
   bodySubContainer: {
     flex: 1,
     paddingHorizontal: '22rem',
+    justifyContent: 'center',
   },
 
   logoImage: {
     width: '32rem',
     height: '22rem',
-    //resizeMode: 'stretch',
     marginBottom: '20rem',
   },
   bodyText: {
@@ -117,5 +167,36 @@ const styles = EStyleSheet.create({
     fontSize: '13rem',
     color: colors.grey85Text2,
     marginLeft: '5rem',
+  },
+
+  //card view
+  cardView: {
+    backgroundColor: '#0d0d0d',
+    width: '100%',
+    height: '180rem',
+    paddingHorizontal: '22rem',
+    paddingVertical: '12rem',
+    marginBottom: '7rem',
+  },
+  cardViewTitleView: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: '3rem',
+  },
+  cardViewListView: {
+    flex: 4,
+  },
+  cardViewTitle: {
+    fontFamily: 'OpenSauceSans-ExtraBold',
+    fontSize: '17rem',
+    color: colors.white2,
+    marginRight: '7rem',
+  },
+  cardViewTitleSub: {
+    fontFamily: 'NanumSquareR',
+    fontSize: '12srem',
+    color: colors.grey40Subtitle2,
   },
 });
