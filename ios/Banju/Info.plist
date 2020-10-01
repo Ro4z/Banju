@@ -52,6 +52,7 @@
 		<string>Fonts/OpenSauceSans-Medium.ttf</string>
 		<string>Fonts/OpenSauceSans-Regular.ttf</string>
 		<string>Fonts/OpenSauceSans-SemiBold.ttf</string>
+		<string>Fonts/OpenSauceSans-BlackItalic.ttf</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
