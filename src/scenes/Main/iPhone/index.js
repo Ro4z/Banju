@@ -7,6 +7,7 @@ import {
   Image,
   TouchableOpacity,
   ScrollView,
+  StatusBar,
 } from 'react-native';
 import {ifIphoneX} from 'react-native-iphone-x-helper';
 import EStyleSheet from 'react-native-extended-stylesheet';
@@ -23,11 +24,11 @@ import {HEIGHT} from '@constants/dimensions';
 const Main = ({navigation}) => {
   const [searchInput, setSearchInput] = useState('');
   return (
-    <View style={styles.mainContainer}>
-      <ImageBackground
-        style={styles.bodyContainer}
-        source={require('@assets/img/background_home_iphone.png')}
-        blurRadius={30}>
+    <ImageBackground
+      style={styles.mainContainer}
+      source={require('@assets/img/background_home_iphone.png')}
+      blurRadius={20}>
+      <View style={styles.bodyContainer}>
         <View style={styles.bodySubContainer}></View>
         <View style={styles.bodySubContainer}>
           <Image
@@ -54,7 +55,7 @@ const Main = ({navigation}) => {
           </View>
         </View>
         <Header navigation={navigation} />
-      </ImageBackground>
+      </View>
       <ScrollView style={styles.footerContainer}>
         <View style={styles.cardView}>
           <View style={styles.cardViewTitleView}>
@@ -102,7 +103,7 @@ const Main = ({navigation}) => {
           <TrendList />
         </View>
       </ScrollView>
-    </View>
+    </ImageBackground>
   );
 };
 
