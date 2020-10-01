@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Text, View, TouchableOpacity, Image} from 'react-native';
+import {Text, View, TouchableOpacity, Image, Platform} from 'react-native';
 import Modal from 'react-native-modal';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
@@ -20,24 +20,32 @@ const Header = ({navigation}) => {
   };
 
   return (
-    <View style={styles.mainContainer}>
+    <View
+      style={
+        Platform.isPad ? iPadStyles.mainContainer : iPhoneStyles.mainContainer
+      }>
       <TouchableOpacity onPress={navigateProfile.bind()}>
         <Image
           source={require('@assets/img/profile_sample2.png')}
-          style={styles.profileBtn}
+          style={
+            Platform.isPad ? iPadStyles.profileBtn : iPhoneStyles.profileBtn
+          }
         />
       </TouchableOpacity>
       <TouchableOpacity
         onPress={toggleModal.bind()}
         style={{justifyContent: 'center'}}>
-        <Icon name="ios-notifications-outline" style={styles.icon} />
+        <Icon
+          name="ios-notifications-outline"
+          style={Platform.isPad ? iPadStyles.icon : iPhoneStyles.icon}
+        />
       </TouchableOpacity>
 
       <Modal
         isVisible={openModal}
         animationIn="slideInRight"
         animationOut="slideOutRight">
-        <View style={styles.modalView}>
+        <View style={iPadStyles.modalView}>
           <NotiList onPress={toggleModal.bind()} />
         </View>
       </Modal>
@@ -47,7 +55,7 @@ const Header = ({navigation}) => {
 
 export default Header;
 
-const styles = EStyleSheet.create({
+const iPadStyles = EStyleSheet.create({
   mainContainer: {
     width: '100%',
     height: '20rem',
@@ -77,6 +85,41 @@ const styles = EStyleSheet.create({
   },
   icon: {
     fontSize: '10rem',
+    color: '#fff',
+  },
+});
+
+const iPhoneStyles = EStyleSheet.create({
+  mainContainer: {
+    width: '100%',
+    height: '20rem',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: 'transparent',
+    paddingHorizontal: '22rem',
+    marginTop: '50rem',
+    position: 'absolute',
+  },
+  profileBtn: {
+    width: '35rem',
+    height: '35rem',
+    borderRadius: '35rem',
+  },
+  modalView: {
+    width: WIDTH,
+    height: HEIGHT,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
+  title: {
+    fontWeight: 'bold',
+    fontSize: 27,
+    color: '#fff',
+    margin: 10,
+  },
+  icon: {
+    fontSize: '20rem',
     color: '#fff',
   },
 });
