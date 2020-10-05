@@ -6,14 +6,14 @@ import Piano from './Piano';
 import PianoSampler from '../../utils/engine/piano_sampler';
 import {BACKGROUND_COLOR} from '../../constants/color';
 
-const PianoPartView = ({position}) => {
+const PianoPartView = ({position, firstKey = 'c4', lastKey = 'b4'}) => {
   // const x = position[0];
   // const y = position[1];
 
   return (
     <View style={[styles.mainContainer]}>
       <Piano
-        noteRange={{first: 'c4', last: 'b4'}}
+        noteRange={{first: firstKey, last: lastKey}}
         onPlayNoteInput={(chord, midi) => {
           PianoSampler.playNote(midi, 115);
         }}
