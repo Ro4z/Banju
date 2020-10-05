@@ -8,11 +8,16 @@ import Ionicons from '@assets/icon/Ionicons';
 import Feather from '@assets/icon/Feather';
 import {colors} from '@constants/color';
 
-const ResultListItem = ({isReady}) => {
+const ResultListItem = ({isReady, navigation}) => {
   const [openModal, setOpenModal] = useState(false);
 
   const toggleModal = () => {
     setOpenModal(!openModal);
+  };
+
+  const navigatePractice = () => {
+    setOpenModal(false);
+    navigation.navigate('Practice');
   };
   return (
     <>
@@ -192,7 +197,9 @@ const ResultListItem = ({isReady}) => {
                 </Text>
               </View>
             </View>
-            <TouchableOpacity style={styles.modalPlayBtn}>
+            <TouchableOpacity
+              style={styles.modalPlayBtn}
+              onPress={navigatePractice.bind()}>
               <Text style={styles.modalPlayText}>PLAY</Text>
             </TouchableOpacity>
           </View>

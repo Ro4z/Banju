@@ -15,7 +15,7 @@ import Ionicons from '@assets/icon/Ionicons';
 import Feather from '@assets/icon/Feather';
 import {colors} from '@constants/color';
 
-const Search = ({route}) => {
+const Search = ({route, navigation}) => {
   const [searchInput, setSearchInput] = useState('');
 
   useEffect(() => {
@@ -46,7 +46,7 @@ const Search = ({route}) => {
       </View>
 
       <View style={styles.bodyContainer}>
-        <ResultList />
+        <ResultList navigation={navigation} />
       </View>
     </View>
   );
