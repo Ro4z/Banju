@@ -5,6 +5,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import SplashScreen from 'react-native-splash-screen';
+import PrefersHomeIndicatorAutoHidden from 'react-native-home-indicator';
 
 import Main_iPad from '@scenes/Main/iPad';
 import Main_iPhone from '@scenes/Main/iPhone';
@@ -31,6 +32,8 @@ const App = () => {
   }, []);
   return (
     <NavigationContainer>
+      {/* auto hidden home indicator (iPhone X later) */}
+      <PrefersHomeIndicatorAutoHidden />
       {/* hide status bar */}
       {Platform.isPad && <StatusBar hidden />}
       {Platform.OS === 'ios' && (
