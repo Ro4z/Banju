@@ -1,23 +1,27 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {Text, View, TouchableOpacity, ScrollView, Animated} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import Orientation from 'react-native-orientation';
 import {ifIphoneX} from 'react-native-iphone-x-helper';
+import Youtube from 'react-native-youtube';
 
 import Header from '@components/practice/phone/Header';
 import Feather from '@assets/icon/Feather';
 import {BACKGROUND_COLOR} from '@constants/color';
 import {colors} from '@constants/color';
 import {SAMPLE} from '@constants/game/output_sample';
+import PianoPartView from '@components/piano/PianoPartView';
 
 //using in chord-table
 const anim = new Animated.Value(0);
 let currentxPos = 0;
 let framexPos = 0;
 let moveCount = 0;
-const moveDistance = EStyleSheet.value('30 * $rem');
+const moveDistance = 4;
+//const moveDistance = EStyleSheet.value('30*$rem');
 
 const ChordTableMode = ({navigation}) => {
+  const [ytStart, setYtStart] = useState(false);
   const scrollViewRef = useRef();
   useEffect(() => {
     Orientation.lockToLandscape();
@@ -47,7 +51,7 @@ const ChordTableMode = ({navigation}) => {
   return (
     <View style={styles.mainContainer}>
       <Header navigation={navigation} />
-      <View style={styles.bodyContainer}>
+      <View style={[styles.bodyContainer, {alignItems: 'center'}]}>
         <TouchableOpacity onPress={null}>
           <View style={styles.toggleBtnView}>
             <Text style={styles.toggleBtnText}>CHORD</Text>
@@ -89,7 +93,34 @@ const ChordTableMode = ({navigation}) => {
           })}
         </ScrollView>
       </View>
-      <View style={styles.footContainer}></View>
+      <View style={styles.footContainer}>
+        <View style={styles.footSub1}>
+          <View style={{width: '100%', height: '100%'}}>
+            <PianoPartView firstKey="f2" />
+          </View>
+        </View>
+        <View style={styles.footSub2}>
+          <View style={{flex: 1}} />
+          <View style={{flex: 2, backgroundColor: 'purple'}}>
+            <Youtube
+              apiKey="AIzaSyCQ-t9tVNIlNhN4jKlAHsNmYoaMs7IuyWE" //For using Youtube API in Android
+              ref={(ref) => (this.ytRef = ref)}
+              videoId="HHupVXtnjRs" // The YouTube video ID
+              play={ytStart} // control playback of video with true/false
+              onReady={(e) => console.log(e)}
+              onChangeState={(e) => {
+                if (e.state === 'playing') {
+                  console.log('playing');
+                }
+              }}
+              // onChangeQuality={(e) => console.log(e)}
+              // onError={(e) => console.log(e)}
+              style={styles.youtube}
+              controls={0}
+            />
+          </View>
+        </View>
+      </View>
     </View>
   );
 };
@@ -103,15 +134,27 @@ const styles = EStyleSheet.create({
   },
   bodyContainer: {
     flex: 1,
-    ...ifIphoneX({paddingHorizontal: 60}, {paddingHorizontal: 30}),
     paddingTop: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    ...ifIphoneX({paddingHorizontal: 60}, {paddingHorizontal: 30}),
   },
   footContainer: {
-    flex: 1.5,
+    flex: 1.3,
+    flexDirection: 'row',
     backgroundColor: '#0d0d0d',
+    paddingBottom: 20,
     ...ifIphoneX({paddingHorizontal: 60}, {paddingHorizontal: 30}),
+  },
+  footSub1: {
+    flex: 2,
+    alignItems: 'flex-start',
+    paddingBottom: 20,
+  },
+  footSub2: {
+    flex: 1,
+    flexDirection: 'row',
+    paddingBottom: 20,
   },
   toggleBtnView: {
     height: 55,
@@ -163,5 +206,10 @@ const styles = EStyleSheet.create({
     width: 15,
     height: '40rem',
     backgroundColor: 'rgb(0,0,0)',
+  },
+
+  //youtube
+  youtube: {
+    flex: 1,
   },
 });
