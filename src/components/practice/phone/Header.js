@@ -5,6 +5,7 @@ import Orientation from 'react-native-orientation';
 
 import {colors} from '@constants/color';
 import Feather from '@assets/icon/Feather';
+import Ionicons from '@assets/icon/Ionicons';
 import SimpleLineIcons from '@assets/icon/SimpleLineIcons';
 
 const Header = ({navigation}) => {
@@ -15,17 +16,24 @@ const Header = ({navigation}) => {
   return (
     <View style={styles.mainContainer}>
       <View style={styles.subContainer}>
-        <Feather
-          name="settings"
-          style={{color: colors.grey85Text2, fontSize: 22}}
-        />
-        <SimpleLineIcons
-          name="pencil"
-          style={{color: colors.grey85Text2, fontSize: 22, marginLeft: 20}}
-        />
+        <TouchableOpacity onPress={null}>
+          <Feather name="settings" style={styles.icon} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={null}>
+          <SimpleLineIcons
+            name="pencil"
+            style={[styles.icon, {marginLeft: 20}]}
+          />
+        </TouchableOpacity>
       </View>
       <View style={styles.subContainer}>
-        <Text style={[styles.title, {marginRight: 40}]}>영상제목</Text>
+        <Text style={[styles.title, {marginLeft: 0}]}>영상제목</Text>
+        <TouchableOpacity onPress={null}>
+          <Ionicons
+            style={[styles.icon, {fontSize: 18}]}
+            name="ios-ellipsis-vertical-sharp"
+          />
+        </TouchableOpacity>
       </View>
       <View style={styles.subContainer}>
         <TouchableOpacity onPress={goBack.bind()}>
@@ -55,10 +63,15 @@ const styles = StyleSheet.create({
   },
   subContainer: {
     flexDirection: 'row',
+    alignItems: 'center',
   },
   title: {
     fontFamily: 'NanumSquareR',
     fontSize: 16,
     color: colors.grey85Text2,
+  },
+  icon: {
+    color: colors.grey85Text2,
+    fontSize: 22,
   },
 });
