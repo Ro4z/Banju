@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {StyleSheet, Text, View, StatusBar, Platform} from 'react-native';
+import {StatusBar, Platform} from 'react-native';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -15,9 +15,7 @@ import Search from '@scenes/Search';
 import Welcome from '@scenes/Welcome';
 import SignIn from '@scenes/SignIn';
 
-import {NAVIGATION_BAR_COLOR, colors} from '@constants/color';
 import {WIDTH} from '@constants/dimensions';
-import Ionicons from '@assets/icon/Ionicons';
 
 EStyleSheet.build({$rem: WIDTH / 380});
 const Stack = createStackNavigator();
