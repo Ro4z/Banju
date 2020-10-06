@@ -27,8 +27,8 @@ const anim = new Animated.Value(0);
 let currentxPos = 0;
 let framexPos = 0;
 let moveCount = 0;
-const moveDistance = 4;
-//const moveDistance = EStyleSheet.value('30*$rem');
+//const moveDistance = 4;
+const moveDistance = EStyleSheet.value(`30 * ${RATIO}* $rem `);
 
 const ChordTableMode = ({navigation}) => {
   const [ytStart, setYtStart] = useState(false);
