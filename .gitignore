@@ -60,3 +60,5 @@ buck-out/
 /ios/Pods/
 
 *.tflite
+
+ios/UprightPianoKW-SFZ-20190703/
