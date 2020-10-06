@@ -1,16 +1,26 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {Text, View, TouchableOpacity, ScrollView, Animated} from 'react-native';
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  ScrollView,
+  Animated,
+  Dimensions,
+} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import Orientation from 'react-native-orientation';
 import {ifIphoneX} from 'react-native-iphone-x-helper';
 import Youtube from 'react-native-youtube';
 
-import Header from '@components/practice/phone/Header';
 import Feather from '@assets/icon/Feather';
 import {BACKGROUND_COLOR} from '@constants/color';
 import {colors} from '@constants/color';
+import {WIDTH, HEIGHT} from '@constants/dimensions';
 import {SAMPLE} from '@constants/game/output_sample';
 import PianoPartView from '@components/piano/PianoPartView';
+import Header from '@components/practice/phone/Header';
+
+const RATIO = HEIGHT / WIDTH;
 
 //using in chord-table
 const anim = new Animated.Value(0);
@@ -23,6 +33,7 @@ const moveDistance = 4;
 const ChordTableMode = ({navigation}) => {
   const [ytStart, setYtStart] = useState(false);
   const scrollViewRef = useRef();
+
   useEffect(() => {
     Orientation.lockToLandscape();
   }, []);
@@ -173,8 +184,8 @@ const styles = EStyleSheet.create({
   //chord table
   focusFrame: {
     position: 'absolute',
-    width: '28rem',
-    height: '28rem',
+    width: `28rem * ${RATIO}`,
+    height: `28rem * ${RATIO}`,
     borderWidth: 2,
     borderColor: 'rgb(85,60,230)',
     borderRadius: 7,
@@ -183,28 +194,28 @@ const styles = EStyleSheet.create({
     ...ifIphoneX({left: 60}, {left: 30}),
   },
   chordTableBox: {
-    width: '27rem',
-    height: '27rem',
+    width: `27rem * ${RATIO}`,
+    height: `27rem * ${RATIO}`,
     borderRadius: 5,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'rgba(26,26,26,1)',
   },
   chordTableBoxFrame: {
-    width: '30rem',
-    height: '30rem',
+    width: `30rem * ${RATIO}`,
+    height: `30rem * ${RATIO}`,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'rgb(0,0,0)',
   },
   chordTableText: {
     color: 'white',
-    fontSize: '18rem',
+    fontSize: `18rem * ${RATIO}`,
     fontWeight: '600',
   },
   divider: {
     width: 15,
-    height: '40rem',
+    height: `40rem * ${RATIO}`,
     backgroundColor: 'rgb(0,0,0)',
   },
 
