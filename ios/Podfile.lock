@@ -1,4 +1,10 @@
 PODS:
+  - AudioKit (4.10.1):
+    - AudioKit/Core (= 4.10.1)
+    - AudioKit/UI (= 4.10.1)
+  - AudioKit/Core (4.10.1)
+  - AudioKit/UI (4.10.1):
+    - AudioKit/Core
   - boost-for-react-native (1.63.0)
   - CocoaAsyncSocket (7.6.4)
   - CocoaLibEvent (1.0.0)
@@ -247,6 +253,9 @@ PODS:
     - React-Core
   - react-native-orientation (3.1.3):
     - React
+  - react-native-piano-sampler (0.2.0):
+    - AudioKit
+    - React
   - react-native-pitch-tracker (0.3.1):
     - React
     - TensorFlowLiteSwift
@@ -391,6 +400,7 @@ DEPENDENCIES:
   - "react-native-blur (from `../node_modules/@react-native-community/blur`)"
   - react-native-home-indicator (from `../node_modules/react-native-home-indicator`)
   - react-native-orientation (from `../node_modules/react-native-orientation`)
+  - react-native-piano-sampler (from `../node_modules/react-native-piano-sampler`)
   - react-native-pitch-tracker (from `../node_modules/react-native-pitch-tracker`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
@@ -418,6 +428,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - AudioKit
     - boost-for-react-native
     - CocoaAsyncSocket
     - CocoaLibEvent
@@ -475,6 +486,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-home-indicator"
   react-native-orientation:
     :path: "../node_modules/react-native-orientation"
+  react-native-piano-sampler:
+    :path: "../node_modules/react-native-piano-sampler"
   react-native-pitch-tracker:
     :path: "../node_modules/react-native-pitch-tracker"
   react-native-safe-area-context:
@@ -525,6 +538,7 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
+  AudioKit: b8e508a0af3dc7d53caf0ca1002b187a662f949e
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   CocoaAsyncSocket: 694058e7c0ed05a9e217d1b3c7ded962f4180845
   CocoaLibEvent: 2fab71b8bd46dd33ddb959f7928ec5909f838e3f
@@ -556,6 +570,7 @@ SPEC CHECKSUMS:
   react-native-blur: cad4d93b364f91e7b7931b3fa935455487e5c33c
   react-native-home-indicator: 4001d2f40e9e0d6d430a46662f3d04feee170945
   react-native-orientation: d4a97266b06ec8d45d74e626656a730ebbebbb6f
+  react-native-piano-sampler: 81b162600a90d7f5b699fd65fa46d63745844c88
   react-native-pitch-tracker: 85793c21858c653f92844d3c965931f2aa79f826
   react-native-safe-area-context: 4c3249e4840225c61fcd215b136af0a737bccb79
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
