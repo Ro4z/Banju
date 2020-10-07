@@ -80,7 +80,6 @@ class Piano extends Component {
               onStopNoteInput={this.props.onStopNoteInput}
               useTouchEvents={true}
               key={midiNumber}
-              heightValue={heightValue}
             />
           );
         })}

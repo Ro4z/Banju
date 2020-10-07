@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-import {StyleSheet, View} from 'react-native';
+import {View} from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 import MidiNumbers from './MidiNumbers';
+import {colors} from '@constants/color';
 
 class Key extends Component {
   state = {
@@ -23,7 +25,7 @@ class Key extends Component {
   };
 
   static defaultProps = {
-    accidentalWidthRatio: 0.65,
+    accidentalWidthRatio: 0.75,
     pitchPositions: {
       C: 0,
       Db: 0.55,
@@ -88,7 +90,6 @@ class Key extends Component {
       useTouchEvents,
       accidental,
       children,
-      heightValue = 100,
     } = this.props;
 
     const {touched} = this.state;
@@ -109,7 +110,6 @@ class Key extends Component {
                 ? accidentalWidthRatio * naturalKeyWidth
                 : naturalKeyWidth,
             ),
-            height: accidental ? heightValue : heightValue * 1.4,
           },
           touched && styles.ReactPiano__Key__active,
         ]}
@@ -126,21 +126,21 @@ function ratioToPercentage(ratio) {
   return `${ratio * 100}%`;
 }
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
   ReactPiano__Key: {
     position: 'absolute',
-    height: 140,
+    height: '100%',
   },
   ReactPiano__Key__natural: {
     backgroundColor: '#f6f5f3',
     borderColor: '#888',
-    borderWidth: 1,
+    borderWidth: 0.7,
     borderBottomLeftRadius: 4,
     borderBottomRightRadius: 4,
   },
   ReactPiano__Key__accidental: {
-    height: 100,
-    backgroundColor: '#555',
+    height: '70%',
+    backgroundColor: '#000000',
     borderColor: 'transparent',
     borderWidth: 1,
     borderBottomLeftRadius: 4,
@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   ReactPiano__Key__active: {
-    backgroundColor: '#3ac8da',
+    backgroundColor: colors.neon2,
   },
   ReactPiano__NoteLabelContainer: {
     flex: 1,

@@ -1,56 +1,81 @@
-import React from 'react';
-import {StyleSheet, Text, View, StatusBar} from 'react-native';
+import React, {useEffect} from 'react';
+import {StatusBar, Platform} from 'react-native';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
+import EStyleSheet from 'react-native-extended-stylesheet';
+import SplashScreen from 'react-native-splash-screen';
+import PrefersHomeIndicatorAutoHidden from 'react-native-home-indicator';
 
-import Home from './src/scenes/Home';
-import Practice from './src/scenes/Practice';
-import Profile from './src/scenes/Profile';
-import Search from './src/scenes/Search';
+import Main_iPad from '@scenes/Main/iPad';
+import Main_iPhone from '@scenes/Main/iPhone';
+import Practice from '@scenes/Practice';
+import Profile from '@scenes/Profile';
+import Search from '@scenes/Search';
+import Welcome from '@scenes/Welcome';
+import SignIn from '@scenes/SignIn';
 
-import {NAVIGATION_BAR_COLOR} from './src/constants/color';
+import {WIDTH} from '@constants/dimensions';
 
+EStyleSheet.build({$rem: WIDTH / 380});
 const Stack = createStackNavigator();
 const screenDefaultOptions = {
   headerShown: false,
 };
+
+StatusBar.setTranslucent(true);
 const App = () => {
+  useEffect(() => {
+    SplashScreen.hide();
+  }, []);
   return (
     <NavigationContainer>
+      {/* auto hidden home indicator (iPhone X later) */}
+      <PrefersHomeIndicatorAutoHidden />
       {/* hide status bar */}
-      <StatusBar hidden />
-      <Stack.Navigator initialRouteName="Main">
+      {Platform.isPad && <StatusBar hidden />}
+      {Platform.OS === 'ios' && (
+        <StatusBar
+          barStyle={'light-content'}
+          backgroundColor={'transparent'}
+          translucent={true}
+        />
+      )}
+      <Stack.Navigator initialRouteName="Search">
         <Stack.Screen
-          name="Home"
-          component={Home}
+          name="Main"
+          component={Platform.isPad ? Main_iPad : Main_iPhone}
+          options={screenDefaultOptions}
+        />
+        <Stack.Screen
+          name="Welcome"
+          component={Welcome}
           options={screenDefaultOptions}
         />
         <Stack.Screen
           name="Practice"
           component={Practice}
+          options={{
+            headerShown: false,
+            gestureEnabled: false,
+          }}
+        />
+        <Stack.Screen
+          name="SignIn"
+          component={SignIn}
           options={screenDefaultOptions}
         />
         <Stack.Screen
           name="Profile"
           component={Profile}
-          options={{
-            title: '개인 프로필',
-            headerTitleStyle: {
-              color: 'white',
-            },
-            headerStyle: {backgroundColor: NAVIGATION_BAR_COLOR},
-          }}
+          options={screenDefaultOptions}
         />
         <Stack.Screen
           name="Search"
           component={Search}
           options={{
-            title: '',
-            headerStyle: {
-              backgroundColor: NAVIGATION_BAR_COLOR,
-              borderWidth: 0.5,
-            },
+            headerShown: false,
+            gestureDirection: 'horizontal',
           }}
         />
       </Stack.Navigator>
