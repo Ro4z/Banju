@@ -10,25 +10,40 @@ import {
 import EStyleSheet from 'react-native-extended-stylesheet';
 import Orientation from 'react-native-orientation';
 import {ifIphoneX} from 'react-native-iphone-x-helper';
+import {GameEngine, GameLoop} from 'react-native-game-engine';
 import Youtube from 'react-native-youtube';
+import PianoSampler from 'react-native-piano-sampler';
 
 import Feather from '@assets/icon/Feather';
 import {BACKGROUND_COLOR} from '@constants/color';
 import {colors} from '@constants/color';
 import {WIDTH, HEIGHT} from '@constants/dimensions';
-import {SAMPLE} from '@constants/game/output_sample';
+import {chordArr, leftNoteArr, rightNoteArr} from '@constants/sample_code';
+
 import PianoPartView from '@components/piano/PianoPartView';
 import Header from '@components/practice/phone/Header';
 
-const RATIO = HEIGHT / WIDTH;
+//const RATIO = HEIGHT / WIDTH;
+const RATIO = 1;
 
 //using in chord-table
 const anim = new Animated.Value(0);
 let currentxPos = 0;
 let framexPos = 0;
 let moveCount = 0;
+
+//using in play
+let isStart = false;
+let curTime = 0;
+let startTime = 0;
+let leftNoteArrIdx = 0;
+let rightNoteArrIdx = 0;
+
 //const moveDistance = 4;
-const moveDistance = EStyleSheet.value(`30 * ${RATIO}* $rem `);
+const moveDistance = EStyleSheet.value(`30 * ${RATIO} * $rem `);
+
+console.log(RATIO);
+console.log(EStyleSheet.value('$rem'));
 
 const ChordTableMode = ({navigation}) => {
   const [ytStart, setYtStart] = useState(false);
@@ -43,6 +58,8 @@ const ChordTableMode = ({navigation}) => {
   };
 
   const start = () => {
+    setYtStart(true);
+    return;
     setInterval(() => {
       framexPos += moveDistance;
       moveCount++;
@@ -59,79 +76,116 @@ const ChordTableMode = ({navigation}) => {
     }, 900);
   };
 
+  const updateHandler = () => {
+    if (!isStart) return;
+
+    var elapsedTime = Date.now() - startTime;
+    curTime = (elapsedTime / 1000).toFixed(3);
+
+    //move chord table
+    if (curTime >= chordArr[moveCount].second) {
+      framexPos += moveDistance;
+      moveCount++;
+      if (moveCount % 4 === 0) {
+        framexPos = 0;
+        currentxPos += moveDistance * 4 + 15;
+        scrollViewRef.current.scrollTo({x: currentxPos});
+      }
+      Animated.spring(anim, {
+        toValue: framexPos,
+        duration: 250,
+        useNativeDriver: true,
+      }).start();
+    }
+
+    //play chord
+
+    if (curTime >= rightNoteArr[rightNoteArrIdx].second) {
+      if (rightNoteArr[rightNoteArrIdx].key[0].noteOn === 1) {
+        rightNoteArr[rightNoteArrIdx].key.forEach((key) => {
+          PianoSampler.playNote(key.midiNum, 115);
+        });
+      }
+      rightNoteArrIdx++;
+    }
+  };
+
   return (
     <View style={styles.mainContainer}>
-      <Header navigation={navigation} />
-      <View style={[styles.bodyContainer, {alignItems: 'center'}]}>
-        <TouchableOpacity onPress={null}>
-          <View style={styles.toggleBtnView}>
-            <Text style={styles.toggleBtnText}>CHORD</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={start.bind()}>
-          <Feather
-            style={{color: colors.neonText2, fontSize: 28}}
-            name="play"
-          />
-        </TouchableOpacity>
-      </View>
-      <View style={styles.bodyContainer}>
-        <Animated.View style={[styles.focusFrame, animationStyles]} />
-        <ScrollView horizontal ref={scrollViewRef}>
-          {SAMPLE.items.chord.notes.map(({name}, index) => {
-            if (index % 4 === 3) {
-              return (
-                <>
-                  <View style={styles.chordTableBoxFrame}>
-                    <View style={styles.chordTableBox}>
-                      <Text style={styles.chordTableText}>{name}</Text>
-                    </View>
-                  </View>
-                  <View style={styles.divider} />
-                </>
-              );
-            } else {
-              return (
-                <>
-                  <View style={styles.chordTableBoxFrame}>
-                    <View style={styles.chordTableBox}>
-                      <Text style={styles.chordTableText}>{name}</Text>
-                    </View>
-                  </View>
-                </>
-              );
-            }
-          })}
-        </ScrollView>
-      </View>
-      <View style={styles.footContainer}>
-        <View style={styles.footSub1}>
-          <View style={{width: '100%', height: '100%'}}>
-            <PianoPartView firstKey="f2" />
-          </View>
-        </View>
-        <View style={styles.footSub2}>
-          <View style={{flex: 1}} />
-          <View style={{flex: 2, backgroundColor: 'purple'}}>
-            <Youtube
-              apiKey="AIzaSyCQ-t9tVNIlNhN4jKlAHsNmYoaMs7IuyWE" //For using Youtube API in Android
-              ref={(ref) => (this.ytRef = ref)}
-              videoId="HHupVXtnjRs" // The YouTube video ID
-              play={ytStart} // control playback of video with true/false
-              onReady={(e) => console.log(e)}
-              onChangeState={(e) => {
-                if (e.state === 'playing') {
-                  console.log('playing');
-                }
-              }}
-              // onChangeQuality={(e) => console.log(e)}
-              // onError={(e) => console.log(e)}
-              style={styles.youtube}
-              controls={0}
+      <GameLoop onUpdate={updateHandler}>
+        <Header navigation={navigation} />
+        <View style={[styles.bodyContainer, {alignItems: 'center'}]}>
+          <TouchableOpacity onPress={null}>
+            <View style={styles.toggleBtnView}>
+              <Text style={styles.toggleBtnText}>CHORD</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={start.bind()}>
+            <Feather
+              style={{color: colors.neonText2, fontSize: 28}}
+              name="play"
             />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.bodyContainer}>
+          <Animated.View style={[styles.focusFrame, animationStyles]} />
+          <ScrollView horizontal ref={scrollViewRef}>
+            {chordArr.map(({name}, index) => {
+              if (index % 4 === 3) {
+                return (
+                  <>
+                    <View style={styles.chordTableBoxFrame}>
+                      <View style={styles.chordTableBox}>
+                        <Text style={styles.chordTableText}>{name}</Text>
+                      </View>
+                    </View>
+                    <View style={styles.divider} />
+                  </>
+                );
+              } else {
+                return (
+                  <>
+                    <View style={styles.chordTableBoxFrame}>
+                      <View style={styles.chordTableBox}>
+                        <Text style={styles.chordTableText}>{name}</Text>
+                      </View>
+                    </View>
+                  </>
+                );
+              }
+            })}
+          </ScrollView>
+        </View>
+        <View style={styles.footContainer}>
+          <View style={styles.footSub1}>
+            <View style={{width: '100%', height: '100%'}}>
+              <PianoPartView firstKey="f2" />
+            </View>
+          </View>
+          <View style={styles.footSub2}>
+            <View style={{flex: 1}} />
+            <View style={{flex: 2, backgroundColor: 'purple'}}>
+              <Youtube
+                apiKey="AIzaSyCQ-t9tVNIlNhN4jKlAHsNmYoaMs7IuyWE" //For using Youtube API in Android
+                ref={(ref) => (this.ytRef = ref)}
+                videoId="HHupVXtnjRs" // The YouTube video ID
+                play={ytStart} // control playback of video with true/false
+                onReady={(e) => console.log(e)}
+                onChangeState={(e) => {
+                  if (e.state === 'playing') {
+                    isStart = true;
+                    startTime = Date.now();
+                  }
+                }}
+                // onChangeQuality={(e) => console.log(e)}
+                // onError={(e) => console.log(e)}
+                style={styles.youtube}
+                controls={0}
+              />
+            </View>
           </View>
         </View>
-      </View>
+      </GameLoop>
     </View>
   );
 };
