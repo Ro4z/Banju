@@ -4,12 +4,12 @@ import {StyleSheet, Text, View} from 'react-native';
 import KeyboardMode from './KeyboardMode';
 import ChordTableMode from './ChordTableMode';
 
-const Phone = ({navigation}) => {
+const Phone = ({navigation, route}) => {
   const [playMode, setPlayMode] = useState('chord');
   return playMode === 'chord' ? (
-    <ChordTableMode navigation={navigation} />
+    <ChordTableMode navigation={navigation} route={route} />
   ) : (
-    <KeyboardMode navigation={navigation} />
+    <KeyboardMode navigation={navigation} route={route} />
   );
 };
 
