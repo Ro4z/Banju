@@ -1,8 +1,10 @@
 import React, {useState} from 'react';
-import {Image, Text, TouchableOpacity, View} from 'react-native';
+import {Alert, Image, Text, TouchableOpacity, View} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import Modal from 'react-native-modal';
+import axios from 'axios';
 
+import Base from '@base';
 import {WIDTH} from '@constants/dimensions';
 import Ionicons from '@assets/icon/Ionicons';
 import Feather from '@assets/icon/Feather';
@@ -16,8 +18,35 @@ const ResultListItem = ({isReady, navigation}) => {
   };
 
   const navigatePractice = () => {
-    setOpenModal(false);
-    navigation.navigate('Practice');
+    // setOpenModal(false);
+    // navigation.navigate('Practice');
+
+    axios
+      .get(Base.GET_PLAYMETA + '2ijmmNmJ09k', {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      .then(
+        ({
+          data: {
+            content: {items},
+            content: {meta},
+          },
+        }) => {
+          setOpenModal(false);
+          navigation.navigate('Practice', {
+            chord_arr: items.chord,
+            left_note_arr: items.noteLeft,
+            right_note_arr: items.noteRight,
+            meta: meta,
+          });
+        },
+      )
+      .catch((err) => {
+        console.log(err);
+        Alert.alert('오류가 발생하였습니다.');
+      });
   };
   return (
     <>
