@@ -8,7 +8,7 @@ import Feather from '@assets/icon/Feather';
 import Ionicons from '@assets/icon/Ionicons';
 import SimpleLineIcons from '@assets/icon/SimpleLineIcons';
 
-const Header = ({navigation}) => {
+const Header = ({navigation, title}) => {
   const goBack = () => {
     Orientation.lockToPortrait();
     navigation.navigate('Search');
@@ -27,7 +27,8 @@ const Header = ({navigation}) => {
         </TouchableOpacity>
       </View>
       <View style={styles.subContainer}>
-        <Text style={[styles.title, {marginLeft: 0}]}>영상제목</Text>
+        {/* TODO: 길이가 긴 제목의 처리 추가 */}
+        <Text style={[styles.title, {marginLeft: 0}]}>{title}</Text>
         <TouchableOpacity onPress={null}>
           <Ionicons
             style={[styles.icon, {fontSize: 18}]}
