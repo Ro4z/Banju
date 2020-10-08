@@ -9,6 +9,7 @@
         "alias": {
           "@assets": "./src/assets",
           "@components": "./src/components",
+          "@base": "./base",
           "@atoms": "./src/components/atoms",
           "@molecules": "./src/components/molecules",
           "@organisms": "./src/components/organisms",
