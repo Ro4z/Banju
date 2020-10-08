@@ -23,8 +23,9 @@ import {chordArr, leftNoteArr, rightNoteArr} from '@constants/sample_code';
 import PianoPartView from '@components/piano/PianoPartView';
 import Header from '@components/practice/phone/Header';
 
-//const RATIO = HEIGHT / WIDTH;
-const RATIO = 1;
+EStyleSheet.build({$rem: WIDTH / 380});
+const RATIO = HEIGHT / WIDTH;
+//const RATIO = 1;
 
 //using in chord-table
 const anim = new Animated.Value(0);
