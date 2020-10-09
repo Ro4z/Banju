@@ -43,12 +43,15 @@ let rightNoteArrIdx = 0;
 //const moveDistance = 4;
 const moveDistance = EStyleSheet.value(`30 * ${RATIO} * $rem `);
 
-console.log(RATIO);
-console.log(EStyleSheet.value('$rem'));
-
-const ChordTableMode = ({navigation}) => {
+const ChordTableMode = ({navigation, route: {params}}) => {
   const [ytStart, setYtStart] = useState(false);
   const scrollViewRef = useRef();
+
+  const {
+    chord_arr: {notes},
+    left_note_arr,
+    right_note_arr,
+  } = params;
 
   useEffect(() => {
     Orientation.lockToLandscape();
@@ -76,15 +79,18 @@ const ChordTableMode = ({navigation}) => {
       }).start();
     }, 900);
   };
-
+  var tmp = true;
   const updateHandler = () => {
     if (!isStart) return;
-
+    if (tmp) {
+      tmp = false;
+      console.log('Engine START');
+    }
     var elapsedTime = Date.now() - startTime;
     curTime = (elapsedTime / 1000).toFixed(3);
 
     //move chord table
-    if (curTime >= chordArr[moveCount].second) {
+    if (curTime >= notes[moveCount].second - 0.24) {
       framexPos += moveDistance;
       moveCount++;
       if (moveCount % 4 === 0) {
@@ -101,20 +107,33 @@ const ChordTableMode = ({navigation}) => {
 
     //play chord
 
-    if (curTime >= rightNoteArr[rightNoteArrIdx].second) {
-      if (rightNoteArr[rightNoteArrIdx].key[0].noteOn === 1) {
-        rightNoteArr[rightNoteArrIdx].key.forEach((key) => {
-          PianoSampler.playNote(key.midiNum, 115);
-        });
+    if (curTime >= right_note_arr.items[rightNoteArrIdx].second) {
+      if (right_note_arr.items[rightNoteArrIdx].key.length !== 0) {
+        if (right_note_arr.items[rightNoteArrIdx].key[0].noteOn === 1) {
+          right_note_arr.items[rightNoteArrIdx].key.forEach((key) => {
+            PianoSampler.playNote(key.midiNum, 115);
+          });
+        }
       }
       rightNoteArrIdx++;
+    }
+
+    if (curTime >= left_note_arr.items[leftNoteArrIdx].second) {
+      if (left_note_arr.items[leftNoteArrIdx].key.length !== 0) {
+        if (left_note_arr.items[leftNoteArrIdx].key[0].noteOn === 1) {
+          left_note_arr.items[leftNoteArrIdx].key.forEach((key) => {
+            PianoSampler.playNote(key.midiNum, 115);
+          });
+        }
+      }
+      leftNoteArrIdx++;
     }
   };
 
   return (
     <View style={styles.mainContainer}>
       <GameLoop onUpdate={updateHandler}>
-        <Header navigation={navigation} />
+        <Header navigation={navigation} title={params.meta.songName} />
         <View style={[styles.bodyContainer, {alignItems: 'center'}]}>
           <TouchableOpacity onPress={null}>
             <View style={styles.toggleBtnView}>
@@ -131,7 +150,7 @@ const ChordTableMode = ({navigation}) => {
         <View style={styles.bodyContainer}>
           <Animated.View style={[styles.focusFrame, animationStyles]} />
           <ScrollView horizontal ref={scrollViewRef}>
-            {chordArr.map(({name}, index) => {
+            {notes.map(({name}, index) => {
               if (index % 4 === 3) {
                 return (
                   <>
@@ -169,13 +188,15 @@ const ChordTableMode = ({navigation}) => {
               <Youtube
                 apiKey="AIzaSyCQ-t9tVNIlNhN4jKlAHsNmYoaMs7IuyWE" //For using Youtube API in Android
                 ref={(ref) => (this.ytRef = ref)}
-                videoId="HHupVXtnjRs" // The YouTube video ID
+                videoId={params.meta.link} // The YouTube video ID
+                origin="http://www.youtube.com"
                 play={ytStart} // control playback of video with true/false
                 onReady={(e) => console.log(e)}
                 onChangeState={(e) => {
                   if (e.state === 'playing') {
                     isStart = true;
                     startTime = Date.now();
+                    console.log('START');
                   }
                 }}
                 // onChangeQuality={(e) => console.log(e)}
