@@ -7,6 +7,7 @@ import {colors} from '@constants/color';
 import Feather from '@assets/icon/Feather';
 import Ionicons from '@assets/icon/Ionicons';
 import SimpleLineIcons from '@assets/icon/SimpleLineIcons';
+import truncateString from '@utils/truncateString';
 
 const Header = ({navigation, title}) => {
   const goBack = () => {
@@ -28,7 +29,9 @@ const Header = ({navigation, title}) => {
       </View>
       <View style={styles.subContainer}>
         {/* TODO: 길이가 긴 제목의 처리 추가 */}
-        <Text style={[styles.title, {marginLeft: 0}]}>{title}</Text>
+        <Text style={[styles.title, {marginLeft: 0}]}>
+          {truncateString(title, 55)}
+        </Text>
         <TouchableOpacity onPress={null}>
           <Ionicons
             style={[styles.icon, {fontSize: 18}]}
