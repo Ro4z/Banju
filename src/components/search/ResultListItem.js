@@ -28,6 +28,7 @@ const ResultListItem = ({isReady, navigation}) => {
 
   //TODO: 개발 완료 후 default link 삭제
   const _postMusicReg = (link = 'hHr-tr2Lz_E') => {
+    setShowLoading(true);
     axios
       .post(
         Base.POST_MUSICREG,
@@ -43,6 +44,8 @@ const ResultListItem = ({isReady, navigation}) => {
         _pollingGetPlayMeta(link);
       })
       .catch((err) => {
+        Alert.alert('오류가 발생하였습니다.');
+        setShowLoading(false);
         console.log(err);
       });
   };
@@ -64,6 +67,7 @@ const ResultListItem = ({isReady, navigation}) => {
           } else if (status === 'finished') {
             console.log('finished');
             clearInterval(pollingObj);
+            setShowLoading(false);
             setOpenModal(false);
             const {
               content: {items, meta},
@@ -76,17 +80,18 @@ const ResultListItem = ({isReady, navigation}) => {
             });
           } else {
             console.log('error!');
+            setShowLoading(false);
             Alert.alert('오류가 발생하였습니다.');
             clearInterval(pollingObj);
           }
         })
         .catch((err) => {
-          console.log('axios error');
-          console.log(err);
+          console.log('axios error', err);
+          setShowLoading(false);
           Alert.alert('오류가 발생하였습니다.');
           clearInterval(pollingObj);
         });
-    }, 5000);
+    }, 1000);
   };
 
   return (
@@ -126,6 +131,7 @@ const ResultListItem = ({isReady, navigation}) => {
           style={{alignItems: 'center'}}
           animationIn="slideInUp"
           animationOut="slideOutDown">
+          <Spinner visible={showLoading} animation="fade" />
           <View style={styles.modalContainer}>
             <View style={styles.modalHeader}>
               <Text style={styles.modalHeaderText}>연주하기</Text>
@@ -157,7 +163,6 @@ const ResultListItem = ({isReady, navigation}) => {
                 </View>
               </View>
             </View>
-            <ActivityIndicator animating={showLoading} />
             <View style={styles.modalFooter}>
               <View
                 style={{
@@ -271,7 +276,7 @@ const ResultListItem = ({isReady, navigation}) => {
             <TouchableOpacity
               style={styles.modalPlayBtn}
               onPress={() => {
-                _postMusicReg('MzCLLHscMOw');
+                _postMusicReg('4N60Ae_VcDU');
               }}>
               <Text style={styles.modalPlayText}>PLAY</Text>
             </TouchableOpacity>
