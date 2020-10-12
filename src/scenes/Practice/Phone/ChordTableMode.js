@@ -18,7 +18,7 @@ import Feather from '@assets/icon/Feather';
 import {BACKGROUND_COLOR} from '@constants/color';
 import {colors} from '@constants/color';
 import {WIDTH, HEIGHT} from '@constants/dimensions';
-import {chordArr, leftNoteArr, rightNoteArr} from '@constants/sample_code';
+import getNoteTimeEachNote from '@utils/getTimeEachNote';
 
 import PianoPartView from '@components/piano/PianoPartView';
 import Header from '@components/practice/phone/Header';
@@ -39,6 +39,12 @@ let curTime = 0;
 let startTime = 0;
 let leftNoteArrIdx = 0;
 let rightNoteArrIdx = 0;
+let leftNoteTimeArrIdx = 0;
+let rightNoteTimeArrIdx = 0;
+let playedLeftNoteTime = 9999;
+let playedRightNoteTime = 9999;
+let playedLeftNoteKeys = [];
+let playedRightNoteKeys = [];
 
 //const moveDistance = 4;
 const moveDistance = EStyleSheet.value(`30 * ${RATIO} * $rem `);
@@ -53,6 +59,10 @@ const ChordTableMode = ({navigation, route: {params}}) => {
     right_note_arr,
   } = params;
 
+  const leftNoteTimeArr = getNoteTimeEachNote(left_note_arr.items);
+  const rightNoteTimeArr = getNoteTimeEachNote(right_note_arr.items);
+  console.log(rightNoteTimeArr.length);
+
   useEffect(() => {
     Orientation.lockToLandscape();
   }, []);
@@ -63,22 +73,8 @@ const ChordTableMode = ({navigation, route: {params}}) => {
 
   const start = () => {
     setYtStart(true);
-    return;
-    setInterval(() => {
-      framexPos += moveDistance;
-      moveCount++;
-      if (moveCount % 4 === 0) {
-        framexPos = 0;
-        currentxPos += moveDistance * 4 + 15;
-        scrollViewRef.current.scrollTo({x: currentxPos});
-      }
-      Animated.spring(anim, {
-        toValue: framexPos,
-        duration: 250,
-        useNativeDriver: true,
-      }).start();
-    }, 900);
   };
+
   var tmp = true;
   const updateHandler = () => {
     if (!isStart) return;
@@ -105,14 +101,38 @@ const ChordTableMode = ({navigation, route: {params}}) => {
       }).start();
     }
 
-    //play chord
+    // if (
+    //   curTime >=
+    //   playedRightNoteTime + rightNoteTimeArr[rightNoteTimeArrIdx]
+    // ) {
+    //   playedRightNoteKeys.forEach((key) => {
+    //     PianoSampler.stopNote(key.midiNum);
+    //   });
+    //   console.log(rightNoteTimeArr[rightNoteTimeArrIdx]);
+    //   rightNoteTimeArrIdx++;
+    //   playedRightNoteTime = 9999;
+    // }
 
+    // if (curTime >= playedLeftNoteTime + leftNoteTimeArr[leftNoteTimeArrIdx]) {
+    //   playedLeftNoteKeys.forEach((key) => {
+    //     PianoSampler.stopNote(key.midiNum);
+    //   });
+    //   leftNoteTimeArrIdx++;
+    //   playedLeftNoteTime = 9999;
+    // }
+
+    //play chord
     if (curTime >= right_note_arr.items[rightNoteArrIdx].second) {
       if (right_note_arr.items[rightNoteArrIdx].key.length !== 0) {
         if (right_note_arr.items[rightNoteArrIdx].key[0].noteOn === 1) {
+          playedRightNoteKeys.forEach((key) => {
+            PianoSampler.stopNote(key.midiNum);
+          });
           right_note_arr.items[rightNoteArrIdx].key.forEach((key) => {
             PianoSampler.playNote(key.midiNum, 115);
           });
+          playedRightNoteTime = curTime;
+          playedRightNoteKeys = right_note_arr.items[rightNoteArrIdx].key;
         }
       }
       rightNoteArrIdx++;
@@ -121,9 +141,14 @@ const ChordTableMode = ({navigation, route: {params}}) => {
     if (curTime >= left_note_arr.items[leftNoteArrIdx].second) {
       if (left_note_arr.items[leftNoteArrIdx].key.length !== 0) {
         if (left_note_arr.items[leftNoteArrIdx].key[0].noteOn === 1) {
+          playedLeftNoteKeys.forEach((key) => {
+            PianoSampler.stopNote(key.midiNum);
+          });
           left_note_arr.items[leftNoteArrIdx].key.forEach((key) => {
             PianoSampler.playNote(key.midiNum, 115);
           });
+          playedLeftNoteTime = curTime;
+          playedLeftNoteKeys = left_note_arr.items[leftNoteArrIdx].key;
         }
       }
       leftNoteArrIdx++;
