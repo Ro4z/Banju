@@ -311,7 +311,7 @@ const styles = EStyleSheet.create({
   },
   chordTableText: {
     color: 'white',
-    fontSize: `18rem * ${RATIO}`,
+    fontSize: `15rem * ${RATIO}`,
     fontWeight: '600',
   },
   divider: {
