@@ -5,6 +5,8 @@ import {CardStyleInterpolators} from '@react-navigation/stack';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 import {colors} from '@constants/color';
+import {loginKakao} from '@utils/login/kakaoLogin';
+import {login} from '@react-native-seoul/kakao-login';
 
 const Welcome = ({navigation}) => {
   return (
@@ -69,7 +71,11 @@ const Welcome = ({navigation}) => {
         </View>
         <View style={[styles.loginLogoFrame, {backgroundColor: null}]}></View>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.loginBtn}>
+      <TouchableOpacity
+        style={styles.loginBtn}
+        onPress={() => {
+          loginKakao();
+        }}>
         <View
           style={[styles.loginLogoFrame, {backgroundColor: 'rgb(254,233,76)'}]}>
           {/* TODO: amend kakao logo */}
