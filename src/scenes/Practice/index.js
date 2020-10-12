@@ -4,11 +4,11 @@ import {View, Text, Platform} from 'react-native';
 import PhoneScreen from './Phone';
 import TabScreen from './Tab';
 
-const Practice = ({navigation}) => {
+const Practice = ({navigation, route}) => {
   return Platform.isPad ? (
-    <TabScreen navigation={navigation} />
+    <TabScreen navigation={navigation} route={route} />
   ) : (
-    <PhoneScreen navigation={navigation} />
+    <PhoneScreen navigation={navigation} route={route} />
   );
 };
 

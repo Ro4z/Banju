@@ -1,26 +1,104 @@
 import React, {useState} from 'react';
-import {Image, Text, TouchableOpacity, View} from 'react-native';
+import {
+  ActivityIndicator,
+  Alert,
+  Image,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import Modal from 'react-native-modal';
+import axios from 'axios';
+import Spinner from 'react-native-loading-spinner-overlay';
 
+import Base from '@base';
 import {WIDTH} from '@constants/dimensions';
 import Ionicons from '@assets/icon/Ionicons';
 import Feather from '@assets/icon/Feather';
 import {colors} from '@constants/color';
 
+const TEST_LINK = 'vjl_uRTeOfU';
+
 const ResultListItem = ({isReady, navigation}) => {
   const [openModal, setOpenModal] = useState(false);
+  const [showLoading, setShowLoading] = useState(false);
 
   const toggleModal = () => {
     setOpenModal(!openModal);
   };
 
-  const navigatePractice = () => {
-    setOpenModal(false);
-    navigation.navigate('Practice');
+  //TODO: 개발 완료 후 default link 삭제
+  const _postMusicReg = (link = 'hHr-tr2Lz_E') => {
+    setShowLoading(true);
+    axios
+      .post(
+        Base.POST_MUSICREG,
+        {link: link},
+        {
+          header: {
+            'Content-Type': 'application/json',
+          },
+        },
+      )
+      .then((res) => {
+        console.log('POST COMPLETE');
+        _pollingGetPlayMeta(link);
+      })
+      .catch((err) => {
+        Alert.alert('오류가 발생하였습니다.');
+        setShowLoading(false);
+        console.log(err);
+      });
   };
+
+  //TODO: 개발 완료 후 default link 삭제
+  const _pollingGetPlayMeta = (link = 'hHr-tr2Lz_E') => {
+    let pollingObj;
+    pollingObj = setInterval(() => {
+      axios
+        .get(Base.GET_PLAYMETA + link, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+        // status: "error" | "working" | "finished"
+        .then(({data, data: {status}}) => {
+          if (status === 'working') {
+            console.log('working');
+          } else if (status === 'finished') {
+            console.log('finished');
+            clearInterval(pollingObj);
+            setShowLoading(false);
+            setOpenModal(false);
+            const {
+              content: {items, meta},
+            } = data;
+            navigation.navigate('Practice', {
+              chord_arr: items.chord,
+              left_note_arr: items.noteLeft,
+              right_note_arr: items.noteRight,
+              meta: meta,
+            });
+          } else {
+            console.log('error!');
+            setShowLoading(false);
+            Alert.alert('오류가 발생하였습니다.');
+            clearInterval(pollingObj);
+          }
+        })
+        .catch((err) => {
+          console.log('axios error', err);
+          setShowLoading(false);
+          Alert.alert('오류가 발생하였습니다.');
+          clearInterval(pollingObj);
+        });
+    }, 1000);
+  };
+
   return (
     <>
+      <Spinner visible={showLoading} textContent={'Loading...'} />
       <TouchableOpacity
         style={styles.mainContainer}
         onPress={toggleModal.bind()}>
@@ -32,7 +110,6 @@ const ResultListItem = ({isReady, navigation}) => {
               style={styles.ready}
             />
           )}
-
           <View style={styles.thumbnailImage} />
         </View>
         <View style={styles.footer}>
@@ -56,6 +133,11 @@ const ResultListItem = ({isReady, navigation}) => {
           style={{alignItems: 'center'}}
           animationIn="slideInUp"
           animationOut="slideOutDown">
+          <Spinner
+            visible={showLoading}
+            animation="fade"
+            overlayColor="rgba(0,0,0,0.7)"
+          />
           <View style={styles.modalContainer}>
             <View style={styles.modalHeader}>
               <Text style={styles.modalHeaderText}>연주하기</Text>
@@ -199,7 +281,9 @@ const ResultListItem = ({isReady, navigation}) => {
             </View>
             <TouchableOpacity
               style={styles.modalPlayBtn}
-              onPress={navigatePractice.bind()}>
+              onPress={() => {
+                _postMusicReg(TEST_LINK);
+              }}>
               <Text style={styles.modalPlayText}>PLAY</Text>
             </TouchableOpacity>
           </View>
