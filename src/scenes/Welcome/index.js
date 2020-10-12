@@ -6,7 +6,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 import {colors} from '@constants/color';
 import {loginKakao} from '@utils/login/kakaoLogin';
-import {login} from '@react-native-seoul/kakao-login';
+import {loginGoogle} from '@utils/login/googleLogin';
 
 const Welcome = ({navigation}) => {
   return (
@@ -45,6 +45,7 @@ const Welcome = ({navigation}) => {
 
       {/* Social Login Buttons */}
 
+      {/* APPLE */}
       <TouchableOpacity
         style={styles.loginBtn}
         onPress={() => navigation.navigate('SignIn')}>
@@ -59,7 +60,9 @@ const Welcome = ({navigation}) => {
         </View>
         <View style={[styles.loginLogoFrame, {backgroundColor: null}]}></View>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.loginBtn}>
+
+      {/* GOOGLE */}
+      <TouchableOpacity style={styles.loginBtn} onPress={() => loginGoogle()}>
         <View style={styles.loginLogoFrame}>
           <Image
             style={styles.loginLogo}
@@ -71,11 +74,9 @@ const Welcome = ({navigation}) => {
         </View>
         <View style={[styles.loginLogoFrame, {backgroundColor: null}]}></View>
       </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.loginBtn}
-        onPress={() => {
-          loginKakao();
-        }}>
+
+      {/* KAKAO */}
+      <TouchableOpacity style={styles.loginBtn} onPress={() => loginKakao()}>
         <View
           style={[styles.loginLogoFrame, {backgroundColor: 'rgb(254,233,76)'}]}>
           {/* TODO: amend kakao logo */}
