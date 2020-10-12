@@ -18,6 +18,8 @@ import Ionicons from '@assets/icon/Ionicons';
 import Feather from '@assets/icon/Feather';
 import {colors} from '@constants/color';
 
+const TEST_LINK = 'vjl_uRTeOfU';
+
 const ResultListItem = ({isReady, navigation}) => {
   const [openModal, setOpenModal] = useState(false);
   const [showLoading, setShowLoading] = useState(false);
@@ -131,7 +133,11 @@ const ResultListItem = ({isReady, navigation}) => {
           style={{alignItems: 'center'}}
           animationIn="slideInUp"
           animationOut="slideOutDown">
-          <Spinner visible={showLoading} animation="fade" />
+          <Spinner
+            visible={showLoading}
+            animation="fade"
+            overlayColor="rgba(0,0,0,0.7)"
+          />
           <View style={styles.modalContainer}>
             <View style={styles.modalHeader}>
               <Text style={styles.modalHeaderText}>연주하기</Text>
@@ -276,7 +282,7 @@ const ResultListItem = ({isReady, navigation}) => {
             <TouchableOpacity
               style={styles.modalPlayBtn}
               onPress={() => {
-                _postMusicReg('4N60Ae_VcDU');
+                _postMusicReg(TEST_LINK);
               }}>
               <Text style={styles.modalPlayText}>PLAY</Text>
             </TouchableOpacity>
