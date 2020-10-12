@@ -13,6 +13,7 @@
     "device": "react-native run-ios --device"
   },
   "dependencies": {
+    "@invertase/react-native-apple-authentication": "^2.0.2",
     "@react-native-community/blur": "^3.6.0",
     "@react-native-community/google-signin": "^5.0.0",
     "@react-native-community/masked-view": "^0.1.10",
