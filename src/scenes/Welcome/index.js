@@ -7,6 +7,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import {colors} from '@constants/color';
 import {loginKakao} from '@utils/login/kakaoLogin';
 import {loginGoogle} from '@utils/login/googleLogin';
+import {loginApple} from '@utils/login/appleLogin';
 
 const Welcome = ({navigation}) => {
   return (
@@ -46,9 +47,7 @@ const Welcome = ({navigation}) => {
       {/* Social Login Buttons */}
 
       {/* APPLE */}
-      <TouchableOpacity
-        style={styles.loginBtn}
-        onPress={() => navigation.navigate('SignIn')}>
+      <TouchableOpacity style={styles.loginBtn} onPress={() => loginApple()}>
         <View style={styles.loginLogoFrame}>
           <Image
             style={styles.loginLogo}
