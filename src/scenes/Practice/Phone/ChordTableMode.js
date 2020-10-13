@@ -46,11 +46,15 @@ let playedRightNoteTime = 9999;
 let playedLeftNoteKeys = [];
 let playedRightNoteKeys = [];
 
+var tmp = true;
+var chordTableStart = false;
 //const moveDistance = 4;
 const moveDistance = EStyleSheet.value(`30 * ${RATIO} * $rem `);
 
 const ChordTableMode = ({navigation, route: {params}}) => {
   const [ytStart, setYtStart] = useState(false);
+  const [touchedKey, setTouchedKey] = useState([]);
+  const [nextKey, setNextKey] = useState([]);
   const scrollViewRef = useRef();
 
   const {
@@ -61,7 +65,6 @@ const ChordTableMode = ({navigation, route: {params}}) => {
 
   const leftNoteTimeArr = getNoteTimeEachNote(left_note_arr.items);
   const rightNoteTimeArr = getNoteTimeEachNote(right_note_arr.items);
-  console.log(rightNoteTimeArr.length);
 
   useEffect(() => {
     Orientation.lockToLandscape();
@@ -75,30 +78,45 @@ const ChordTableMode = ({navigation, route: {params}}) => {
     setYtStart(true);
   };
 
-  var tmp = true;
+  //TODO: 끝났을 때의 처리
   const updateHandler = () => {
     if (!isStart) return;
     if (tmp) {
       tmp = false;
       console.log('Engine START');
+      //시작 전 nextKey setting
+      if (right_note_arr.items[rightNoteArrIdx].key.length !== 0) {
+        let tmpArr = [];
+        right_note_arr.items[rightNoteArrIdx].key.forEach((key) => {
+          tmpArr.push(key.midiNum - 12);
+        });
+        setNextKey(tmpArr);
+      }
     }
     var elapsedTime = Date.now() - startTime;
     curTime = (elapsedTime / 1000).toFixed(3);
 
     //move chord table
-    if (curTime >= notes[moveCount].second - 0.24) {
-      framexPos += moveDistance;
-      moveCount++;
-      if (moveCount % 4 === 0) {
-        framexPos = 0;
-        currentxPos += moveDistance * 4 + 15;
-        scrollViewRef.current.scrollTo({x: currentxPos});
+    if (curTime >= notes[moveCount].second - 0.34) {
+      if (!chordTableStart) {
+        chordTableStart = true;
+        moveCount++;
+        console.log('asdf');
+      } else {
+        framexPos += moveDistance;
+        moveCount++;
+        if (moveCount !== 1 && moveCount % 4 === 1) {
+          framexPos = 0;
+          currentxPos += moveDistance * 4 + 15;
+          scrollViewRef.current.scrollTo({x: currentxPos});
+        }
+        Animated.spring(anim, {
+          toValue: framexPos,
+          duration: 250,
+          useNativeDriver: true,
+        }).start();
       }
-      Animated.spring(anim, {
-        toValue: framexPos,
-        duration: 250,
-        useNativeDriver: true,
-      }).start();
+      console.log(moveCount);
     }
 
     // if (
@@ -122,34 +140,58 @@ const ChordTableMode = ({navigation, route: {params}}) => {
     // }
 
     //play chord
-    if (curTime >= right_note_arr.items[rightNoteArrIdx].second) {
+    if (curTime >= right_note_arr.items[rightNoteArrIdx].second - 0.1) {
       if (right_note_arr.items[rightNoteArrIdx].key.length !== 0) {
         if (right_note_arr.items[rightNoteArrIdx].key[0].noteOn === 1) {
-          playedRightNoteKeys.forEach((key) => {
-            PianoSampler.stopNote(key.midiNum);
-          });
+          let tmpArr = [];
           right_note_arr.items[rightNoteArrIdx].key.forEach((key) => {
             PianoSampler.playNote(key.midiNum, 115);
+            tmpArr.push(key.midiNum - 12);
           });
+          setTouchedKey(tmpArr);
+          //set next key TODO: 배열 범위 넘어갔을 때 분기
+          for (var i = 1; i < 100; i++) {
+            if (right_note_arr.items[rightNoteArrIdx + i].key.length !== 0) {
+              if (
+                right_note_arr.items[rightNoteArrIdx + i].key[0].noteOn === 1
+              ) {
+                let tmpArr2 = [];
+                right_note_arr.items[rightNoteArrIdx + i].key.forEach((key) => {
+                  tmpArr2.push(key.midiNum - 12);
+                });
+                setNextKey(tmpArr2);
+                break;
+              }
+            }
+          }
           playedRightNoteTime = curTime;
           playedRightNoteKeys = right_note_arr.items[rightNoteArrIdx].key;
         }
+      } else {
+        // N chord
+        setTouchedKey([]);
+        playedRightNoteKeys.forEach((key) => {
+          PianoSampler.stopNote(key.midiNum);
+        });
+        playedRightNoteKeys = [];
       }
       rightNoteArrIdx++;
     }
 
-    if (curTime >= left_note_arr.items[leftNoteArrIdx].second) {
+    if (curTime >= left_note_arr.items[leftNoteArrIdx].second - 0.1) {
       if (left_note_arr.items[leftNoteArrIdx].key.length !== 0) {
         if (left_note_arr.items[leftNoteArrIdx].key[0].noteOn === 1) {
-          playedLeftNoteKeys.forEach((key) => {
-            PianoSampler.stopNote(key.midiNum);
-          });
           left_note_arr.items[leftNoteArrIdx].key.forEach((key) => {
             PianoSampler.playNote(key.midiNum, 115);
           });
           playedLeftNoteTime = curTime;
           playedLeftNoteKeys = left_note_arr.items[leftNoteArrIdx].key;
         }
+      } else {
+        playedLeftNoteKeys.forEach((key) => {
+          PianoSampler.stopNote(key.midiNum);
+        });
+        playedLeftNoteKeys = [];
       }
       leftNoteArrIdx++;
     }
@@ -204,7 +246,11 @@ const ChordTableMode = ({navigation, route: {params}}) => {
         <View style={styles.footContainer}>
           <View style={styles.footSub1}>
             <View style={{width: '100%', height: '100%'}}>
-              <PianoPartView firstKey="f2" />
+              <PianoPartView
+                firstKey="f2"
+                touchedKey={touchedKey}
+                nextKey={nextKey}
+              />
             </View>
           </View>
           <View style={styles.footSub2}>

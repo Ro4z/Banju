@@ -24,7 +24,6 @@ class Piano extends Component {
 
   componentDidMount() {
     const {noteRange} = this.props;
-
     this.setState({
       ...this.state,
       noteRange: {
@@ -64,12 +63,14 @@ class Piano extends Component {
   }
 
   render() {
-    const {heightValue} = this.props;
+    const {heightValue, touchedKey, nextKey} = this.props;
     const naturalKeyWidth = this.getNaturalKeyWidth();
     return (
       <View style={styles.container}>
         {this.getMidiNumbers().map((midiNumber) => {
           const {isAccidental} = MidiNumbers.getAttributes(midiNumber);
+          const isTouched = touchedKey.includes(midiNumber);
+          const isNext = nextKey.includes(midiNumber);
           return (
             <Key
               naturalKeyWidth={naturalKeyWidth}
@@ -80,6 +81,8 @@ class Piano extends Component {
               onStopNoteInput={this.props.onStopNoteInput}
               useTouchEvents={true}
               key={midiNumber}
+              touch={isTouched}
+              next={isNext}
             />
           );
         })}

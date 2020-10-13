@@ -90,6 +90,8 @@ class Key extends Component {
       useTouchEvents,
       accidental,
       children,
+      touch,
+      next,
     } = this.props;
 
     const {touched} = this.state;
@@ -111,7 +113,9 @@ class Key extends Component {
                 : naturalKeyWidth,
             ),
           },
+          next && styles.ReactPiano__Key__preview,
           touched && styles.ReactPiano__Key__active,
+          touch && styles.ReactPiano__Key__active,
         ]}
         onTouchStart={useTouchEvents ? this.onPlayNoteInput : null}
         onTouchCancel={useTouchEvents ? this.onStopNoteInput : null}
@@ -149,6 +153,9 @@ const styles = EStyleSheet.create({
   },
   ReactPiano__Key__active: {
     backgroundColor: colors.neon2,
+  },
+  ReactPiano__Key__preview: {
+    backgroundColor: 'rgb(129,129,129)',
   },
   ReactPiano__NoteLabelContainer: {
     flex: 1,

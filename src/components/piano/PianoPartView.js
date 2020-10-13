@@ -7,7 +7,12 @@ import {BACKGROUND_COLOR} from '../../constants/color';
 
 PianoSampler.prepare();
 
-const PianoPartView = ({position, firstKey = 'c4', lastKey = 'b4'}) => {
+const PianoPartView = ({
+  touchedKey,
+  nextKey,
+  firstKey = 'c4',
+  lastKey = 'b4',
+}) => {
   // const x = position[0];
   // const y = position[1];
 
@@ -15,7 +20,10 @@ const PianoPartView = ({position, firstKey = 'c4', lastKey = 'b4'}) => {
     <View style={[styles.mainContainer]}>
       <Piano
         noteRange={{first: firstKey, last: lastKey}}
+        touchedKey={touchedKey || []}
+        nextKey={nextKey || []}
         onPlayNoteInput={(chord, midi) => {
+          console.log(midi);
           PianoSampler.playNote(midi, 115);
         }}
         onStopNoteInput={(chord, midi) => {

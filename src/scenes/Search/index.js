@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import {ifIphoneX} from 'react-native-iphone-x-helper';
+import Orientation from 'react-native-orientation';
 
 import ResultList from '@components/search/ResultList';
 import {BACKGROUND_COLOR} from '@constants/color';
@@ -23,6 +24,10 @@ const Search = ({route, navigation}) => {
     if (route.params.hasOwnProperty('query'))
       setSearchInput(route.params.query);
   }, [route]);
+
+  useEffect(() => {
+    Orientation.lockToPortrait();
+  }, []);
 
   return (
     <View style={styles.mainContainer}>
