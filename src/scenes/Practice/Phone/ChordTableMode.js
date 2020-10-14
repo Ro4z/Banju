@@ -15,6 +15,7 @@ import Youtube from 'react-native-youtube';
 import PianoSampler from 'react-native-piano-sampler';
 
 import Feather from '@assets/icon/Feather';
+import SimpleLineIcons from '@assets/icon/SimpleLineIcons';
 import {BACKGROUND_COLOR} from '@constants/color';
 import {colors} from '@constants/color';
 import {WIDTH, HEIGHT} from '@constants/dimensions';
@@ -52,10 +53,16 @@ var chordTableStart = false;
 const moveDistance = EStyleSheet.value(`30 * ${RATIO} * $rem `);
 
 const ChordTableMode = ({navigation, route: {params}}) => {
-  const [ytStart, setYtStart] = useState(false);
+  const [youtubeStart, setYoutubeStart] = useState(false);
   const [touchedKey, setTouchedKey] = useState([]);
   const [nextKey, setNextKey] = useState([]);
+  const [chordSync, setChordSync] = useState(-0.35);
+  const [pianoSync, setPianoSync] = useState(-0.1);
   const scrollViewRef = useRef();
+
+  useEffect(() => {
+    Orientation.lockToLandscape();
+  }, []);
 
   const {
     chord_arr: {notes},
@@ -63,19 +70,31 @@ const ChordTableMode = ({navigation, route: {params}}) => {
     right_note_arr,
   } = params;
 
-  const leftNoteTimeArr = getNoteTimeEachNote(left_note_arr.items);
-  const rightNoteTimeArr = getNoteTimeEachNote(right_note_arr.items);
+  // const leftNoteTimeArr = getNoteTimeEachNote(left_note_arr.items);
+  // const rightNoteTimeArr = getNoteTimeEachNote(right_note_arr.items);
 
-  useEffect(() => {
-    Orientation.lockToLandscape();
-  }, []);
+  const minusChordSync = () => {
+    setChordSync(chordSync - 0.05);
+  };
+
+  const plusChordSync = () => {
+    setChordSync(chordSync + 0.05);
+  };
+
+  const minusPianoSync = () => {
+    setPianoSync(pianoSync - 0.05);
+  };
+
+  const plusPianoSync = () => {
+    setPianoSync(pianoSync + 0.05);
+  };
 
   const animationStyles = {
     transform: [{translateX: anim}],
   };
 
   const start = () => {
-    setYtStart(true);
+    setYoutubeStart(true);
   };
 
   //TODO: 끝났을 때의 처리
@@ -140,7 +159,7 @@ const ChordTableMode = ({navigation, route: {params}}) => {
     // }
 
     //play chord
-    if (curTime >= right_note_arr.items[rightNoteArrIdx].second - 0.1) {
+    if (curTime >= right_note_arr.items[rightNoteArrIdx].second + pianoSync) {
       if (right_note_arr.items[rightNoteArrIdx].key.length !== 0) {
         if (right_note_arr.items[rightNoteArrIdx].key[0].noteOn === 1) {
           let tmpArr = [];
@@ -201,19 +220,80 @@ const ChordTableMode = ({navigation, route: {params}}) => {
     <View style={styles.mainContainer}>
       <GameLoop onUpdate={updateHandler}>
         <Header navigation={navigation} title={params.meta.songName} />
+
         <View style={[styles.bodyContainer, {alignItems: 'center'}]}>
-          <TouchableOpacity onPress={null}>
+          <TouchableOpacity onPress={null} style={{flex: 1}}>
             <View style={styles.toggleBtnView}>
               <Text style={styles.toggleBtnText}>CHORD</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity onPress={start.bind()}>
-            <Feather
-              style={{color: colors.neonText2, fontSize: 28}}
-              name="play"
-            />
-          </TouchableOpacity>
+          <View
+            style={{
+              flex: 2,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+            }}>
+            <View style={styles.syncView}>
+              <Text style={styles.buttonTitleText}>CHORD</Text>
+              <SimpleLineIcons
+                style={[
+                  styles.buttonIconSmall,
+                  youtubeStart && {color: colors.grey30Dimmed2},
+                ]}
+                name="arrow-left"
+                onPress={youtubeStart ? null : minusChordSync.bind()}
+              />
+              <Text
+                style={[
+                  styles.syncNumberText,
+                  youtubeStart && {color: colors.grey30Dimmed2},
+                ]}>
+                {chordSync.toFixed(2)}
+              </Text>
+              <SimpleLineIcons
+                style={[
+                  styles.buttonIconSmall,
+                  youtubeStart && {color: colors.grey30Dimmed2},
+                ]}
+                name="arrow-right"
+                onPress={youtubeStart ? null : plusChordSync.bind()}
+              />
+            </View>
+            <View style={styles.syncView}>
+              <Text style={styles.buttonTitleText}>PIANO</Text>
+              <SimpleLineIcons
+                style={[
+                  styles.buttonIconSmall,
+                  youtubeStart && {color: colors.grey30Dimmed2},
+                ]}
+                name="arrow-left"
+                onPress={youtubeStart ? null : minusPianoSync.bind()}
+              />
+              <Text
+                style={[
+                  styles.syncNumberText,
+                  youtubeStart && {color: colors.grey30Dimmed2},
+                ]}>
+                {pianoSync.toFixed(2)}
+              </Text>
+              <SimpleLineIcons
+                style={[
+                  styles.buttonIconSmall,
+                  youtubeStart && {color: colors.grey30Dimmed2},
+                ]}
+                name="arrow-right"
+                onPress={youtubeStart ? null : plusPianoSync.bind()}
+              />
+            </View>
+            <TouchableOpacity onPress={null}>
+              <Feather style={styles.buttonIconLarge} name="skip-back" />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={start.bind()}>
+              <Feather style={styles.buttonIconLarge} name="play" />
+            </TouchableOpacity>
+          </View>
         </View>
+
         <View style={styles.bodyContainer}>
           <Animated.View style={[styles.focusFrame, animationStyles]} />
           <ScrollView horizontal ref={scrollViewRef}>
@@ -261,7 +341,7 @@ const ChordTableMode = ({navigation, route: {params}}) => {
                 ref={(ref) => (this.ytRef = ref)}
                 videoId={params.meta.link} // The YouTube video ID
                 origin="http://www.youtube.com"
-                play={ytStart} // control playback of video with true/false
+                play={youtubeStart} // control playback of video with true/false
                 onReady={(e) => console.log(e)}
                 onChangeState={(e) => {
                   if (e.state === 'playing') {
@@ -326,6 +406,29 @@ const styles = EStyleSheet.create({
     fontFamily: 'OpenSauceSans-Black',
     fontSize: 15,
     color: colors.neonText2,
+  },
+  buttonIconLarge: {
+    color: colors.neonText2,
+    fontSize: 28,
+  },
+  buttonIconSmall: {
+    color: colors.neonText2,
+    fontSize: 22,
+  },
+  buttonTitleText: {
+    fontFamily: 'OpenSauceSans-Black',
+    fontSize: 18,
+    color: colors.grey152,
+    marginRight: 5,
+  },
+  syncView: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  syncNumberText: {
+    fontFamily: 'OpenSauceSans-Light',
+    fontSize: 18,
+    color: colors.grey952,
   },
 
   //chord table
