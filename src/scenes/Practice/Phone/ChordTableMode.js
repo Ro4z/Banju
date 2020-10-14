@@ -29,7 +29,7 @@ const RATIO = HEIGHT / WIDTH;
 //const RATIO = 1;
 
 //using in chord-table
-const anim = new Animated.Value(0);
+let anim = new Animated.Value(0);
 let currentxPos = 0;
 let framexPos = 0;
 let moveCount = 0;
@@ -40,15 +40,11 @@ let curTime = 0;
 let startTime = 0;
 let leftNoteArrIdx = 0;
 let rightNoteArrIdx = 0;
-let leftNoteTimeArrIdx = 0;
-let rightNoteTimeArrIdx = 0;
-let playedLeftNoteTime = 9999;
-let playedRightNoteTime = 9999;
 let playedLeftNoteKeys = [];
 let playedRightNoteKeys = [];
 
-var tmp = true;
-var chordTableStart = false;
+var chordTableFirstExecuted = true;
+var chordTableFirstMove = true;
 //const moveDistance = 4;
 const moveDistance = EStyleSheet.value(`30 * ${RATIO} * $rem `);
 
@@ -56,9 +52,10 @@ const ChordTableMode = ({navigation, route: {params}}) => {
   const [youtubeStart, setYoutubeStart] = useState(false);
   const [touchedKey, setTouchedKey] = useState([]);
   const [nextKey, setNextKey] = useState([]);
-  const [chordSync, setChordSync] = useState(-0.35);
-  const [pianoSync, setPianoSync] = useState(-0.1);
+  const [chordSync, setChordSync] = useState(0);
+  const [pianoSync, setPianoSync] = useState(0);
   const scrollViewRef = useRef();
+  const youtubeRef = useRef();
 
   useEffect(() => {
     Orientation.lockToLandscape();
@@ -97,11 +94,31 @@ const ChordTableMode = ({navigation, route: {params}}) => {
     setYoutubeStart(true);
   };
 
+  //TODO: PianoSampler.stopNote 추가
+  const backwardRewind = () => {
+    currentxPos = 0;
+    anim = new Animated.Value(0);
+    framexPos = 0;
+    moveCount = 0;
+    isStart = false;
+    curTime = 0;
+    startTime = 0;
+    leftNoteArrIdx = 0;
+    rightNoteArrIdx = 0;
+    playedLeftNoteKeys = [];
+    playedRightNoteKeys = [];
+    chordTableFirstExecuted = true;
+    chordTableFirstMove = true;
+    youtubeRef.current.seekTo(0);
+    setYoutubeStart(false);
+    scrollViewRef.current.scrollTo({x: 0});
+  };
+
   //TODO: 끝났을 때의 처리
   const updateHandler = () => {
     if (!isStart) return;
-    if (tmp) {
-      tmp = false;
+    if (chordTableFirstExecuted) {
+      chordTableFirstExecuted = false;
       console.log('Engine START');
       //시작 전 nextKey setting
       if (right_note_arr.items[rightNoteArrIdx].key.length !== 0) {
@@ -116,11 +133,10 @@ const ChordTableMode = ({navigation, route: {params}}) => {
     curTime = (elapsedTime / 1000).toFixed(3);
 
     //move chord table
-    if (curTime >= notes[moveCount].second - 0.34) {
-      if (!chordTableStart) {
-        chordTableStart = true;
+    if (curTime >= notes[moveCount].second + chordSync) {
+      if (chordTableFirstMove) {
+        chordTableFirstMove = false;
         moveCount++;
-        console.log('asdf');
       } else {
         framexPos += moveDistance;
         moveCount++;
@@ -135,7 +151,6 @@ const ChordTableMode = ({navigation, route: {params}}) => {
           useNativeDriver: true,
         }).start();
       }
-      console.log(moveCount);
     }
 
     // if (
@@ -197,7 +212,7 @@ const ChordTableMode = ({navigation, route: {params}}) => {
       rightNoteArrIdx++;
     }
 
-    if (curTime >= left_note_arr.items[leftNoteArrIdx].second - 0.1) {
+    if (curTime >= left_note_arr.items[leftNoteArrIdx].second + pianoSync) {
       if (left_note_arr.items[leftNoteArrIdx].key.length !== 0) {
         if (left_note_arr.items[leftNoteArrIdx].key[0].noteOn === 1) {
           left_note_arr.items[leftNoteArrIdx].key.forEach((key) => {
@@ -285,7 +300,7 @@ const ChordTableMode = ({navigation, route: {params}}) => {
                 onPress={youtubeStart ? null : plusPianoSync.bind()}
               />
             </View>
-            <TouchableOpacity onPress={null}>
+            <TouchableOpacity onPress={backwardRewind.bind()}>
               <Feather style={styles.buttonIconLarge} name="skip-back" />
             </TouchableOpacity>
             <TouchableOpacity onPress={start.bind()}>
@@ -338,7 +353,7 @@ const ChordTableMode = ({navigation, route: {params}}) => {
             <View style={{flex: 2, backgroundColor: 'purple'}}>
               <Youtube
                 apiKey="AIzaSyCQ-t9tVNIlNhN4jKlAHsNmYoaMs7IuyWE" //For using Youtube API in Android
-                ref={(ref) => (this.ytRef = ref)}
+                ref={youtubeRef}
                 videoId={params.meta.link} // The YouTube video ID
                 origin="http://www.youtube.com"
                 play={youtubeStart} // control playback of video with true/false
