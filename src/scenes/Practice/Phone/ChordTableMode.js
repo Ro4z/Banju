@@ -96,6 +96,7 @@ const ChordTableMode = ({navigation, route: {params}}) => {
 
   //TODO: PianoSampler.stopNote 추가
   const backwardRewind = () => {
+    //initialize related variables
     currentxPos = 0;
     anim = new Animated.Value(0);
     framexPos = 0;
@@ -112,6 +113,11 @@ const ChordTableMode = ({navigation, route: {params}}) => {
     youtubeRef.current.seekTo(0);
     setYoutubeStart(false);
     scrollViewRef.current.scrollTo({x: 0});
+
+    //stop all note
+    for (var i = 21; i <= 108; i++) {
+      PianoSampler.stopNote(i);
+    }
   };
 
   //TODO: 끝났을 때의 처리
