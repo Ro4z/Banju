@@ -42,6 +42,7 @@ let leftNoteArrIdx = 0;
 let rightNoteArrIdx = 0;
 let playedLeftNoteKeys = [];
 let playedRightNoteKeys = [];
+let progress = 0;
 
 var chordTableFirstExecuted = true;
 var chordTableFirstMove = true;
@@ -108,11 +109,16 @@ const ChordTableMode = ({navigation, route: {params}}) => {
     rightNoteArrIdx = 0;
     playedLeftNoteKeys = [];
     playedRightNoteKeys = [];
+    progress = 0;
+
     chordTableFirstExecuted = true;
     chordTableFirstMove = true;
     youtubeRef.current.seekTo(0);
     setYoutubeStart(false);
     scrollViewRef.current.scrollTo({x: 0});
+
+    setNextKey([]);
+    setTouchedKey([]);
 
     //stop all note
     for (var i = 21; i <= 108; i++) {
@@ -137,6 +143,11 @@ const ChordTableMode = ({navigation, route: {params}}) => {
     }
     var elapsedTime = Date.now() - startTime;
     curTime = (elapsedTime / 1000).toFixed(3);
+
+    //TODO: 동영상의 길이를 받아와서 progress 계산에 적용
+    //move progress bar
+    progress = curTime / 283;
+    console.log(progress);
 
     //move chord table
     if (curTime >= notes[moveCount].second + chordSync) {
@@ -240,7 +251,11 @@ const ChordTableMode = ({navigation, route: {params}}) => {
   return (
     <View style={styles.mainContainer}>
       <GameLoop onUpdate={updateHandler}>
-        <Header navigation={navigation} title={params.meta.songName} />
+        <Header
+          navigation={navigation}
+          title={params.meta.songName}
+          progress={progress}
+        />
 
         <View style={[styles.bodyContainer, {alignItems: 'center'}]}>
           <TouchableOpacity onPress={null} style={{flex: 1}}>
