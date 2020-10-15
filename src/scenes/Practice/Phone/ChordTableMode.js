@@ -15,6 +15,7 @@ import Youtube from 'react-native-youtube';
 import PianoSampler from 'react-native-piano-sampler';
 
 import Feather from '@assets/icon/Feather';
+import SimpleLineIcons from '@assets/icon/SimpleLineIcons';
 import {BACKGROUND_COLOR} from '@constants/color';
 import {colors} from '@constants/color';
 import {WIDTH, HEIGHT} from '@constants/dimensions';
@@ -28,7 +29,7 @@ const RATIO = HEIGHT / WIDTH;
 //const RATIO = 1;
 
 //using in chord-table
-const anim = new Animated.Value(0);
+let anim = new Animated.Value(0);
 let currentxPos = 0;
 let framexPos = 0;
 let moveCount = 0;
@@ -39,19 +40,26 @@ let curTime = 0;
 let startTime = 0;
 let leftNoteArrIdx = 0;
 let rightNoteArrIdx = 0;
-let leftNoteTimeArrIdx = 0;
-let rightNoteTimeArrIdx = 0;
-let playedLeftNoteTime = 9999;
-let playedRightNoteTime = 9999;
 let playedLeftNoteKeys = [];
 let playedRightNoteKeys = [];
 
+var chordTableFirstExecuted = true;
+var chordTableFirstMove = true;
 //const moveDistance = 4;
 const moveDistance = EStyleSheet.value(`30 * ${RATIO} * $rem `);
 
 const ChordTableMode = ({navigation, route: {params}}) => {
-  const [ytStart, setYtStart] = useState(false);
+  const [youtubeStart, setYoutubeStart] = useState(false);
+  const [touchedKey, setTouchedKey] = useState([]);
+  const [nextKey, setNextKey] = useState([]);
+  const [chordSync, setChordSync] = useState(0);
+  const [pianoSync, setPianoSync] = useState(0);
   const scrollViewRef = useRef();
+  const youtubeRef = useRef();
+
+  useEffect(() => {
+    Orientation.lockToLandscape();
+  }, []);
 
   const {
     chord_arr: {notes},
@@ -59,46 +67,96 @@ const ChordTableMode = ({navigation, route: {params}}) => {
     right_note_arr,
   } = params;
 
-  const leftNoteTimeArr = getNoteTimeEachNote(left_note_arr.items);
-  const rightNoteTimeArr = getNoteTimeEachNote(right_note_arr.items);
-  console.log(rightNoteTimeArr.length);
+  // const leftNoteTimeArr = getNoteTimeEachNote(left_note_arr.items);
+  // const rightNoteTimeArr = getNoteTimeEachNote(right_note_arr.items);
 
-  useEffect(() => {
-    Orientation.lockToLandscape();
-  }, []);
+  const minusChordSync = () => {
+    setChordSync(chordSync - 0.05);
+  };
+
+  const plusChordSync = () => {
+    setChordSync(chordSync + 0.05);
+  };
+
+  const minusPianoSync = () => {
+    setPianoSync(pianoSync - 0.05);
+  };
+
+  const plusPianoSync = () => {
+    setPianoSync(pianoSync + 0.05);
+  };
 
   const animationStyles = {
     transform: [{translateX: anim}],
   };
 
   const start = () => {
-    setYtStart(true);
+    setYoutubeStart(true);
   };
 
-  var tmp = true;
+  //TODO: PianoSampler.stopNote 추가
+  const backwardRewind = () => {
+    //initialize related variables
+    currentxPos = 0;
+    anim = new Animated.Value(0);
+    framexPos = 0;
+    moveCount = 0;
+    isStart = false;
+    curTime = 0;
+    startTime = 0;
+    leftNoteArrIdx = 0;
+    rightNoteArrIdx = 0;
+    playedLeftNoteKeys = [];
+    playedRightNoteKeys = [];
+    chordTableFirstExecuted = true;
+    chordTableFirstMove = true;
+    youtubeRef.current.seekTo(0);
+    setYoutubeStart(false);
+    scrollViewRef.current.scrollTo({x: 0});
+
+    //stop all note
+    for (var i = 21; i <= 108; i++) {
+      PianoSampler.stopNote(i);
+    }
+  };
+
+  //TODO: 끝났을 때의 처리
   const updateHandler = () => {
     if (!isStart) return;
-    if (tmp) {
-      tmp = false;
+    if (chordTableFirstExecuted) {
+      chordTableFirstExecuted = false;
       console.log('Engine START');
+      //시작 전 nextKey setting
+      if (right_note_arr.items[rightNoteArrIdx].key.length !== 0) {
+        let tmpArr = [];
+        right_note_arr.items[rightNoteArrIdx].key.forEach((key) => {
+          tmpArr.push(key.midiNum - 12);
+        });
+        setNextKey(tmpArr);
+      }
     }
     var elapsedTime = Date.now() - startTime;
     curTime = (elapsedTime / 1000).toFixed(3);
 
     //move chord table
-    if (curTime >= notes[moveCount].second - 0.24) {
-      framexPos += moveDistance;
-      moveCount++;
-      if (moveCount % 4 === 0) {
-        framexPos = 0;
-        currentxPos += moveDistance * 4 + 15;
-        scrollViewRef.current.scrollTo({x: currentxPos});
+    if (curTime >= notes[moveCount].second + chordSync) {
+      if (chordTableFirstMove) {
+        chordTableFirstMove = false;
+        moveCount++;
+      } else {
+        framexPos += moveDistance;
+        moveCount++;
+        if (moveCount !== 1 && moveCount % 4 === 1) {
+          framexPos = 0;
+          currentxPos += moveDistance * 4 + 15;
+          scrollViewRef.current.scrollTo({x: currentxPos});
+        }
+        Animated.spring(anim, {
+          toValue: framexPos,
+          duration: 250,
+          useNativeDriver: true,
+        }).start();
       }
-      Animated.spring(anim, {
-        toValue: framexPos,
-        duration: 250,
-        useNativeDriver: true,
-      }).start();
     }
 
     // if (
@@ -122,34 +180,58 @@ const ChordTableMode = ({navigation, route: {params}}) => {
     // }
 
     //play chord
-    if (curTime >= right_note_arr.items[rightNoteArrIdx].second) {
+    if (curTime >= right_note_arr.items[rightNoteArrIdx].second + pianoSync) {
       if (right_note_arr.items[rightNoteArrIdx].key.length !== 0) {
         if (right_note_arr.items[rightNoteArrIdx].key[0].noteOn === 1) {
-          playedRightNoteKeys.forEach((key) => {
-            PianoSampler.stopNote(key.midiNum);
-          });
+          let tmpArr = [];
           right_note_arr.items[rightNoteArrIdx].key.forEach((key) => {
             PianoSampler.playNote(key.midiNum, 115);
+            tmpArr.push(key.midiNum - 12);
           });
+          setTouchedKey(tmpArr);
+          //set next key TODO: 배열 범위 넘어갔을 때 분기
+          for (var i = 1; i < 100; i++) {
+            if (right_note_arr.items[rightNoteArrIdx + i].key.length !== 0) {
+              if (
+                right_note_arr.items[rightNoteArrIdx + i].key[0].noteOn === 1
+              ) {
+                let tmpArr2 = [];
+                right_note_arr.items[rightNoteArrIdx + i].key.forEach((key) => {
+                  tmpArr2.push(key.midiNum - 12);
+                });
+                setNextKey(tmpArr2);
+                break;
+              }
+            }
+          }
           playedRightNoteTime = curTime;
           playedRightNoteKeys = right_note_arr.items[rightNoteArrIdx].key;
         }
+      } else {
+        // N chord
+        setTouchedKey([]);
+        playedRightNoteKeys.forEach((key) => {
+          PianoSampler.stopNote(key.midiNum);
+        });
+        playedRightNoteKeys = [];
       }
       rightNoteArrIdx++;
     }
 
-    if (curTime >= left_note_arr.items[leftNoteArrIdx].second) {
+    if (curTime >= left_note_arr.items[leftNoteArrIdx].second + pianoSync) {
       if (left_note_arr.items[leftNoteArrIdx].key.length !== 0) {
         if (left_note_arr.items[leftNoteArrIdx].key[0].noteOn === 1) {
-          playedLeftNoteKeys.forEach((key) => {
-            PianoSampler.stopNote(key.midiNum);
-          });
           left_note_arr.items[leftNoteArrIdx].key.forEach((key) => {
             PianoSampler.playNote(key.midiNum, 115);
           });
           playedLeftNoteTime = curTime;
           playedLeftNoteKeys = left_note_arr.items[leftNoteArrIdx].key;
         }
+      } else {
+        playedLeftNoteKeys.forEach((key) => {
+          PianoSampler.stopNote(key.midiNum);
+        });
+        playedLeftNoteKeys = [];
       }
       leftNoteArrIdx++;
     }
@@ -159,19 +241,80 @@ const ChordTableMode = ({navigation, route: {params}}) => {
     <View style={styles.mainContainer}>
       <GameLoop onUpdate={updateHandler}>
         <Header navigation={navigation} title={params.meta.songName} />
+
         <View style={[styles.bodyContainer, {alignItems: 'center'}]}>
-          <TouchableOpacity onPress={null}>
+          <TouchableOpacity onPress={null} style={{flex: 1}}>
             <View style={styles.toggleBtnView}>
               <Text style={styles.toggleBtnText}>CHORD</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity onPress={start.bind()}>
-            <Feather
-              style={{color: colors.neonText2, fontSize: 28}}
-              name="play"
-            />
-          </TouchableOpacity>
+          <View
+            style={{
+              flex: 2,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+            }}>
+            <View style={styles.syncView}>
+              <Text style={styles.buttonTitleText}>CHORD</Text>
+              <SimpleLineIcons
+                style={[
+                  styles.buttonIconSmall,
+                  youtubeStart && {color: colors.grey30Dimmed2},
+                ]}
+                name="arrow-left"
+                onPress={youtubeStart ? null : minusChordSync.bind()}
+              />
+              <Text
+                style={[
+                  styles.syncNumberText,
+                  youtubeStart && {color: colors.grey30Dimmed2},
+                ]}>
+                {chordSync.toFixed(2)}
+              </Text>
+              <SimpleLineIcons
+                style={[
+                  styles.buttonIconSmall,
+                  youtubeStart && {color: colors.grey30Dimmed2},
+                ]}
+                name="arrow-right"
+                onPress={youtubeStart ? null : plusChordSync.bind()}
+              />
+            </View>
+            <View style={styles.syncView}>
+              <Text style={styles.buttonTitleText}>PIANO</Text>
+              <SimpleLineIcons
+                style={[
+                  styles.buttonIconSmall,
+                  youtubeStart && {color: colors.grey30Dimmed2},
+                ]}
+                name="arrow-left"
+                onPress={youtubeStart ? null : minusPianoSync.bind()}
+              />
+              <Text
+                style={[
+                  styles.syncNumberText,
+                  youtubeStart && {color: colors.grey30Dimmed2},
+                ]}>
+                {pianoSync.toFixed(2)}
+              </Text>
+              <SimpleLineIcons
+                style={[
+                  styles.buttonIconSmall,
+                  youtubeStart && {color: colors.grey30Dimmed2},
+                ]}
+                name="arrow-right"
+                onPress={youtubeStart ? null : plusPianoSync.bind()}
+              />
+            </View>
+            <TouchableOpacity onPress={backwardRewind.bind()}>
+              <Feather style={styles.buttonIconLarge} name="skip-back" />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={start.bind()}>
+              <Feather style={styles.buttonIconLarge} name="play" />
+            </TouchableOpacity>
+          </View>
         </View>
+
         <View style={styles.bodyContainer}>
           <Animated.View style={[styles.focusFrame, animationStyles]} />
           <ScrollView horizontal ref={scrollViewRef}>
@@ -204,7 +347,11 @@ const ChordTableMode = ({navigation, route: {params}}) => {
         <View style={styles.footContainer}>
           <View style={styles.footSub1}>
             <View style={{width: '100%', height: '100%'}}>
-              <PianoPartView firstKey="f2" />
+              <PianoPartView
+                firstKey="f2"
+                touchedKey={touchedKey}
+                nextKey={nextKey}
+              />
             </View>
           </View>
           <View style={styles.footSub2}>
@@ -212,10 +359,10 @@ const ChordTableMode = ({navigation, route: {params}}) => {
             <View style={{flex: 2, backgroundColor: 'purple'}}>
               <Youtube
                 apiKey="AIzaSyCQ-t9tVNIlNhN4jKlAHsNmYoaMs7IuyWE" //For using Youtube API in Android
-                ref={(ref) => (this.ytRef = ref)}
+                ref={youtubeRef}
                 videoId={params.meta.link} // The YouTube video ID
                 origin="http://www.youtube.com"
-                play={ytStart} // control playback of video with true/false
+                play={youtubeStart} // control playback of video with true/false
                 onReady={(e) => console.log(e)}
                 onChangeState={(e) => {
                   if (e.state === 'playing') {
@@ -280,6 +427,29 @@ const styles = EStyleSheet.create({
     fontFamily: 'OpenSauceSans-Black',
     fontSize: 15,
     color: colors.neonText2,
+  },
+  buttonIconLarge: {
+    color: colors.neonText2,
+    fontSize: 28,
+  },
+  buttonIconSmall: {
+    color: colors.neonText2,
+    fontSize: 22,
+  },
+  buttonTitleText: {
+    fontFamily: 'OpenSauceSans-Black',
+    fontSize: 18,
+    color: colors.grey152,
+    marginRight: 5,
+  },
+  syncView: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  syncNumberText: {
+    fontFamily: 'OpenSauceSans-Light',
+    fontSize: 18,
+    color: colors.grey952,
   },
 
   //chord table
