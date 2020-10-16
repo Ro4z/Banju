@@ -35,9 +35,12 @@ let framexPos = 0;
 let moveCount = 0;
 
 //using in play
+let firstStart = true;
 let isStart = false;
 let curTime = 0;
 let startTime = 0;
+let stoppedTime = 0;
+
 let leftNoteArrIdx = 0;
 let rightNoteArrIdx = 0;
 let playedLeftNoteKeys = [];
