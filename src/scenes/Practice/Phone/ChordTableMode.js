@@ -26,7 +26,6 @@ import Header from '@components/practice/phone/Header';
 
 EStyleSheet.build({$rem: WIDTH / 380});
 const RATIO = HEIGHT / WIDTH;
-//const RATIO = 1;
 
 //using in chord-table
 let anim = new Animated.Value(0);
@@ -35,8 +34,9 @@ let framexPos = 0;
 let moveCount = 0;
 
 //using in play
-let firstStart = true;
+let isLoading = false;
 let isStart = false;
+let firstStart = true;
 let curTime = 0;
 let startTime = 0;
 let stoppedTime = 0;
@@ -63,6 +63,7 @@ const ChordTableMode = ({navigation, route: {params}}) => {
 
   useEffect(() => {
     Orientation.lockToLandscape();
+    setYoutubeStart(true);
   }, []);
 
   const {
@@ -384,9 +385,18 @@ const ChordTableMode = ({navigation, route: {params}}) => {
                 onReady={(e) => console.log(e)}
                 onChangeState={(e) => {
                   if (e.state === 'playing') {
+                    if (!isLoading) {
+                      isLoading = true;
+                      setYoutubeStart(false);
+                      youtubeRef.current.seekTo(0);
+                      return;
+                    }
                     isStart = true;
-                    startTime = Date.now();
-                    console.log('START');
+                    if (firstStart) {
+                      startTime = Date.now();
+                      firstStart = false;
+                      console.log('START');
+                    }
                   }
                 }}
                 // onChangeQuality={(e) => console.log(e)}
