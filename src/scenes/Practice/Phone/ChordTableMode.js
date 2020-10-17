@@ -99,7 +99,17 @@ const ChordTableMode = ({navigation, route: {params}}) => {
     setYoutubeStart(true);
   };
 
-  //TODO: PianoSampler.stopNote 추가
+  const pause = () => {
+    isStart = false;
+    stoppedTimestamp = Date.now();
+    setYoutubeStart(false);
+
+    //stop all note
+    for (var i = 21; i <= 108; i++) {
+      PianoSampler.stopNote(i);
+    }
+  };
+
   const backwardRewind = () => {
     //initialize related variables
     currentxPos = 0;
