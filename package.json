@@ -11,7 +11,8 @@
     "pod": "npx pod-install ios",
     "simulator": "react-native run-ios --simulator='iPadPro'",
     "device": "react-native run-ios --device",
-    "postinstall": "rndebugger-open"
+    "postinstall": "rndebugger-open",
+    "precommit" : "lint-staged"
   },
   "dependencies": {
     "@invertase/react-native-apple-authentication": "^2.0.2",
@@ -70,7 +71,9 @@
     "eslint-plugin-jsx-a11y": "^6.3.1",
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.21.4",
+    "husky": "^4.3.0",
     "jest": "^26.1.0",
+    "lint-staged": "^10.4.2",
     "metro-react-native-babel-preset": "^0.61.0",
     "prettier": "^2.1.2",
     "react-native-debugger-open": "^0.3.25",
