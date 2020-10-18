@@ -10,7 +10,9 @@
     "lint": "eslint .",
     "pod": "npx pod-install ios",
     "simulator": "react-native run-ios --simulator='iPadPro'",
-    "device": "react-native run-ios --device"
+    "device": "react-native run-ios --device",
+    "postinstall": "rndebugger-open",
+    "precommit" : "lint-staged"
   },
   "dependencies": {
     "@invertase/react-native-apple-authentication": "^2.0.2",
@@ -21,6 +23,7 @@
     "@react-navigation/material-top-tabs": "^5.2.17",
     "@react-navigation/native": "^5.7.2",
     "@react-navigation/stack": "^5.8.0",
+    "@ro4z/react-native-youtube": "^1.0.0",
     "axios": "^0.20.0",
     "just-range": "^2.1.0",
     "prop-types": "^15.7.2",
@@ -62,8 +65,18 @@
     "babel-jest": "^26.1.0",
     "babel-plugin-module-resolver": "^4.0.0",
     "eslint": "^7.5.0",
+    "eslint-config-airbnb": "^18.2.0",
+    "eslint-config-prettier": "^6.13.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-react": "^7.21.4",
+    "husky": "^4.3.0",
     "jest": "^26.1.0",
+    "lint-staged": "^10.4.2",
     "metro-react-native-babel-preset": "^0.61.0",
+    "prettier": "^2.1.2",
+    "react-native-debugger-open": "^0.3.25",
     "react-test-renderer": "16.13.1",
     "typescript": "^4.0.3"
   },

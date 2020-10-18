@@ -18,7 +18,7 @@ import Ionicons from '@assets/icon/Ionicons';
 import Feather from '@assets/icon/Feather';
 import {colors} from '@constants/color';
 
-const TEST_LINK = 'gdZLi9oWNZg';
+const TEST_LINK = 'ded0OSwuXwY';
 
 const ResultListItem = ({isReady, navigation}) => {
   const [openModal, setOpenModal] = useState(false);
@@ -29,31 +29,8 @@ const ResultListItem = ({isReady, navigation}) => {
   };
 
   //TODO: 개발 완료 후 default link 삭제
-  const postMusicReg = (link = 'hHr-tr2Lz_E') => {
-    setShowLoading(true);
-    axios
-      .post(
-        Base.POST_MUSICREG,
-        {link: link},
-        {
-          header: {
-            'Content-Type': 'application/json',
-          },
-        },
-      )
-      .then((res) => {
-        console.log('POST COMPLETE');
-        pollingGetPlayMeta(link);
-      })
-      .catch((err) => {
-        Alert.alert('오류가 발생하였습니다.');
-        setShowLoading(false);
-        console.log(err);
-      });
-  };
-
-  //TODO: 개발 완료 후 default link 삭제
   const pollingGetPlayMeta = (link = 'hHr-tr2Lz_E') => {
+    setShowLoading(true);
     let pollingObj;
     pollingObj = setInterval(() => {
       axios
@@ -282,7 +259,7 @@ const ResultListItem = ({isReady, navigation}) => {
             <TouchableOpacity
               style={styles.modalPlayBtn}
               onPress={() => {
-                postMusicReg(TEST_LINK);
+                pollingGetPlayMeta(TEST_LINK);
               }}>
               <Text style={styles.modalPlayText}>PLAY</Text>
             </TouchableOpacity>
