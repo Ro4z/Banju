@@ -18,7 +18,7 @@ import Ionicons from '@assets/icon/Ionicons';
 import Feather from '@assets/icon/Feather';
 import {colors} from '@constants/color';
 
-const TEST_LINK = 'gdZLi9oWNZg';
+const TEST_LINK = 'ded0OSwuXwY';
 
 const ResultListItem = ({isReady, navigation}) => {
   const [openModal, setOpenModal] = useState(false);
@@ -30,6 +30,7 @@ const ResultListItem = ({isReady, navigation}) => {
 
   //TODO: 개발 완료 후 default link 삭제
   const pollingGetPlayMeta = (link = 'hHr-tr2Lz_E') => {
+    setShowLoading(true);
     let pollingObj;
     pollingObj = setInterval(() => {
       axios
