@@ -179,15 +179,6 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
 
     // sync note
     if (second > currentSecond) {
-      // FIXME: 등호가 들어갈까 안들어갈까...
-      // FIXME: pianoSync는 들어가야 할까..
-
-      console.log('startTimestamp :>> ', startTimestamp);
-      console.log('second :>> ', second);
-      console.log(
-        'right_note_arr.items[rightNoteArrIdx].second :>> ',
-        rightNoteArr.items[rightNoteArrIdx].second
-      );
       while (second > rightNoteArr.items[rightNoteArrIdx].second) {
         rightNoteArrIdx += 1;
       }
@@ -204,18 +195,10 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
       }
     }
 
-    console.log(
-      'right_note_arr.items[rightNoteArrIdx].second :>> ',
-      rightNoteArr.items[rightNoteArrIdx].second
-    );
-
     // set time to touched point
 
-    // stoppedTime = ???
     // TODO: 동영상의 길이를 받아와서 progress 계산에 적용
     progress = currentSecond / 283;
-    // setNextKey([]);
-    // setTouchedKey([]);
 
     // stop all note
     for (let i = 21; i <= 108; i += 1) {
@@ -223,10 +206,9 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
     }
     currentSecond = second;
     startTimestamp = Date.now();
-    // const elapsedTime = Date.now() - startTimestamp;
 
+    // youtube seek to
     youtubeRef.current.seekTo(second);
-    // currentSecond -= 0.6;
   };
 
   // TODO: 재생이 끝났을 때의 처리
