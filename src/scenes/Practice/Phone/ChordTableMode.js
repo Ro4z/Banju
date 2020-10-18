@@ -5,7 +5,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import Orientation from 'react-native-orientation';
 import { ifIphoneX } from 'react-native-iphone-x-helper';
 import { GameLoop } from 'react-native-game-engine';
-import Youtube from 'react-native-youtube';
+import Youtube from '@ro4z/react-native-youtube';
 import PianoSampler from 'react-native-piano-sampler';
 
 import Feather from '@assets/icon/Feather';
@@ -16,7 +16,7 @@ import { WIDTH, HEIGHT } from '@constants/dimensions';
 
 import PianoPartView from '@components/piano/PianoPartView';
 import Header from '@components/practice/phone/Header';
-import { clockRunning } from 'react-native-reanimated';
+// import Youtube from './YoutubeIframe';
 
 EStyleSheet.build({ $rem: WIDTH / 380 });
 const RATIO = HEIGHT / WIDTH;
@@ -157,11 +157,15 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
    *
    * TODO: 시작 안 했을 때 누르면 시작하도록
    */
+
   const seekTo = (second = 0, index = 0) => {
     // chord table ScrollView scroll
-    currentXPosition = (moveDistance * 4 + 15) * parseInt(index / 4, 10);
-    scrollViewRef.current.scrollTo({ x: currentXPosition });
+    const sectionNumber = parseInt(index / 4, 10) - 1;
 
+    currentXPosition = (moveDistance * 4 + 15) * sectionNumber;
+    scrollViewRef.current.scrollTo({ x: currentXPosition });
+    startTimestamp = Date.now();
+    moveCount = index - 1;
     // move chord table focus
     frameXPosition = moveDistance * (index % 4);
     Animated.spring(anim, {
@@ -170,9 +174,7 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
       useNativeDriver: true,
     }).start();
 
-    // youtube sync
-    youtubeRef.current.seekTo(second);
-    pause();
+    // pause();
     // variable setting
 
     // sync note
@@ -193,7 +195,7 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
         leftNoteArrIdx += 1;
       }
     } else {
-      startTimestamp += (second - currentSecond) * 1000; // TODO : FIX
+      // startTimestamp += (second - currentSecond) * 1000; // TODO : FIX
       while (second < rightNoteArr.items[rightNoteArrIdx].second) {
         rightNoteArrIdx -= 1;
       }
@@ -202,7 +204,6 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
       }
     }
 
-    start();
     console.log(
       'right_note_arr.items[rightNoteArrIdx].second :>> ',
       rightNoteArr.items[rightNoteArrIdx].second
@@ -220,9 +221,12 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
     for (let i = 21; i <= 108; i += 1) {
       PianoSampler.stopNote(i);
     }
-    startTimestamp = Date.now();
     currentSecond = second;
-    console.log('finished curTime: ', currentSecond);
+    startTimestamp = Date.now();
+    // const elapsedTime = Date.now() - startTimestamp;
+
+    youtubeRef.current.seekTo(second);
+    // currentSecond -= 0.6;
   };
 
   // TODO: 재생이 끝났을 때의 처리
@@ -241,9 +245,9 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
         setNextKey(tmpArr);
       }
     }
+
     const elapsedTime = Date.now() - startTimestamp;
     currentSecond += elapsedTime / 1000;
-    console.log('currentSecond :>> ', currentSecond);
     startTimestamp = Date.now();
     // console.log('curTime :>> ', curTime);
     // TODO: 동영상의 길이를 받아와서 progress 계산에 적용
@@ -595,7 +599,7 @@ const styles = EStyleSheet.create({
   },
   chordTableText: {
     color: 'white',
-    fontSize: `15rem * ${RATIO}`,
+    fontSize: `12rem * ${RATIO}`,
     fontWeight: '600',
   },
   divider: {
