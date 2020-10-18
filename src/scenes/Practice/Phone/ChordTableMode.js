@@ -1,45 +1,40 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {
-  Text,
-  View,
-  TouchableOpacity,
-  ScrollView,
-  Animated,
-  Dimensions,
-} from 'react-native';
+/* eslint-disable react/prop-types */
+import React, { useEffect, useRef, useState } from 'react';
+import { Text, View, TouchableOpacity, ScrollView, Animated } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import Orientation from 'react-native-orientation';
-import {ifIphoneX} from 'react-native-iphone-x-helper';
-import {GameEngine, GameLoop} from 'react-native-game-engine';
+import { ifIphoneX } from 'react-native-iphone-x-helper';
+import { GameLoop } from 'react-native-game-engine';
 import Youtube from 'react-native-youtube';
 import PianoSampler from 'react-native-piano-sampler';
 
 import Feather from '@assets/icon/Feather';
 import SimpleLineIcons from '@assets/icon/SimpleLineIcons';
-import {BACKGROUND_COLOR} from '@constants/color';
-import {colors} from '@constants/color';
-import {WIDTH, HEIGHT} from '@constants/dimensions';
-import getNoteTimeEachNote from '@utils/getTimeEachNote';
+import { BACKGROUND_COLOR, colors } from '@constants/color';
+import { WIDTH, HEIGHT } from '@constants/dimensions';
+// import getNoteTimeEachNote from '@utils/getTimeEachNote';
 
 import PianoPartView from '@components/piano/PianoPartView';
 import Header from '@components/practice/phone/Header';
+import { clockRunning } from 'react-native-reanimated';
 
-EStyleSheet.build({$rem: WIDTH / 380});
+EStyleSheet.build({ $rem: WIDTH / 380 });
 const RATIO = HEIGHT / WIDTH;
 
-//using in chord-table
+// using in chord-table
 let anim = new Animated.Value(0);
-let currentxPos = 0;
-let framexPos = 0;
+let currentXPosition = 0;
+let frameXPosition = 0;
 let moveCount = 0;
 
-//using in play
+// using in play
 let isLoading = false;
 let isStart = false;
 let firstStart = true;
-let curTime = 0;
-let startTime = 0;
-let stoppedTime = 0;
+let currentSecond = 0;
+let startTimestamp = 0;
+let stoppedTimestamp = 0;
+let stopElapsedSecond = 0;
 
 let leftNoteArrIdx = 0;
 let rightNoteArrIdx = 0;
@@ -47,12 +42,12 @@ let playedLeftNoteKeys = [];
 let playedRightNoteKeys = [];
 let progress = 0;
 
-var chordTableFirstExecuted = true;
-var chordTableFirstMove = true;
-//const moveDistance = 4;
+let chordTableFirstExecuted = true;
+let chordTableFirstMove = true;
+// const moveDistance = 4;
 const moveDistance = EStyleSheet.value(`30 * ${RATIO} * $rem `);
 
-const ChordTableMode = ({navigation, route: {params}}) => {
+const ChordTableMode = ({ navigation, route: { params } }) => {
   const [youtubeStart, setYoutubeStart] = useState(false);
   const [touchedKey, setTouchedKey] = useState([]);
   const [nextKey, setNextKey] = useState([]);
@@ -63,18 +58,20 @@ const ChordTableMode = ({navigation, route: {params}}) => {
 
   useEffect(() => {
     Orientation.lockToLandscape();
+    // start one time for youtube preloading
     setYoutubeStart(true);
   }, []);
 
   const {
-    chord_arr: {notes},
-    left_note_arr,
-    right_note_arr,
+    chord_arr: { notes },
+    left_note_arr: leftNoteArr,
+    right_note_arr: rightNoteArr,
   } = params;
 
   // const leftNoteTimeArr = getNoteTimeEachNote(left_note_arr.items);
   // const rightNoteTimeArr = getNoteTimeEachNote(right_note_arr.items);
 
+  // using in sync control button
   const minusChordSync = () => {
     setChordSync(chordSync - 0.05);
   };
@@ -92,11 +89,17 @@ const ChordTableMode = ({navigation, route: {params}}) => {
   };
 
   const animationStyles = {
-    transform: [{translateX: anim}],
+    transform: [{ translateX: anim }],
   };
 
   const start = () => {
     setYoutubeStart(true);
+    // stoppedTime not equals zero means that it stopped before,
+    // calculate time of stopped time
+    if (stoppedTimestamp !== 0) {
+      stopElapsedSecond = (Date.now() - stoppedTimestamp) / 1000;
+      currentSecond -= stopElapsedSecond;
+    }
   };
 
   const pause = () => {
@@ -104,21 +107,26 @@ const ChordTableMode = ({navigation, route: {params}}) => {
     stoppedTimestamp = Date.now();
     setYoutubeStart(false);
 
-    //stop all note
-    for (var i = 21; i <= 108; i++) {
+    // stop all note
+    for (let i = 21; i <= 108; i += 1) {
       PianoSampler.stopNote(i);
     }
   };
 
   const backwardRewind = () => {
-    //initialize related variables
-    currentxPos = 0;
+    // initialize related variables
+    currentXPosition = 0;
     anim = new Animated.Value(0);
-    framexPos = 0;
+    frameXPosition = 0;
     moveCount = 0;
+
+    firstStart = true;
     isStart = false;
-    curTime = 0;
-    startTime = 0;
+    currentSecond = 0;
+    startTimestamp = 0;
+    stoppedTimestamp = 0;
+    stopElapsedSecond = 0;
+
     leftNoteArrIdx = 0;
     rightNoteArrIdx = 0;
     playedLeftNoteKeys = [];
@@ -129,55 +137,134 @@ const ChordTableMode = ({navigation, route: {params}}) => {
     chordTableFirstMove = true;
     youtubeRef.current.seekTo(0);
     setYoutubeStart(false);
-    scrollViewRef.current.scrollTo({x: 0});
+    scrollViewRef.current.scrollTo({ x: 0 });
 
     setNextKey([]);
     setTouchedKey([]);
 
-    //stop all note
-    for (var i = 21; i <= 108; i++) {
+    // stop all note
+    for (let i = 21; i <= 108; i += 1) {
       PianoSampler.stopNote(i);
     }
   };
 
-  //TODO: 끝났을 때의 처리
+  /**
+   * Seeks to a specified time in the play
+   * using in each chord-table box onPress props
+   *
+   * @param {Number} second second of note
+   * @param {Number} index index of chord table box
+   *
+   * TODO: 시작 안 했을 때 누르면 시작하도록
+   */
+  const seekTo = (second = 0, index = 0) => {
+    // chord table ScrollView scroll
+    currentXPosition = (moveDistance * 4 + 15) * parseInt(index / 4, 10);
+    scrollViewRef.current.scrollTo({ x: currentXPosition });
+
+    // move chord table focus
+    frameXPosition = moveDistance * (index % 4);
+    Animated.spring(anim, {
+      toValue: frameXPosition,
+      duration: 250,
+      useNativeDriver: true,
+    }).start();
+
+    // youtube sync
+    youtubeRef.current.seekTo(second);
+    pause();
+    // variable setting
+
+    // sync note
+    if (second > currentSecond) {
+      // FIXME: 등호가 들어갈까 안들어갈까...
+      // FIXME: pianoSync는 들어가야 할까..
+
+      console.log('startTimestamp :>> ', startTimestamp);
+      console.log('second :>> ', second);
+      console.log(
+        'right_note_arr.items[rightNoteArrIdx].second :>> ',
+        rightNoteArr.items[rightNoteArrIdx].second
+      );
+      while (second > rightNoteArr.items[rightNoteArrIdx].second) {
+        rightNoteArrIdx += 1;
+      }
+      while (second > leftNoteArr.items[leftNoteArrIdx].second) {
+        leftNoteArrIdx += 1;
+      }
+    } else {
+      startTimestamp += (second - currentSecond) * 1000; // TODO : FIX
+      while (second < rightNoteArr.items[rightNoteArrIdx].second) {
+        rightNoteArrIdx -= 1;
+      }
+      while (second < leftNoteArr.items[leftNoteArrIdx].second) {
+        leftNoteArrIdx -= 1;
+      }
+    }
+
+    start();
+    console.log(
+      'right_note_arr.items[rightNoteArrIdx].second :>> ',
+      rightNoteArr.items[rightNoteArrIdx].second
+    );
+
+    // set time to touched point
+
+    // stoppedTime = ???
+    // TODO: 동영상의 길이를 받아와서 progress 계산에 적용
+    progress = currentSecond / 283;
+    // setNextKey([]);
+    // setTouchedKey([]);
+
+    // stop all note
+    for (let i = 21; i <= 108; i += 1) {
+      PianoSampler.stopNote(i);
+    }
+    startTimestamp = Date.now();
+    currentSecond = second;
+    console.log('finished curTime: ', currentSecond);
+  };
+
+  // TODO: 재생이 끝났을 때의 처리
+  // using in GameLoop (call back that execute every 16ms)
   const updateHandler = () => {
     if (!isStart) return;
     if (chordTableFirstExecuted) {
       chordTableFirstExecuted = false;
       console.log('Engine START');
-      //시작 전 nextKey setting
-      if (right_note_arr.items[rightNoteArrIdx].key.length !== 0) {
-        let tmpArr = [];
-        right_note_arr.items[rightNoteArrIdx].key.forEach((key) => {
+      // 시작 전 nextKey setting
+      if (rightNoteArr.items[rightNoteArrIdx].key.length !== 0) {
+        const tmpArr = [];
+        rightNoteArr.items[rightNoteArrIdx].key.forEach((key) => {
           tmpArr.push(key.midiNum - 12);
         });
         setNextKey(tmpArr);
       }
     }
-    var elapsedTime = Date.now() - startTime;
-    curTime = (elapsedTime / 1000).toFixed(3);
+    const elapsedTime = Date.now() - startTimestamp;
+    currentSecond += elapsedTime / 1000;
+    console.log('currentSecond :>> ', currentSecond);
+    startTimestamp = Date.now();
+    // console.log('curTime :>> ', curTime);
+    // TODO: 동영상의 길이를 받아와서 progress 계산에 적용
+    // move progress bar
+    progress = currentSecond / 283;
 
-    //TODO: 동영상의 길이를 받아와서 progress 계산에 적용
-    //move progress bar
-    progress = curTime / 283;
-    console.log(progress);
-
-    //move chord table
-    if (curTime >= notes[moveCount].second + chordSync) {
+    // move chord table
+    if (currentSecond >= notes[moveCount].second + chordSync) {
       if (chordTableFirstMove) {
         chordTableFirstMove = false;
-        moveCount++;
+        moveCount += 1;
       } else {
-        framexPos += moveDistance;
-        moveCount++;
+        frameXPosition += moveDistance;
+        moveCount += 1;
         if (moveCount !== 1 && moveCount % 4 === 1) {
-          framexPos = 0;
-          currentxPos += moveDistance * 4 + 15;
-          scrollViewRef.current.scrollTo({x: currentxPos});
+          frameXPosition = 0;
+          currentXPosition += moveDistance * 4 + 15;
+          scrollViewRef.current.scrollTo({ x: currentXPosition });
         }
         Animated.spring(anim, {
-          toValue: framexPos,
+          toValue: frameXPosition,
           duration: 250,
           useNativeDriver: true,
         }).start();
@@ -204,24 +291,40 @@ const ChordTableMode = ({navigation, route: {params}}) => {
     //   playedLeftNoteTime = 9999;
     // }
 
-    //play chord
-    if (curTime >= right_note_arr.items[rightNoteArrIdx].second + pianoSync) {
-      if (right_note_arr.items[rightNoteArrIdx].key.length !== 0) {
-        if (right_note_arr.items[rightNoteArrIdx].key[0].noteOn === 1) {
-          let tmpArr = [];
-          right_note_arr.items[rightNoteArrIdx].key.forEach((key) => {
+    // //play chord of left note
+    if (currentSecond >= leftNoteArr.items[leftNoteArrIdx].second + pianoSync) {
+      if (leftNoteArr.items[leftNoteArrIdx].key.length !== 0) {
+        if (leftNoteArr.items[leftNoteArrIdx].key[0].noteOn === 1) {
+          leftNoteArr.items[leftNoteArrIdx].key.forEach((key) => {
+            PianoSampler.playNote(key.midiNum, 115);
+          });
+          playedLeftNoteKeys = leftNoteArr.items[leftNoteArrIdx].key;
+        }
+      } else {
+        playedLeftNoteKeys.forEach((key) => {
+          PianoSampler.stopNote(key.midiNum);
+        });
+        playedLeftNoteKeys = [];
+      }
+      leftNoteArrIdx += 1;
+    }
+
+    // play chord of right note
+    if (currentSecond >= rightNoteArr.items[rightNoteArrIdx].second + pianoSync) {
+      if (rightNoteArr.items[rightNoteArrIdx].key.length !== 0) {
+        if (rightNoteArr.items[rightNoteArrIdx].key[0].noteOn === 1) {
+          const tmpArr = [];
+          rightNoteArr.items[rightNoteArrIdx].key.forEach((key) => {
             PianoSampler.playNote(key.midiNum, 115);
             tmpArr.push(key.midiNum - 12);
           });
           setTouchedKey(tmpArr);
-          //set next key TODO: 배열 범위 넘어갔을 때 분기
-          for (var i = 1; i < 100; i++) {
-            if (right_note_arr.items[rightNoteArrIdx + i].key.length !== 0) {
-              if (
-                right_note_arr.items[rightNoteArrIdx + i].key[0].noteOn === 1
-              ) {
-                let tmpArr2 = [];
-                right_note_arr.items[rightNoteArrIdx + i].key.forEach((key) => {
+          // set next key TODO: 배열 범위 넘어갔을 때 분기
+          for (let i = 1; i < 100; i += 1) {
+            if (rightNoteArr.items[rightNoteArrIdx + i].key.length !== 0) {
+              if (rightNoteArr.items[rightNoteArrIdx + i].key[0].noteOn === 1) {
+                const tmpArr2 = [];
+                rightNoteArr.items[rightNoteArrIdx + i].key.forEach((key) => {
                   tmpArr2.push(key.midiNum - 12);
                 });
                 setNextKey(tmpArr2);
@@ -229,8 +332,7 @@ const ChordTableMode = ({navigation, route: {params}}) => {
               }
             }
           }
-          playedRightNoteTime = curTime;
-          playedRightNoteKeys = right_note_arr.items[rightNoteArrIdx].key;
+          playedRightNoteKeys = rightNoteArr.items[rightNoteArrIdx].key;
         }
       } else {
         // N chord
@@ -240,39 +342,17 @@ const ChordTableMode = ({navigation, route: {params}}) => {
         });
         playedRightNoteKeys = [];
       }
-      rightNoteArrIdx++;
-    }
-
-    if (curTime >= left_note_arr.items[leftNoteArrIdx].second + pianoSync) {
-      if (left_note_arr.items[leftNoteArrIdx].key.length !== 0) {
-        if (left_note_arr.items[leftNoteArrIdx].key[0].noteOn === 1) {
-          left_note_arr.items[leftNoteArrIdx].key.forEach((key) => {
-            PianoSampler.playNote(key.midiNum, 115);
-          });
-          playedLeftNoteTime = curTime;
-          playedLeftNoteKeys = left_note_arr.items[leftNoteArrIdx].key;
-        }
-      } else {
-        playedLeftNoteKeys.forEach((key) => {
-          PianoSampler.stopNote(key.midiNum);
-        });
-        playedLeftNoteKeys = [];
-      }
-      leftNoteArrIdx++;
+      rightNoteArrIdx += 1;
     }
   };
 
   return (
     <View style={styles.mainContainer}>
       <GameLoop onUpdate={updateHandler}>
-        <Header
-          navigation={navigation}
-          title={params.meta.songName}
-          progress={progress}
-        />
+        <Header navigation={navigation} title={params.meta.songName} progress={progress} />
 
-        <View style={[styles.bodyContainer, {alignItems: 'center'}]}>
-          <TouchableOpacity onPress={null} style={{flex: 1}}>
+        <View style={[styles.bodyContainer, { alignItems: 'center' }]}>
+          <TouchableOpacity onPress={null} style={{ flex: 1 }}>
             <View style={styles.toggleBtnView}>
               <Text style={styles.toggleBtnText}>CHORD</Text>
             </View>
@@ -282,112 +362,107 @@ const ChordTableMode = ({navigation, route: {params}}) => {
               flex: 2,
               flexDirection: 'row',
               justifyContent: 'space-between',
-            }}>
+            }}
+          >
             <View style={styles.syncView}>
               <Text style={styles.buttonTitleText}>CHORD</Text>
               <SimpleLineIcons
-                style={[
-                  styles.buttonIconSmall,
-                  youtubeStart && {color: colors.grey30Dimmed2},
-                ]}
+                style={[styles.buttonIconSmall, youtubeStart && { color: colors.grey30Dimmed2 }]}
                 name="arrow-left"
-                onPress={youtubeStart ? null : minusChordSync.bind()}
+                onPress={youtubeStart ? null : minusChordSync}
               />
               <Text
-                style={[
-                  styles.syncNumberText,
-                  youtubeStart && {color: colors.grey30Dimmed2},
-                ]}>
+                style={[styles.syncNumberText, youtubeStart && { color: colors.grey30Dimmed2 }]}
+              >
                 {chordSync.toFixed(2)}
               </Text>
               <SimpleLineIcons
-                style={[
-                  styles.buttonIconSmall,
-                  youtubeStart && {color: colors.grey30Dimmed2},
-                ]}
+                style={[styles.buttonIconSmall, youtubeStart && { color: colors.grey30Dimmed2 }]}
                 name="arrow-right"
-                onPress={youtubeStart ? null : plusChordSync.bind()}
+                onPress={youtubeStart ? null : plusChordSync}
               />
             </View>
+            {/* sync control button */}
             <View style={styles.syncView}>
               <Text style={styles.buttonTitleText}>PIANO</Text>
               <SimpleLineIcons
-                style={[
-                  styles.buttonIconSmall,
-                  youtubeStart && {color: colors.grey30Dimmed2},
-                ]}
+                style={[styles.buttonIconSmall, youtubeStart && { color: colors.grey30Dimmed2 }]}
                 name="arrow-left"
-                onPress={youtubeStart ? null : minusPianoSync.bind()}
+                onPress={youtubeStart ? null : minusPianoSync}
               />
               <Text
-                style={[
-                  styles.syncNumberText,
-                  youtubeStart && {color: colors.grey30Dimmed2},
-                ]}>
+                style={[styles.syncNumberText, youtubeStart && { color: colors.grey30Dimmed2 }]}
+              >
                 {pianoSync.toFixed(2)}
               </Text>
               <SimpleLineIcons
-                style={[
-                  styles.buttonIconSmall,
-                  youtubeStart && {color: colors.grey30Dimmed2},
-                ]}
+                style={[styles.buttonIconSmall, youtubeStart && { color: colors.grey30Dimmed2 }]}
                 name="arrow-right"
-                onPress={youtubeStart ? null : plusPianoSync.bind()}
+                onPress={youtubeStart ? null : plusPianoSync}
               />
             </View>
-            <TouchableOpacity onPress={backwardRewind.bind()}>
+
+            <TouchableOpacity onPress={backwardRewind}>
               <Feather style={styles.buttonIconLarge} name="skip-back" />
             </TouchableOpacity>
-            <TouchableOpacity onPress={start.bind()}>
-              <Feather style={styles.buttonIconLarge} name="play" />
-            </TouchableOpacity>
+            {isStart ? (
+              <TouchableOpacity onPress={pause}>
+                <Feather style={styles.buttonIconLarge} name="pause" />
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity onPress={start}>
+                <Feather style={styles.buttonIconLarge} name="play" />
+              </TouchableOpacity>
+            )}
           </View>
         </View>
 
         <View style={styles.bodyContainer}>
+          {/* using in chord-table focusing */}
           <Animated.View style={[styles.focusFrame, animationStyles]} />
+          {/* render each chord table box in notes  */}
           <ScrollView horizontal ref={scrollViewRef}>
-            {notes.map(({name}, index) => {
+            {notes.map(({ name, second }, index) => {
               if (index % 4 === 3) {
                 return (
                   <>
                     <View style={styles.chordTableBoxFrame}>
-                      <View style={styles.chordTableBox}>
-                        <Text style={styles.chordTableText}>{name}</Text>
-                      </View>
+                      {/* FIXME: is this anti pattern..? */}
+                      <TouchableOpacity onPress={() => seekTo(second, index)}>
+                        <View style={styles.chordTableBox}>
+                          <Text style={styles.chordTableText}>{name}</Text>
+                        </View>
+                      </TouchableOpacity>
                     </View>
                     <View style={styles.divider} />
                   </>
                 );
-              } else {
-                return (
-                  <>
-                    <View style={styles.chordTableBoxFrame}>
+              }
+              return (
+                <>
+                  <View style={styles.chordTableBoxFrame}>
+                    <TouchableOpacity onPress={() => seekTo(second, index)}>
                       <View style={styles.chordTableBox}>
                         <Text style={styles.chordTableText}>{name}</Text>
                       </View>
-                    </View>
-                  </>
-                );
-              }
+                    </TouchableOpacity>
+                  </View>
+                </>
+              );
             })}
           </ScrollView>
         </View>
         <View style={styles.footContainer}>
           <View style={styles.footSub1}>
-            <View style={{width: '100%', height: '100%'}}>
-              <PianoPartView
-                firstKey="f2"
-                touchedKey={touchedKey}
-                nextKey={nextKey}
-              />
+            <View style={{ width: '100%', height: '100%' }}>
+              <PianoPartView firstKey="f2" touchedKey={touchedKey} nextKey={nextKey} />
             </View>
           </View>
           <View style={styles.footSub2}>
-            <View style={{flex: 1}} />
-            <View style={{flex: 2, backgroundColor: 'purple'}}>
+            <View style={{ flex: 1 }} />
+            <View style={{ flex: 2, backgroundColor: 'purple' }}>
               <Youtube
-                apiKey="AIzaSyCQ-t9tVNIlNhN4jKlAHsNmYoaMs7IuyWE" //For using Youtube API in Android
+                apiKey="AIzaSyCQ-t9tVNIlNhN4jKlAHsNmYoaMs7IuyWE" // For using Youtube API in Android
                 ref={youtubeRef}
                 videoId={params.meta.link} // The YouTube video ID
                 origin="http://www.youtube.com"
@@ -395,6 +470,7 @@ const ChordTableMode = ({navigation, route: {params}}) => {
                 onReady={(e) => console.log(e)}
                 onChangeState={(e) => {
                   if (e.state === 'playing') {
+                    // youtube preloading
                     if (!isLoading) {
                       isLoading = true;
                       setYoutubeStart(false);
@@ -403,7 +479,7 @@ const ChordTableMode = ({navigation, route: {params}}) => {
                     }
                     isStart = true;
                     if (firstStart) {
-                      startTime = Date.now();
+                      startTimestamp = Date.now();
                       firstStart = false;
                       console.log('START');
                     }
@@ -434,14 +510,14 @@ const styles = EStyleSheet.create({
     paddingTop: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    ...ifIphoneX({paddingHorizontal: 60}, {paddingHorizontal: 30}),
+    ...ifIphoneX({ paddingHorizontal: 60 }, { paddingHorizontal: 30 }),
   },
   footContainer: {
     flex: 1.3,
     flexDirection: 'row',
     backgroundColor: '#0d0d0d',
     paddingBottom: 20,
-    ...ifIphoneX({paddingHorizontal: 60}, {paddingHorizontal: 30}),
+    ...ifIphoneX({ paddingHorizontal: 60 }, { paddingHorizontal: 30 }),
   },
   footSub1: {
     flex: 2,
@@ -490,7 +566,7 @@ const styles = EStyleSheet.create({
     color: colors.grey952,
   },
 
-  //chord table
+  // chord table
   focusFrame: {
     position: 'absolute',
     width: `28rem * ${RATIO}`,
@@ -500,7 +576,7 @@ const styles = EStyleSheet.create({
     borderRadius: 7,
     zIndex: 1,
     top: 10,
-    ...ifIphoneX({left: 60}, {left: 30}),
+    ...ifIphoneX({ left: 60 }, { left: 30 }),
   },
   chordTableBox: {
     width: `27rem * ${RATIO}`,
@@ -528,7 +604,7 @@ const styles = EStyleSheet.create({
     backgroundColor: 'rgb(0,0,0)',
   },
 
-  //youtube
+  // youtube
   youtube: {
     flex: 1,
   },
