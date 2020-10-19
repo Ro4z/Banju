@@ -2,15 +2,17 @@
 import React, { useState } from 'react';
 import { ActivityIndicator, Alert, Image, Text, TouchableOpacity, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import Spinner from 'react-native-loading-spinner-overlay';
 import Modal from 'react-native-modal';
 import axios from 'axios';
-import Spinner from 'react-native-loading-spinner-overlay';
+import he from 'he';
 
 import Base from '@base';
 import { WIDTH } from '@constants/dimensions';
 import Ionicons from '@assets/icon/Ionicons';
 import Feather from '@assets/icon/Feather';
 import { colors } from '@constants/color';
+import truncateString from '@utils/truncateString';
 
 const TEST_LINK = 'KhZ5DCd7m6s';
 
@@ -82,7 +84,7 @@ const ResultListItem = ({ data, isReady, navigation }) => {
         </View>
         <View style={styles.footer}>
           <View style={styles.footerSub1}>
-            <Text style={styles.title}>{data.title}</Text>
+            <Text style={styles.title}>{truncateString(he.decode(data.title), 40)}</Text>
             <TouchableOpacity onPress={() => console.log('info')}>
               <Ionicons name="ios-ellipsis-vertical" style={styles.title} />
             </TouchableOpacity>
@@ -121,7 +123,7 @@ const ResultListItem = ({ data, isReady, navigation }) => {
                 </View>
                 <View style={styles.footer}>
                   <View style={styles.footerSub1}>
-                    <Text style={styles.title}>{data.title}</Text>
+                    <Text style={styles.title}>{truncateString(he.decode(data.title), 40)}</Text>
                   </View>
                   <View style={styles.footerSub2}>
                     <Text style={styles.meta}>Chord G・A・Em7・A7</Text>
