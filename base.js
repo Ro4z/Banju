@@ -7,7 +7,7 @@ const search = '/search';
 const Base = {
   POST_MUSICREG: endpoint + musicreg,
   GET_PLAYMETA: `${endpoint + playmeta}/`,
-  GET_SEARCH: endpoint + search,
+  GET_SEARCH: `${endpoint + search}/`,
 };
 
 export default Base;
