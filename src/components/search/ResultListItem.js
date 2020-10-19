@@ -1,38 +1,34 @@
-import React, {useState} from 'react';
-import {
-  ActivityIndicator,
-  Alert,
-  Image,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+/* eslint-disable react/prop-types */
+import React, { useState } from 'react';
+import { ActivityIndicator, Alert, Image, Text, TouchableOpacity, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import Spinner from 'react-native-loading-spinner-overlay';
 import Modal from 'react-native-modal';
 import axios from 'axios';
-import Spinner from 'react-native-loading-spinner-overlay';
+import he from 'he';
 
 import Base from '@base';
-import {WIDTH} from '@constants/dimensions';
+import { WIDTH } from '@constants/dimensions';
 import Ionicons from '@assets/icon/Ionicons';
 import Feather from '@assets/icon/Feather';
-import {colors} from '@constants/color';
+import { colors } from '@constants/color';
+import truncateString from '@utils/truncateString';
 
-const TEST_LINK = 'ded0OSwuXwY';
+const TEST_LINK = 'KhZ5DCd7m6s';
 
-const ResultListItem = ({isReady, navigation}) => {
+const ResultListItem = ({ data, isReady, navigation }) => {
   const [openModal, setOpenModal] = useState(false);
   const [showLoading, setShowLoading] = useState(false);
-
+  console.log(data.convert === 'Banjued' && 'BANJU!');
   const toggleModal = () => {
     setOpenModal(!openModal);
   };
 
-  //TODO: 개발 완료 후 default link 삭제
+  // TODO: 개발 완료 후 default link 삭제
   const pollingGetPlayMeta = (link = 'hHr-tr2Lz_E') => {
+    console.log(link);
     setShowLoading(true);
-    let pollingObj;
-    pollingObj = setInterval(() => {
+    const pollingObj = setInterval(() => {
       axios
         .get(Base.GET_PLAYMETA + link, {
           headers: {
@@ -40,7 +36,7 @@ const ResultListItem = ({isReady, navigation}) => {
           },
         })
         // status: "error" | "working" | "finished"
-        .then(({data, data: {status}}) => {
+        .then(({ data, data: { status } }) => {
           if (status === 'working') {
             console.log('working');
           } else if (status === 'finished') {
@@ -49,13 +45,13 @@ const ResultListItem = ({isReady, navigation}) => {
             setShowLoading(false);
             setOpenModal(false);
             const {
-              content: {items, meta},
+              content: { items, meta },
             } = data;
             navigation.navigate('Practice', {
               chord_arr: items.chord,
               left_note_arr: items.noteLeft,
               right_note_arr: items.noteRight,
-              meta: meta,
+              meta,
             });
           } else {
             console.log('error!');
@@ -75,25 +71,20 @@ const ResultListItem = ({isReady, navigation}) => {
 
   return (
     <>
-      <Spinner visible={showLoading} textContent={'Loading...'} />
-      <TouchableOpacity
-        style={styles.mainContainer}
-        onPress={toggleModal.bind()}>
+      <Spinner visible={showLoading} textContent="Loading..." />
+      <TouchableOpacity style={styles.mainContainer} onPress={toggleModal}>
         <View style={styles.header}>
           {/* TODO: replace with image */}
-          {isReady && (
-            <Image
-              source={require('@assets/img/ready.png')}
-              style={styles.ready}
-            />
+          {data.convert === 'Banjued' && (
+            <Image source={require('@assets/img/ready.png')} style={styles.ready} />
           )}
-          <View style={styles.thumbnailImage} />
+          <View style={styles.thumbnailImageView}>
+            <Image style={styles.thumbnailImage} source={{ uri: data.thumbnail.url }} />
+          </View>
         </View>
         <View style={styles.footer}>
           <View style={styles.footerSub1}>
-            <Text style={styles.title}>
-              영상제목영상제목영상제목{'\n'}영상제목영상제목영상제목
-            </Text>
+            <Text style={styles.title}>{truncateString(he.decode(data.title), 40)}</Text>
             <TouchableOpacity onPress={() => console.log('info')}>
               <Ionicons name="ios-ellipsis-vertical" style={styles.title} />
             </TouchableOpacity>
@@ -107,38 +98,32 @@ const ResultListItem = ({isReady, navigation}) => {
         {/* TODO: 다른 영역 터치 시 modal toggle */}
         <Modal
           isVisible={openModal}
-          style={{alignItems: 'center'}}
+          style={{ alignItems: 'center' }}
           animationIn="slideInUp"
-          animationOut="slideOutDown">
-          <Spinner
-            visible={showLoading}
-            animation="fade"
-            overlayColor="rgba(0,0,0,0.7)"
-          />
+          animationOut="slideOutDown"
+        >
+          <Spinner visible={showLoading} animation="fade" overlayColor="rgba(0,0,0,0.7)" />
           <View style={styles.modalContainer}>
             <View style={styles.modalHeader}>
               <Text style={styles.modalHeaderText}>연주하기</Text>
-              <TouchableOpacity onPress={toggleModal.bind()}>
+              <TouchableOpacity onPress={toggleModal}>
                 <Feather name="x" style={styles.modalHeaderText} />
               </TouchableOpacity>
             </View>
             <View style={styles.modalBody}>
-              <View style={[styles.mainContainer, {height: '90%'}]}>
+              <View style={[styles.mainContainer, { height: '90%' }]}>
                 <View style={styles.header}>
                   {/* TODO: replace with image */}
                   {isReady && (
-                    <Image
-                      source={require('@assets/img/ready.png')}
-                      style={styles.ready}
-                    />
+                    <Image source={require('@assets/img/ready.png')} style={styles.ready} />
                   )}
-                  <View style={styles.thumbnailImage} />
+                  <View style={styles.thumbnailImageView}>
+                    <Image style={styles.thumbnailImage} source={{ uri: data.thumbnail.url }} />
+                  </View>
                 </View>
                 <View style={styles.footer}>
                   <View style={styles.footerSub1}>
-                    <Text style={styles.title}>
-                      영상제목영상제목영상{'\n'}영상제목영상제목영상
-                    </Text>
+                    <Text style={styles.title}>{truncateString(he.decode(data.title), 40)}</Text>
                   </View>
                   <View style={styles.footerSub2}>
                     <Text style={styles.meta}>Chord G・A・Em7・A7</Text>
@@ -151,7 +136,8 @@ const ResultListItem = ({isReady, navigation}) => {
                 style={{
                   flex: 1,
                   marginRight: 20,
-                }}>
+                }}
+              >
                 <View
                   style={{
                     flex: 1,
@@ -160,14 +146,16 @@ const ResultListItem = ({isReady, navigation}) => {
                     marginRight: 27,
                     alignItems: 'center',
                     justifyContent: 'center',
-                  }}>
+                  }}
+                >
                   <Text
                     style={{
                       fontFamily: 'OpenSauceSans-Black',
                       fontSize: 30,
                       fontStyle: 'italic',
                       color: colors.neon2,
-                    }}>
+                    }}
+                  >
                     A+
                   </Text>
                 </View>
@@ -175,7 +163,8 @@ const ResultListItem = ({isReady, navigation}) => {
                   style={{
                     flex: 1,
                     marginRight: 27,
-                  }}>
+                  }}
+                >
                   <View
                     style={{
                       flex: 1,
@@ -184,13 +173,15 @@ const ResultListItem = ({isReady, navigation}) => {
                       justifyContent: 'space-between',
                       borderBottomWidth: 1,
                       borderBottomColor: colors.grey152,
-                    }}>
+                    }}
+                  >
                     <Text
                       style={{
                         fontFamily: 'OpenSauceSans-Medium',
                         fontSize: 14,
                         color: colors.grey40Subtitle2,
-                      }}>
+                      }}
+                    >
                       Chord
                     </Text>
                     <Text
@@ -198,7 +189,8 @@ const ResultListItem = ({isReady, navigation}) => {
                         fontFamily: 'OpenSauceSans-Medium',
                         fontSize: 14,
                         color: colors.grey702,
-                      }}>
+                      }}
+                    >
                       85%
                     </Text>
                   </View>
@@ -208,13 +200,15 @@ const ResultListItem = ({isReady, navigation}) => {
                       flexDirection: 'row',
                       alignItems: 'center',
                       justifyContent: 'space-between',
-                    }}>
+                    }}
+                  >
                     <Text
                       style={{
                         fontFamily: 'OpenSauceSans-Medium',
                         fontSize: 14,
                         color: colors.grey40Subtitle2,
-                      }}>
+                      }}
+                    >
                       Rhythm
                     </Text>
                     <Text
@@ -222,7 +216,8 @@ const ResultListItem = ({isReady, navigation}) => {
                         fontFamily: 'OpenSauceSans-Medium',
                         fontSize: 14,
                         color: colors.grey702,
-                      }}>
+                      }}
+                    >
                       95%
                     </Text>
                   </View>
@@ -236,13 +231,15 @@ const ResultListItem = ({isReady, navigation}) => {
                   borderColor: colors.neon2,
                   alignItems: 'center',
                   justifyContent: 'center',
-                }}>
+                }}
+              >
                 <Text
                   style={{
                     fontFamily: 'OpenSauceSans-Black',
                     fontSize: 20,
                     color: colors.neon2,
-                  }}>
+                  }}
+                >
                   PRACTICE
                 </Text>
                 <Text
@@ -251,7 +248,8 @@ const ResultListItem = ({isReady, navigation}) => {
                     fontSize: 14,
                     letterSpacing: -0.53,
                     color: colors.neon2,
-                  }}>
+                  }}
+                >
                   반주 연습하기
                 </Text>
               </View>
@@ -259,8 +257,9 @@ const ResultListItem = ({isReady, navigation}) => {
             <TouchableOpacity
               style={styles.modalPlayBtn}
               onPress={() => {
-                pollingGetPlayMeta(TEST_LINK);
-              }}>
+                pollingGetPlayMeta(data.id);
+              }}
+            >
               <Text style={styles.modalPlayText}>PLAY</Text>
             </TouchableOpacity>
           </View>
@@ -280,15 +279,19 @@ const styles = EStyleSheet.create({
     marginRight: '11rem',
     marginBottom: '10rem',
   },
-  thumbnailImage: {
+  thumbnailImageView: {
     width: '100%',
     height: '100%',
     backgroundColor: 'rgba(255,255,255,0.1)',
+  },
+  thumbnailImage: {
+    flex: 1,
   },
   ready: {
     position: 'absolute',
     height: '20%',
     width: '40%',
+    zIndex: 1,
   },
   header: {
     flex: 1.2,
@@ -300,7 +303,7 @@ const styles = EStyleSheet.create({
   footerSub1: {
     flex: 2,
     flexDirection: 'row',
-    //alignItems: 'center',
+    // alignItems: 'center',
   },
   footerSub2: {
     flex: 1,
@@ -317,7 +320,7 @@ const styles = EStyleSheet.create({
     color: colors.grey40Subtitle2,
   },
 
-  //play modal
+  // play modal
   modalContainer: {
     width: '112%',
     height: '50%',

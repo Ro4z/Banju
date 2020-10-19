@@ -12,7 +12,7 @@
     "simulator": "react-native run-ios --simulator='iPadPro'",
     "device": "react-native run-ios --device",
     "postinstall": "rndebugger-open",
-    "precommit" : "lint-staged"
+    "precommit": "lint-staged"
   },
   "dependencies": {
     "@invertase/react-native-apple-authentication": "^2.0.2",
@@ -25,6 +25,7 @@
     "@react-navigation/stack": "^5.8.0",
     "@ro4z/react-native-youtube": "^1.0.0",
     "axios": "^0.20.0",
+    "he": "^1.2.0",
     "just-range": "^2.1.0",
     "prop-types": "^15.7.2",
     "react": "16.13.1",
