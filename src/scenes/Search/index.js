@@ -1,59 +1,81 @@
-import React, {useEffect, useState} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  TouchableOpacity,
-} from 'react-native';
+/* eslint-disable react/prop-types */
+import React, { useEffect, useState, useRef } from 'react';
+import { Text, View, TextInput, TouchableOpacity, Alert } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import {ifIphoneX} from 'react-native-iphone-x-helper';
+import { ifIphoneX } from 'react-native-iphone-x-helper';
 import Orientation from 'react-native-orientation';
+import Spinner from 'react-native-loading-spinner-overlay';
+import axios from 'axios';
 
 import ResultList from '@components/search/ResultList';
-import {BACKGROUND_COLOR} from '@constants/color';
+import { BACKGROUND_COLOR, colors } from '@constants/color';
 import Ionicons from '@assets/icon/Ionicons';
 import Feather from '@assets/icon/Feather';
-import {colors} from '@constants/color';
+import Base from '@base';
 
-const Search = ({route, navigation}) => {
+const Search = ({ route, navigation }) => {
   const [searchInput, setSearchInput] = useState('');
+  const [searchData, setSearchData] = useState([]);
+  const [showLoading, setShowLoading] = useState(false);
 
   useEffect(() => {
     if (typeof route.params === 'undefined') return;
-    if (route.params.hasOwnProperty('query'))
-      setSearchInput(route.params.query);
+    Object.prototype.hasOwnProperty.call(setSearchInput(route.params.query), 'query');
   }, [route]);
 
   useEffect(() => {
     Orientation.lockToPortrait();
   }, []);
 
+  const fetchGetSearch = () => {
+    setShowLoading(true);
+    console.log('search');
+    if (searchInput === '') return;
+    console.log(searchInput);
+
+    axios
+      .get(Base.GET_SEARCH + searchInput)
+      .then((res) => {
+        setSearchData(res.data.items);
+        setShowLoading(false);
+      })
+      .catch((err) => {
+        console.log('GET SEARCH ERR :>>', err);
+        Alert.alert('Sorry', '오류가 발생하였습니다.');
+        setShowLoading(false);
+      });
+  };
+
   return (
-    <View style={styles.mainContainer}>
-      <View style={styles.headerContainer}>
-        <View style={styles.searchBarView}>
-          <Ionicons name="search" style={styles.searchIcon} />
-          <TextInput
-            style={styles.searchInput}
-            placeholder="곡 제목을 검색하세요"
-            value={searchInput}
-            placeholderTextColor={colors.grey40Subtitle2}
-            onSubmitEditing={() => navigation.navigate('Search')}
-          />
+    <>
+      <Spinner visible={showLoading} textContent="Loading..." />
+      <View style={styles.mainContainer}>
+        <View style={styles.headerContainer}>
+          <View style={styles.searchBarView}>
+            <Ionicons name="search" style={styles.searchIcon} />
+            <TextInput
+              style={styles.searchInput}
+              placeholder="곡 제목을 검색하세요"
+              value={searchInput}
+              onChangeText={(text) => setSearchInput(text)}
+              placeholderTextColor={colors.grey40Subtitle2}
+              onSubmitEditing={() => fetchGetSearch()}
+              autoFocus
+            />
+            <TouchableOpacity>
+              <Feather name="x" style={styles.searchIcon} />
+            </TouchableOpacity>
+          </View>
           <TouchableOpacity>
-            <Feather name="x" style={styles.searchIcon} />
+            <Text style={styles.cancelText}>Cancel</Text>
           </TouchableOpacity>
         </View>
-        <TouchableOpacity>
-          <Text style={styles.cancelText}>Cancel</Text>
-        </TouchableOpacity>
-      </View>
 
-      <View style={styles.bodyContainer}>
-        <ResultList navigation={navigation} />
+        <View style={styles.bodyContainer}>
+          <ResultList navigation={navigation} data={searchData} />
+        </View>
       </View>
-    </View>
+    </>
   );
 };
 
@@ -71,7 +93,7 @@ const styles = EStyleSheet.create({
       },
       {
         paddingTop: 60,
-      },
+      }
     ),
   },
   headerContainer: {
@@ -86,7 +108,7 @@ const styles = EStyleSheet.create({
     marginTop: 40,
   },
 
-  //search bar
+  // search bar
   searchBarView: {
     width: '80%',
     height: '40rem',
