@@ -13,6 +13,7 @@ import SimpleLineIcons from '@assets/icon/SimpleLineIcons';
 import { BACKGROUND_COLOR, colors } from '@constants/color';
 import { WIDTH, HEIGHT } from '@constants/dimensions';
 // import getNoteTimeEachNote from '@utils/getTimeEachNote';
+import secondToString from '@utils/secondToString';
 
 import PianoPartView from '@components/piano/PianoPartView';
 import Header from '@components/practice/phone/Header';
@@ -348,6 +349,7 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
               flex: 2,
               flexDirection: 'row',
               justifyContent: 'space-between',
+              alignItems: 'center',
             }}
           >
             <View style={styles.syncView}>
@@ -391,6 +393,8 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
             <TouchableOpacity onPress={backwardRewind}>
               <Feather style={styles.buttonIconLarge} name="skip-back" />
             </TouchableOpacity>
+
+            <Text style={styles.syncNumberText}>{secondToString(currentSecond)}</Text>
             {isStart ? (
               <TouchableOpacity onPress={pause}>
                 <Feather style={styles.buttonIconLarge} name="pause" />
