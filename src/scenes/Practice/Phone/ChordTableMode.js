@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Text, View, TouchableOpacity, ScrollView, Animated } from 'react-native';
+import { Text, View, TouchableOpacity, ScrollView, Animated, FlatList } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import Orientation from 'react-native-orientation';
 import { ifIphoneX } from 'react-native-iphone-x-helper';
@@ -148,7 +148,7 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
     youtubeRef.current.seekTo(0);
     currentSecond = 0;
     setYoutubeStart(false);
-    scrollViewRef.current.scrollTo({ x: 0 });
+    scrollViewRef.current.scrollToIndex({ index: 0 });
 
     setNextKey([]);
     setTouchedKey([]);
@@ -265,14 +265,14 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
       currentSecondInteger = parseInt(currentSecond, 10);
       if (chordTableFirstMove) {
         chordTableFirstMove = false;
-        moveCount += 1;
+        // moveCount += 1;
       } else {
         frameXPosition += moveDistance;
         moveCount += 1;
         if (moveCount !== 1 && moveCount % 4 === 1) {
           frameXPosition = 0;
           currentXPosition += 15;
-          scrollViewRef.current.scrollTo({ x: currentXPosition });
+          // scrollViewRef.current.scrollTo({ x: currentXPosition });
         }
         // Animated.spring(anim, {
         //   toValue: frameXPosition,
@@ -281,7 +281,7 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
         // }).start();
         currentXPosition += moveDistance;
       }
-      scrollViewRef.current.scrollTo({ x: currentXPosition });
+      scrollViewRef.current.scrollToIndex({ index: moveCount });
     }
 
     // play chord of right note
@@ -361,7 +361,6 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
             }}
           >
             {React.useMemo(() => {
-              console.log('SYNC VIEW RENDER');
               return (
                 <>
                   <View style={styles.syncView}>
@@ -457,16 +456,20 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
           {React.useMemo(() => {
             console.log('SCROLL VIEW RENDER');
             return (
-              <ScrollView horizontal ref={scrollViewRef}>
-                {notes.map(({ name, second }, index) => {
+              <FlatList
+                data={notes}
+                horizontal
+                ref={scrollViewRef}
+                keyExtractor={(item) => item.name + item.second}
+                renderItem={({ item, index }) => {
                   if (index % 4 === 3) {
                     return (
                       <>
-                        <View style={styles.chordTableBoxFrame} key={name + second}>
+                        <View style={styles.chordTableBoxFrame}>
                           {/* FIXME: is this anti pattern..? */}
-                          <TouchableOpacity onPress={() => seekTo(second, index)}>
+                          <TouchableOpacity onPress={() => seekTo(item.second, index)}>
                             <View style={styles.chordTableBox}>
-                              <Text style={styles.chordTableText}>{name}</Text>
+                              <Text style={styles.chordTableText}>{item.name}</Text>
                             </View>
                           </TouchableOpacity>
                         </View>
@@ -476,17 +479,17 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
                   }
                   return (
                     <>
-                      <View style={styles.chordTableBoxFrame} key={name + second}>
-                        <TouchableOpacity onPress={() => seekTo(second, index)}>
+                      <View style={styles.chordTableBoxFrame}>
+                        <TouchableOpacity onPress={() => seekTo(item.second, index)}>
                           <View style={styles.chordTableBox}>
-                            <Text style={styles.chordTableText}>{name}</Text>
+                            <Text style={styles.chordTableText}>{item.name}</Text>
                           </View>
                         </TouchableOpacity>
                       </View>
                     </>
                   );
-                })}
-              </ScrollView>
+                }}
+              />
             );
           }, [notes])}
         </View>
