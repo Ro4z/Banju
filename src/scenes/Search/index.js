@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text, View, TextInput, TouchableOpacity, Alert } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { ifIphoneX } from 'react-native-iphone-x-helper';
@@ -13,8 +13,12 @@ import Ionicons from '@assets/icon/Ionicons';
 import Feather from '@assets/icon/Feather';
 import Base from '@base';
 
+const TEST_TOKEN =
+  'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZlNmFlNTIwLTE1ZTctMTFlYi05YTU5LThiYmMwNGE5OWNlOSIsImlzcyI6Imh0dHA6Ly9hcGkuZGFpbHliYW5qdS5jb20iLCJpYXQiOjE2MDM1MzY5MzR9.Nvk0M4ow4gvKauAxtALzUkq-BPOOpTpiJP8MB3o3TZI';
+
 const Search = ({ route, navigation }) => {
-  const [searchInput, setSearchInput] = useState('');
+  // TODO: 테스트 완료 후 삭제
+  const [searchInput, setSearchInput] = useState('dynamite');
   const [searchData, setSearchData] = useState([]);
   const [showLoading, setShowLoading] = useState(false);
 
@@ -25,6 +29,8 @@ const Search = ({ route, navigation }) => {
 
   useEffect(() => {
     Orientation.lockToPortrait();
+    // TODO: 테스트 완료 후 삭제
+    fetchGetSearch();
   }, []);
 
   const fetchGetSearch = () => {
@@ -34,7 +40,11 @@ const Search = ({ route, navigation }) => {
     console.log(searchInput);
 
     axios
-      .get(Base.GET_SEARCH + searchInput)
+      .get(Base.GET_SEARCH + searchInput, {
+        headers: {
+          Authorization: TEST_TOKEN,
+        },
+      })
       .then((res) => {
         setSearchData(res.data.items);
         setShowLoading(false);
