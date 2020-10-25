@@ -1,13 +1,12 @@
 /* eslint-disable react/prop-types */
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Text, View, TouchableOpacity, ScrollView, Animated, FlatList } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { Text, View, TouchableOpacity, Animated, FlatList } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import Orientation from 'react-native-orientation';
 import { ifIphoneX } from 'react-native-iphone-x-helper';
-import { GameLoop, GameEngine } from 'react-native-game-engine';
+import { GameLoop } from 'react-native-game-engine';
 import PianoSampler from 'react-native-piano-sampler';
 import Youtube from '@ro4z/react-native-youtube';
-import { getTime } from '@ro4z/react-native-system-time';
 
 import Feather from '@assets/icon/Feather';
 import SimpleLineIcons from '@assets/icon/SimpleLineIcons';
@@ -28,35 +27,29 @@ let frameXPosition = 0;
 let moveCount = 0;
 
 // using in play
-let isLoading = false;
-let isStart = false;
-let firstStart = true;
+let isYoutubeLoading = false;
+let isPlayStart = false;
 let currentSecond = 0;
 let currentSecondInteger = 0;
 let startTimestamp = 0;
-let stoppedSecond = 0;
-let stopElapsedSecond = 0;
 let youtubeDuration = 0;
 
 let leftNoteArrIdx = 0;
 let rightNoteArrIdx = 0;
-let playedLeftNoteKeys = [];
-let playedRightNoteKeys = [];
 let progress = 0;
 
 let chordTableFirstExecuted = true;
 let chordTableFirstMove = true;
-// const moveDistance = 4;
+
 const moveDistance = EStyleSheet.value(`30 * ${RATIO} * $rem `);
 
 const ChordTableMode = ({ navigation, route: { params } }) => {
   const [youtubeStart, setYoutubeStart] = useState(false);
   const [touchedKey, setTouchedKey] = useState([]);
   const [nextKey, setNextKey] = useState([]);
-  const [chordSync, setChordSync] = useState(0);
-  const [pianoSync, setPianoSync] = useState(0);
   const [playSync, setPlaySync] = useState(0);
   const [volume, setVolume] = useState(5);
+
   const scrollViewRef = useRef();
   const youtubeRef = useRef();
 
@@ -78,8 +71,11 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
     right_note_arr: rightNoteArr,
   } = params;
 
-  // using in volume, sync control button
+  const animationStyles = {
+    transform: [{ translateX: anim }],
+  };
 
+  // using in volume, sync control button
   const minusVolume = () => {
     if (volume === 0) return;
     setVolume(volume - 1);
@@ -100,16 +96,13 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
     setPlaySync(playSync + 0.05);
   };
 
-  const animationStyles = {
-    transform: [{ translateX: anim }],
-  };
-
+  // control play
   const start = async () => {
     setYoutubeStart(true);
   };
 
   const pause = async () => {
-    isStart = false;
+    isPlayStart = false;
     setYoutubeStart(false);
 
     // const tmp = await getTime();
@@ -128,18 +121,13 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
     frameXPosition = 0;
     moveCount = 0;
 
-    firstStart = true;
-    isStart = false;
+    isPlayStart = false;
     currentSecond = 0;
     currentSecondInteger = 0;
     startTimestamp = 0;
-    stoppedSecond = 0;
-    stopElapsedSecond = 0;
 
     leftNoteArrIdx = 0;
     rightNoteArrIdx = 0;
-    playedLeftNoteKeys = [];
-    playedRightNoteKeys = [];
     progress = 0;
 
     chordTableFirstExecuted = true;
@@ -167,15 +155,12 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
    *
    * TODO: 시작 안 했을 때 누르면 시작하도록
    */
-
   const seekTo = (second = 0, index = 0) => {
     // chord table ScrollView scroll
-
     const sectionNumber = parseInt(index / 4, 10) - 1;
     currentXPosition = (moveDistance * 4 + 15) * sectionNumber;
     scrollViewRef.current.scrollToIndex({ index });
 
-    moveCount = index;
     // move chord table focus
     frameXPosition = moveDistance * (index % 4);
     // Animated.spring(anim, {
@@ -184,7 +169,10 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
     //   useNativeDriver: true,
     // }).start();
 
-    // sync note
+    // sync with chord table
+    moveCount = index;
+
+    // sync with note array
     if (second > currentSecond) {
       while (second > rightNoteArr.items[rightNoteArrIdx].second) {
         rightNoteArrIdx += 1;
@@ -201,9 +189,9 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
       }
     }
 
+    // set time to touched point
     currentSecond = second;
     startTimestamp = Date.now();
-    // set time to touched point
 
     // stop all note
     for (let i = 21; i <= 108; i += 1) {
@@ -217,42 +205,38 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
   // TODO: 재생이 끝났을 때의 처리
   // using in GameLoop (call back that execute every 16ms)
   const updateHandler = async () => {
-    if (!isStart) return;
+    if (!isPlayStart) return;
 
     const ST = Date.now();
 
     currentSecond += (ST - startTimestamp) / 1000;
     startTimestamp = ST;
 
-    if (currentSecond)
-      if (chordTableFirstExecuted) {
-        chordTableFirstExecuted = false;
+    if (chordTableFirstExecuted) {
+      chordTableFirstExecuted = false;
 
-        // 시작 전 nextKey setting
-        for (let i = 1; i < 50; i += 1) {
-          if (rightNoteArr.items[rightNoteArrIdx + i].key.length !== 0) {
-            if (rightNoteArr.items[rightNoteArrIdx + i].key[0].noteOn === 1) {
-              const tmpArr2 = [];
-              rightNoteArr.items[rightNoteArrIdx + i].key.forEach((key) => {
-                tmpArr2.push(key.midiNum - 12);
-              });
-              setNextKey(tmpArr2);
-              break;
-            }
+      // 시작 전 nextKey setting
+      for (let i = 1; i < 50; i += 1) {
+        if (rightNoteArr.items[rightNoteArrIdx + i].key.length !== 0) {
+          if (rightNoteArr.items[rightNoteArrIdx + i].key[0].noteOn === 1) {
+            const tmpArr2 = [];
+            rightNoteArr.items[rightNoteArrIdx + i].key.forEach((key) => {
+              tmpArr2.push(key.midiNum - 12);
+            });
+            setNextKey(tmpArr2);
+            break;
           }
         }
       }
+    }
 
-    // console.log('currentSecond :>> ', currentSecond);
-
-    // TODO: 동영상의 길이를 받아와서 progress 계산에 적용
     // move progress bar
     progress = currentSecond / youtubeDuration;
 
     // end event
     if (currentSecond > youtubeDuration) pause();
 
-    // TODO: focus frame의 위치를 setting에서 정하도록
+    // TODO: focus frame의 작동 방식을 setting에서 정하도록
     // move chord table
     if (currentSecond >= notes[moveCount].second + playSync) {
       currentSecondInteger = parseInt(currentSecond, 10);
@@ -277,7 +261,7 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
       scrollViewRef.current.scrollToIndex({ index: moveCount });
     }
 
-    // play chord of right note
+    // play chord in right note
     if (currentSecond >= rightNoteArr.items[rightNoteArrIdx].second + playSync) {
       if (rightNoteArr.items[rightNoteArrIdx].key.length !== 0) {
         if (rightNoteArr.items[rightNoteArrIdx].key[0].noteOn === 1) {
@@ -286,6 +270,7 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
             PianoSampler.playNote(key.midiNum, 115);
             tmpArr.push(key.midiNum - 12);
           });
+          // show touched key in PianoPartView
           setTouchedKey(tmpArr);
 
           for (let i = 1; i < 50 && i < rightNoteArr.items.length; i += 1) {
@@ -295,6 +280,7 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
                 rightNoteArr.items[rightNoteArrIdx + i].key.forEach((key) => {
                   tmpArr2.push(key.midiNum - 12);
                 });
+                // show next key in PianoPartView
                 setNextKey(tmpArr2);
                 break;
               }
@@ -303,12 +289,13 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
         }
       } else {
         // N chord
+        // FIXME: is cause performance degradation?
         // setTouchedKey([]);
       }
       rightNoteArrIdx += 1;
     }
 
-    // play chord of left note
+    // play chord in left note
     if (currentSecond >= leftNoteArr.items[leftNoteArrIdx].second + playSync) {
       if (leftNoteArr.items[leftNoteArrIdx].key.length !== 0) {
         if (leftNoteArr.items[leftNoteArrIdx].key[0].noteOn === 1) {
@@ -319,10 +306,6 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
       }
       leftNoteArrIdx += 1;
     }
-
-    // const FT = Date.now();
-
-    // console.log('update handler execute Time :>> ', FT - ST);
   };
 
   return (
@@ -423,12 +406,11 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
             }, [youtubeStart, volume, playSync])}
 
             {React.useMemo(() => {
-              console.log('SECOND TEXT RENDER');
               return <Text style={styles.syncNumberText}>{secondToString(currentSecond)}</Text>;
             }, [currentSecondInteger])}
 
             {React.useMemo(() => {
-              return isStart ? (
+              return isPlayStart ? (
                 <TouchableOpacity onPress={pause}>
                   <Feather style={styles.buttonIconLarge} name="pause" />
                 </TouchableOpacity>
@@ -437,7 +419,7 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
                   <Feather style={styles.buttonIconLarge} name="play" />
                 </TouchableOpacity>
               );
-            }, [isStart])}
+            }, [isPlayStart])}
           </View>
         </View>
 
@@ -445,7 +427,6 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
           {/* using in chord-table focusing */}
           <Animated.View style={[styles.focusFrame, animationStyles]} />
           {/* render each chord table box in notes  */}
-
           {React.useMemo(() => {
             console.log('SCROLL VIEW RENDER');
             return (
@@ -459,7 +440,7 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
                     return (
                       <>
                         <View style={styles.chordTableBoxFrame}>
-                          {/* FIXME: is this anti pattern..? */}
+                          {/* FIXME: is this anti pattern..? how to */}
                           <TouchableOpacity onPress={() => seekTo(item.second, index)}>
                             <View style={styles.chordTableBox}>
                               <Text style={styles.chordTableText}>{item.name}</Text>
@@ -486,6 +467,7 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
             );
           }, [notes])}
         </View>
+
         <View style={styles.footContainer}>
           <View style={styles.footSub1}>
             {React.useMemo(() => {
@@ -511,8 +493,8 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
                     onChangeState={async (e) => {
                       if (e.state === 'playing') {
                         // youtube preloading
-                        if (!isLoading) {
-                          isLoading = true;
+                        if (!isYoutubeLoading) {
+                          isYoutubeLoading = true;
                           setYoutubeStart(false);
                           youtubeRef.current.seekTo(0);
                           youtubeDuration = await youtubeRef.current.getDuration();
@@ -520,7 +502,7 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
                         }
                         // currentSecond = await youtubeRef.current.getCurrentTime();
                         startTimestamp = Date.now();
-                        isStart = true;
+                        isPlayStart = true;
                       }
                     }}
                     // onChangeQuality={(e) => console.log(e)}
