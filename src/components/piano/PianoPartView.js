@@ -1,25 +1,20 @@
 import React from 'react';
-import {StyleSheet, Text, View, Image} from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import PianoSampler from 'react-native-piano-sampler';
 
 import Piano from './Piano';
-import {BACKGROUND_COLOR} from '../../constants/color';
+import { BACKGROUND_COLOR } from '../../constants/color';
 
 PianoSampler.prepare();
 
-const PianoPartView = ({
-  touchedKey,
-  nextKey,
-  firstKey = 'c4',
-  lastKey = 'b4',
-}) => {
+const PianoPartView = ({ touchedKey, nextKey, firstKey = 'f2', lastKey = 'b4' }) => {
   // const x = position[0];
   // const y = position[1];
 
   return (
     <View style={[styles.mainContainer]}>
       <Piano
-        noteRange={{first: firstKey, last: lastKey}}
+        noteRange={{ first: firstKey, last: lastKey }}
         touchedKey={touchedKey || []}
         nextKey={nextKey || []}
         onPlayNoteInput={(chord, midi) => {
@@ -34,9 +29,15 @@ const PianoPartView = ({
   );
 };
 
-export default PianoPartView;
+export default React.memo(PianoPartView, (prevProps, nextProps) => {
+  return (
+    prevProps.touchedKey === nextProps.touchedKey &&
+    prevProps.nextKey === nextProps.nextKey &&
+    prevProps.firstKey === nextProps.firstKey
+  );
+});
 
-//TODO: layout 점검
+// TODO: layout 점검
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
