@@ -33,10 +33,10 @@ let isStart = false;
 let firstStart = true;
 let currentSecond = 0;
 let currentSecondInteger = 0;
-let startSecond = 0;
+let startTimestamp = 0;
 let stoppedSecond = 0;
 let stopElapsedSecond = 0;
-const youtubeCurrentSecond = 0;
+let youtubeDuration = 0;
 
 let leftNoteArrIdx = 0;
 let rightNoteArrIdx = 0;
@@ -64,7 +64,6 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
     Orientation.lockToLandscape();
     // start one time for youtube preloading
     setYoutubeStart(true);
-
     return () => {
       // stop all note
       for (let i = 21; i <= 108; i += 1) {
@@ -111,10 +110,10 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
 
   const pause = async () => {
     isStart = false;
+    setYoutubeStart(false);
 
     // const tmp = await getTime();
     // stoppedSecond = parseInt(tmp / 1000000, 10) / 1000;
-    // setYoutubeStart(false);
 
     // stop all note
     for (let i = 21; i <= 108; i += 1) {
@@ -133,7 +132,7 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
     isStart = false;
     currentSecond = 0;
     currentSecondInteger = 0;
-    startSecond = 0;
+    startTimestamp = 0;
     stoppedSecond = 0;
     stopElapsedSecond = 0;
 
@@ -169,24 +168,21 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
    * TODO: 시작 안 했을 때 누르면 시작하도록
    */
 
-  const seekTo = async (second = 0, index = 0) => {
+  const seekTo = (second = 0, index = 0) => {
     // chord table ScrollView scroll
+
     const sectionNumber = parseInt(index / 4, 10) - 1;
-    const tmp = await getTime();
     currentXPosition = (moveDistance * 4 + 15) * sectionNumber;
-    scrollViewRef.current.scrollTo({ x: currentXPosition });
-    startSecond = parseInt(tmp / 1000000, 10) / 1000;
-    moveCount = index - 1;
+    scrollViewRef.current.scrollToIndex({ index });
+
+    moveCount = index;
     // move chord table focus
     frameXPosition = moveDistance * (index % 4);
-    Animated.spring(anim, {
-      toValue: frameXPosition,
-      duration: 250,
-      useNativeDriver: true,
-    }).start();
-
-    // pause();
-    // variable setting
+    // Animated.spring(anim, {
+    //   toValue: frameXPosition,
+    //   duration: 250,
+    //   useNativeDriver: true,
+    // }).start();
 
     // sync note
     if (second > currentSecond) {
@@ -205,17 +201,14 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
       }
     }
 
+    currentSecond = second;
+    startTimestamp = Date.now();
     // set time to touched point
-
-    // TODO: 동영상의 길이를 받아와서 progress 계산에 적용
-    progress = currentSecond / 197;
 
     // stop all note
     for (let i = 21; i <= 108; i += 1) {
       PianoSampler.stopNote(i);
     }
-    currentSecond = second;
-    startSecond = parseInt(tmp / 1000000, 10) / 1000;
 
     // youtube seek to
     youtubeRef.current.seekTo(second);
@@ -223,41 +216,41 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
 
   // TODO: 재생이 끝났을 때의 처리
   // using in GameLoop (call back that execute every 16ms)
-
   const updateHandler = async () => {
     if (!isStart) return;
 
     const ST = Date.now();
 
-    currentSecond += (ST - startSecond) / 1000;
-    startSecond = ST;
+    currentSecond += (ST - startTimestamp) / 1000;
+    startTimestamp = ST;
 
-    if (chordTableFirstExecuted) {
-      chordTableFirstExecuted = false;
+    if (currentSecond)
+      if (chordTableFirstExecuted) {
+        chordTableFirstExecuted = false;
 
-      // 시작 전 nextKey setting
-      for (let i = 1; i < 50; i += 1) {
-        if (rightNoteArr.items[rightNoteArrIdx + i].key.length !== 0) {
-          if (rightNoteArr.items[rightNoteArrIdx + i].key[0].noteOn === 1) {
-            const tmpArr2 = [];
-            rightNoteArr.items[rightNoteArrIdx + i].key.forEach((key) => {
-              tmpArr2.push(key.midiNum - 12);
-            });
-            setNextKey(tmpArr2);
-            break;
+        // 시작 전 nextKey setting
+        for (let i = 1; i < 50; i += 1) {
+          if (rightNoteArr.items[rightNoteArrIdx + i].key.length !== 0) {
+            if (rightNoteArr.items[rightNoteArrIdx + i].key[0].noteOn === 1) {
+              const tmpArr2 = [];
+              rightNoteArr.items[rightNoteArrIdx + i].key.forEach((key) => {
+                tmpArr2.push(key.midiNum - 12);
+              });
+              setNextKey(tmpArr2);
+              break;
+            }
           }
         }
       }
-    }
 
     // console.log('currentSecond :>> ', currentSecond);
 
     // TODO: 동영상의 길이를 받아와서 progress 계산에 적용
     // move progress bar
-    // progress = currentSecond / 283;
+    progress = currentSecond / youtubeDuration;
 
     // end event
-    if (currentSecond > 283) pause();
+    if (currentSecond > youtubeDuration) pause();
 
     // TODO: focus frame의 위치를 setting에서 정하도록
     // move chord table
@@ -327,7 +320,7 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
       leftNoteArrIdx += 1;
     }
 
-    const FT = Date.now();
+    // const FT = Date.now();
 
     // console.log('update handler execute Time :>> ', FT - ST);
   };
@@ -339,7 +332,7 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
           return (
             <Header navigation={navigation} title={params.meta.songName} progress={progress} />
           );
-        }, [params])}
+        }, [params, progress])}
 
         <View style={[styles.bodyContainer, { alignItems: 'center' }]}>
           {React.useMemo(() => {
@@ -515,22 +508,19 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
                     origin="http://www.youtube.com"
                     play={youtubeStart} // control playback of video with true/false
                     onReady={(e) => console.log(e)}
-                    onChangeState={(e) => {
+                    onChangeState={async (e) => {
                       if (e.state === 'playing') {
                         // youtube preloading
                         if (!isLoading) {
                           isLoading = true;
                           setYoutubeStart(false);
                           youtubeRef.current.seekTo(0);
+                          youtubeDuration = await youtubeRef.current.getDuration();
                           return;
                         }
+                        // currentSecond = await youtubeRef.current.getCurrentTime();
+                        startTimestamp = Date.now();
                         isStart = true;
-                        if (firstStart) {
-                          // startSecond = parseInt(tmp / 1000000, 10) / 1000;
-                          startSecond = Date.now();
-                          firstStart = false;
-                          console.log('START');
-                        }
                       }
                     }}
                     // onChangeQuality={(e) => console.log(e)}
