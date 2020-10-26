@@ -87,12 +87,13 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
     PianoSampler.setVolume((volume + 1) / 10);
   };
 
-  // TODO: sync 제한 추가
   const minusPlaySync = () => {
+    if (playSync === -5) return;
     setPlaySync(playSync - 0.05);
   };
 
   const plusPlaySync = () => {
+    if (playSync === 5) return;
     setPlaySync(playSync + 0.05);
   };
 
@@ -104,9 +105,6 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
   const pause = async () => {
     isPlayStart = false;
     setYoutubeStart(false);
-
-    // const tmp = await getTime();
-    // stoppedSecond = parseInt(tmp / 1000000, 10) / 1000;
 
     // stop all note
     for (let i = 21; i <= 108; i += 1) {
@@ -306,6 +304,9 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
       }
       leftNoteArrIdx += 1;
     }
+
+    const FT = Date.now();
+    console.log('execute time', FT - ST);
   };
 
   return (
