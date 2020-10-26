@@ -416,11 +416,17 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
                   <Feather style={styles.buttonIconLarge} name="pause" />
                 </TouchableOpacity>
               ) : (
-                <TouchableOpacity onPress={start}>
-                  <Feather style={styles.buttonIconLarge} name="play" />
+                <TouchableOpacity onPress={youtubeStart ? null : start}>
+                  <Feather
+                    style={[
+                      styles.buttonIconLarge,
+                      youtubeStart && { color: colors.grey30Dimmed2 },
+                    ]}
+                    name="play"
+                  />
                 </TouchableOpacity>
               );
-            }, [isPlayStart])}
+            }, [youtubeStart, isPlayStart])}
           </View>
         </View>
 
