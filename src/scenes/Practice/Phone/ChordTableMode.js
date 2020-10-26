@@ -330,7 +330,7 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
 
           <View
             style={{
-              flex: 1.5,
+              flex: 2,
               flexDirection: 'row',
               justifyContent: 'space-between',
               alignItems: 'center',
@@ -566,17 +566,18 @@ const styles = EStyleSheet.create({
   },
   buttonIconLarge: {
     color: colors.neonText2,
-    fontSize: 28,
+    fontSize: 35,
   },
   buttonIconSmall: {
     color: colors.neonText2,
-    fontSize: 22,
+    fontSize: 27,
   },
   buttonTitleText: {
     fontFamily: 'OpenSauceSans-Black',
     fontSize: 18,
     color: colors.grey152,
     marginRight: 5,
+    marginLeft: 8,
   },
   syncView: {
     flexDirection: 'row',
