@@ -16,6 +16,7 @@
           "@navigations": "./src/navigations",
           "@scenes": "./src/scenes",
           "@services": "./src/services",
+          "@store" : "./src/store",
           "@constants": "./src/constants",
           "@utils": "./src/utils"
         }
