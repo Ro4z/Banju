@@ -5,19 +5,21 @@ GoogleSignin.configure({
   offlineAccess: false,
 });
 const fetchGoogleLogin = async () => {
-  GoogleSignin.signIn()
-    .then(() => {
-      GoogleSignin.getTokens()
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  return new Promise((resolve, reject) => {
+    GoogleSignin.signIn()
+      .then(() => {
+        GoogleSignin.getTokens()
+          .then((res) => {
+            resolve(res);
+          })
+          .catch((err) => {
+            reject(err);
+          });
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
 };
 
 export { fetchGoogleLogin };
