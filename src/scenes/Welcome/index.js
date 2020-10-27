@@ -1,100 +1,165 @@
-import React from 'react';
-import {Image, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
-import {BACKGROUND_COLOR} from '@constants/color';
-import {CardStyleInterpolators} from '@react-navigation/stack';
+import React, { useEffect } from 'react';
+import { Image, Text, View, TouchableOpacity, Alert } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import AsyncStorage from '@react-native-community/async-storage';
+import PropTypes from 'prop-types';
+import { observer } from 'mobx-react-lite';
+import axios from 'axios';
 
-import {colors} from '@constants/color';
-import {loginKakao} from '@utils/login/kakaoLogin';
-import {loginGoogle} from '@utils/login/googleLogin';
-import {loginApple} from '@utils/login/appleLogin';
+import { BACKGROUND_COLOR, colors } from '@constants/color';
+import { fetchKakaoLogin } from '@utils/login/kakaoLogin';
+import { fetchGoogleLogin } from '@utils/login/googleLogin';
+import { fetchAppleLogin } from '@utils/login/appleLogin';
+import TokenStore from '@store/tokenStore';
+import Base from '@base';
 
-const Welcome = ({navigation}) => {
+const Welcome = observer(({ navigation }) => {
+  const loginWithApple = () => {
+    fetchAppleLogin()
+      .then((res) => {
+        axios
+          .post(Base.POST_USER, {
+            type: 'apple',
+            accessToken: res.identityToken,
+          })
+          .then((resp) => {
+            console.log(resp);
+          })
+          .catch((error) => {
+            Alert.alert('Sorry', '로그인 도중 문제가 발생하였습니다.');
+          });
+      })
+      .catch((err) => {
+        if (err.message === 'email not found') {
+          Alert.alert('Sorry', '저희 서비스를 이용하시기 위해서는\n이메일을 "공유"하셔야 합니다.');
+          return;
+        }
+        if (err.code === '1001') return; // cancel login
+        Alert.alert('Sorry', '로그인 도중 문제가 발생하였습니다.');
+      });
+  };
+
+  const loginWithKakao = () => {
+    fetchKakaoLogin()
+      .then((res) => {
+        axios
+          .post(Base.POST_USER, {
+            type: 'kakao',
+            accessToken: res.accessToken,
+          })
+          .then((resp) => {
+            TokenStore.setUserToken(resp.data.token);
+            AsyncStorage.setItem('userToken', resp.data.token);
+            navigation.navigate('Main');
+          })
+          .catch(() => {
+            Alert.alert('Sorry', '로그인 도중 문제가 발생하였습니다.');
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+        Alert.alert('Sorry', '로그인 도중 문제가 발생하였습니다.');
+      });
+  };
+
+  const loginWithGoogle = () => {
+    fetchGoogleLogin()
+      .then((res) => {
+        axios
+          .post(Base.POST_USER, {
+            type: 'google',
+            accessToken: res.accessToken,
+          })
+          .then((resp) => {
+            TokenStore.setUserToken(resp.data.token);
+            AsyncStorage.setItem('userToken', resp.data.token);
+            navigation.navigate('Main');
+          })
+          .catch(() => {
+            Alert.alert('Sorry', '로그인 도중 문제가 발생하였습니다.');
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+        Alert.alert('Sorry', '로그인 도중 문제가 발생하였습니다.');
+      });
+  };
+
   return (
     <View style={styles.mainContainer}>
-      <Image
-        source={require('@assets/img/app_logo.png')}
-        style={styles.mainLogo}
-      />
+      <Image source={require('@assets/img/app_logo.png')} style={styles.mainLogo} />
+
+      {/* background text */}
       <View style={styles.subContainer_1}>
-        <Text style={[styles.backgroundText, {opacity: 0.2}]}>B</Text>
-        <View style={{flexDirection: 'row'}}>
-          <Text style={[styles.backgroundText, {opacity: 0.6}]}>C</Text>
-          <Text
-            style={[
-              styles.backgroundText,
-              {opacity: 0.6, lineHeight: 25, fontSize: 15},
-            ]}>
+        <Text style={[styles.backgroundText, { opacity: 0.2 }]}>B</Text>
+        <View style={{ flexDirection: 'row' }}>
+          <Text style={[styles.backgroundText, { opacity: 0.6 }]}>C</Text>
+          <Text style={[styles.backgroundText, { opacity: 0.6, lineHeight: 25, fontSize: 15 }]}>
             #
           </Text>
         </View>
-        <View style={{flexDirection: 'row'}}>
+        <View style={{ flexDirection: 'row' }}>
           <Text style={[styles.backgroundText]}>A</Text>
-          <Text style={[styles.backgroundText, {lineHeight: 25, fontSize: 15}]}>
-            maj
-          </Text>
+          <Text style={[styles.backgroundText, { lineHeight: 25, fontSize: 15 }]}>maj</Text>
         </View>
-        <Text style={[styles.backgroundText, {opacity: 0.6}]}>G</Text>
-        <Text style={[styles.backgroundText, {opacity: 0.2}]}>G</Text>
+        <Text style={[styles.backgroundText, { opacity: 0.6 }]}>G</Text>
+        <Text style={[styles.backgroundText, { opacity: 0.2 }]}>G</Text>
       </View>
 
       <Text style={styles.text_1}>어떤 곡이든 코드 반주로!</Text>
       <Text style={styles.text_2}>
-        BANJU는 내가 방금 들은곡, 원하는 곡을{'\n'}코드반주로 바꾸어주는
-        서비스입니다.
+        BANJU는 내가 방금 들은곡, 원하는 곡을{'\n'}코드반주로 바꾸어주는 서비스입니다.
       </Text>
 
       {/* Social Login Buttons */}
 
-      {/* APPLE */}
-      <TouchableOpacity style={styles.loginBtn} onPress={() => loginApple()}>
+      {/* APPLE LOGIN */}
+      <TouchableOpacity style={styles.loginBtn} onPress={loginWithApple}>
         <View style={styles.loginLogoFrame}>
-          <Image
-            style={styles.loginLogo}
-            source={require('@assets/img/logo_apple.png')}
-          />
+          <Image style={styles.loginLogo} source={require('@assets/img/logo_apple.png')} />
         </View>
-        <View style={{flex: 1, alignItems: 'center'}}>
+        <View style={{ flex: 1, alignItems: 'center' }}>
           <Text style={styles.loginBtnText}>CONTINUE WITH APPLE</Text>
         </View>
-        <View style={[styles.loginLogoFrame, {backgroundColor: null}]}></View>
+        <View style={[styles.loginLogoFrame, { backgroundColor: null }]} />
       </TouchableOpacity>
 
-      {/* GOOGLE */}
-      <TouchableOpacity style={styles.loginBtn} onPress={() => loginGoogle()}>
+      {/* GOOGLE LOGIN */}
+      <TouchableOpacity style={styles.loginBtn} onPress={loginWithGoogle}>
         <View style={styles.loginLogoFrame}>
-          <Image
-            style={styles.loginLogo}
-            source={require('@assets/img/logo_google.png')}
-          />
+          <Image style={styles.loginLogo} source={require('@assets/img/logo_google.png')} />
         </View>
-        <View style={{flex: 1, alignItems: 'center'}}>
+        <View style={{ flex: 1, alignItems: 'center' }}>
           <Text style={styles.loginBtnText}>CONTINUE WITH GOOGLE</Text>
         </View>
-        <View style={[styles.loginLogoFrame, {backgroundColor: null}]}></View>
+        <View style={[styles.loginLogoFrame, { backgroundColor: null }]} />
       </TouchableOpacity>
 
-      {/* KAKAO */}
-      <TouchableOpacity style={styles.loginBtn} onPress={() => loginKakao()}>
-        <View
-          style={[styles.loginLogoFrame, {backgroundColor: 'rgb(254,233,76)'}]}>
+      {/* KAKAO LOGIN */}
+      <TouchableOpacity style={styles.loginBtn} onPress={loginWithKakao}>
+        <View style={[styles.loginLogoFrame, { backgroundColor: 'rgb(254,233,76)' }]}>
           {/* TODO: amend kakao logo */}
           <Image
-            style={[styles.loginLogo, {height: 21, width: 21}]}
+            style={[styles.loginLogo, { height: 21, width: 21 }]}
             source={require('@assets/img/logo_kakao.png')}
           />
         </View>
-        <View style={{flex: 1, alignItems: 'center'}}>
+        <View style={{ flex: 1, alignItems: 'center' }}>
           <Text style={styles.loginBtnText}>CONTINUE WITH KAKAO</Text>
         </View>
-        <View style={[styles.loginLogoFrame, {backgroundColor: null}]}></View>
+        <View style={[styles.loginLogoFrame, { backgroundColor: null }]} />
       </TouchableOpacity>
 
-      <TouchableOpacity>
+      {/* TODO: 이용 약관 link 추가하기 */}
+      <TouchableOpacity onPress={null}>
         <Text style={styles.termsText}>Terms and conditions</Text>
       </TouchableOpacity>
     </View>
   );
+});
+
+Welcome.propTypes = {
+  navigation: PropTypes.objectOf(PropTypes.object).isRequired,
 };
 
 export default Welcome;
@@ -175,7 +240,7 @@ const styles = EStyleSheet.create({
     marginTop: '90rem',
   },
   backgroundText: {
-    fontSize: 65,
+    fontSize: '60rem',
     fontFamily: 'OpenSauceSans-Bold',
     color: colors.neonText2,
   },
