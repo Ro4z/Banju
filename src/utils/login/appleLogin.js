@@ -1,17 +1,24 @@
-import {appleAuth} from '@invertase/react-native-apple-authentication';
+/* eslint-disable import/prefer-default-export */
+import { appleAuth } from '@invertase/react-native-apple-authentication';
 
-const loginApple = () => {
-  appleAuth
-    .performRequest({
-      requestedOperation: appleAuth.Operation.LOGIN,
-      requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
-    })
-    .then((res) => {
-      console.log(res);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+const fetchAppleLogin = () => {
+  return new Promise((resolve, reject) => {
+    appleAuth
+      .performRequest({
+        requestedOperation: appleAuth.Operation.LOGIN,
+        requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+      })
+      .then((res) => {
+        if (res.email === null) {
+          reject(new Error('email not found'));
+        }
+        console.log(res);
+        resolve(res);
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
 };
 
-export {loginApple};
+export { fetchAppleLogin };

@@ -1,14 +1,15 @@
 import KakaoLogins from '@react-native-seoul/kakao-login';
 
-const loginKakao = () => {
-  console.log('qqqq');
-  KakaoLogins.login()
-    .then((res) => {
-      console.log(res);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+const fetchKakaoLogin = () => {
+  return new Promise((resolve, reject) => {
+    KakaoLogins.login()
+      .then((res) => {
+        resolve(res);
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
 };
 
-export {loginKakao};
+export { fetchKakaoLogin };
