@@ -24,81 +24,84 @@ import { HEIGHT } from '@constants/dimensions';
 const Main = ({ navigation }) => {
   const [searchInput, setSearchInput] = useState('');
   return (
-    <ImageBackground
-      style={styles.mainContainer}
-      source={require('@assets/img/background_home_iphone.png')}
-      blurRadius={20}
-    >
-      <View style={styles.bodyContainer}>
-        <View style={styles.bodySubContainer} />
-        <View style={styles.bodySubContainer}>
-          <Image style={styles.logoImage} source={require('@assets/img/logo_banju.png')} />
-          <Text style={styles.bodyText}>오늘은 어떤 연주로</Text>
-          <Text style={styles.bodyText}>하루를 마무리해볼까요</Text>
-          <TouchableOpacity onPress={() => navigation.navigate('Search')} style={{ flex: 1 }}>
-            <View style={styles.searchBarView}>
-              <Ionicons name="search" style={styles.searchIcon} />
+    <View style={{ flex: 1, backgroundColor: BACKGROUND_COLOR }}>
+      <ImageBackground
+        style={styles.mainContainer}
+        source={require('@assets/img/background_home_iphone.jpg')}
+        blurRadius={20}
+        opacity={0.2}
+      >
+        <View style={styles.bodyContainer}>
+          <View style={styles.bodySubContainer} />
+          <View style={styles.bodySubContainer}>
+            <Image style={styles.logoImage} source={require('@assets/img/logo_banju.png')} />
+            <Text style={styles.bodyText}>오늘은 어떤 연주로</Text>
+            <Text style={styles.bodyText}>하루를 마무리해볼까요</Text>
+            <TouchableOpacity onPress={() => navigation.navigate('Search')} style={{ flex: 1 }}>
+              <View style={styles.searchBarView}>
+                <Ionicons name="search" style={styles.searchIcon} />
 
-              <View style={styles.searchInputView}>
-                <Text style={styles.searchInputText}>곡 제목을 검색하세요</Text>
+                <View style={styles.searchInputView}>
+                  <Text style={styles.searchInputText}>곡 제목을 검색하세요</Text>
+                </View>
+
+                <TouchableOpacity>
+                  <Feather name="upload" style={[styles.searchIcon, { color: colors.white2 }]} />
+                </TouchableOpacity>
               </View>
-
+            </TouchableOpacity>
+          </View>
+          <Header navigation={navigation} />
+        </View>
+        <ScrollView style={styles.footerContainer}>
+          <View style={styles.cardView}>
+            <View style={styles.cardViewTitleView}>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Text style={styles.cardViewTitle}>HISTORY</Text>
+                <Text style={styles.cardViewTitleSub}>최근연습곡</Text>
+              </View>
               <TouchableOpacity>
-                <Feather name="upload" style={[styles.searchIcon, { color: colors.white2 }]} />
+                <Ionicons
+                  name="ios-chevron-forward"
+                  style={{ color: colors.grey85Text2, fontSize: 24 }}
+                />
               </TouchableOpacity>
             </View>
-          </TouchableOpacity>
-        </View>
-        <Header navigation={navigation} />
-      </View>
-      <ScrollView style={styles.footerContainer}>
-        <View style={styles.cardView}>
-          <View style={styles.cardViewTitleView}>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Text style={styles.cardViewTitle}>HISTORY</Text>
-              <Text style={styles.cardViewTitleSub}>최근연습곡</Text>
-            </View>
-            <TouchableOpacity>
-              <Ionicons
-                name="ios-chevron-forward"
-                style={{ color: colors.grey85Text2, fontSize: 24 }}
-              />
-            </TouchableOpacity>
+            <RecentList />
           </View>
-          <RecentList />
-        </View>
-        <View style={styles.cardView}>
-          <View style={styles.cardViewTitleView}>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Text style={styles.cardViewTitle}>NEWCHORDED</Text>
-              <Text style={styles.cardViewTitleSub}>최신업데이트</Text>
+          <View style={styles.cardView}>
+            <View style={styles.cardViewTitleView}>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Text style={styles.cardViewTitle}>NEWCHORDED</Text>
+                <Text style={styles.cardViewTitleSub}>최신업데이트</Text>
+              </View>
+              <TouchableOpacity>
+                <Ionicons
+                  name="ios-chevron-forward"
+                  style={{ color: colors.grey85Text2, fontSize: 24 }}
+                />
+              </TouchableOpacity>
             </View>
-            <TouchableOpacity>
-              <Ionicons
-                name="ios-chevron-forward"
-                style={{ color: colors.grey85Text2, fontSize: 24 }}
-              />
-            </TouchableOpacity>
+            <NewChordList />
           </View>
-          <NewChordList />
-        </View>
-        <View style={styles.cardView}>
-          <View style={styles.cardViewTitleView}>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Text style={styles.cardViewTitle}>TRENDING</Text>
-              <Text style={styles.cardViewTitleSub}>인기순위</Text>
+          <View style={styles.cardView}>
+            <View style={styles.cardViewTitleView}>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Text style={styles.cardViewTitle}>TRENDING</Text>
+                <Text style={styles.cardViewTitleSub}>인기순위</Text>
+              </View>
+              <TouchableOpacity>
+                <Ionicons
+                  name="ios-chevron-forward"
+                  style={{ color: colors.grey85Text2, fontSize: 24 }}
+                />
+              </TouchableOpacity>
             </View>
-            <TouchableOpacity>
-              <Ionicons
-                name="ios-chevron-forward"
-                style={{ color: colors.grey85Text2, fontSize: 24 }}
-              />
-            </TouchableOpacity>
+            <TrendList />
           </View>
-          <TrendList />
-        </View>
-      </ScrollView>
-    </ImageBackground>
+        </ScrollView>
+      </ImageBackground>
+    </View>
   );
 };
 
@@ -107,7 +110,6 @@ export default Main;
 const styles = EStyleSheet.create({
   mainContainer: {
     flex: 1,
-    backgroundColor: BACKGROUND_COLOR,
     ...ifIphoneX(
       {
         paddingTop: 40,
@@ -173,30 +175,33 @@ const styles = EStyleSheet.create({
   cardView: {
     backgroundColor: '#0d0d0d',
     width: '100%',
-    height: '180rem',
+    height: '260rem',
     paddingHorizontal: '22rem',
     paddingVertical: '12rem',
     marginBottom: '7rem',
   },
   cardViewTitleView: {
-    flex: 1,
+    flex: 1.2,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: '3rem',
   },
   cardViewListView: {
     flex: 4,
   },
   cardViewTitle: {
     fontFamily: 'OpenSauceSans-ExtraBold',
-    fontSize: '17rem',
+    fontSize: '20rem',
     color: colors.white2,
     marginRight: '7rem',
   },
   cardViewTitleSub: {
     fontFamily: 'NanumSquareR',
-    fontSize: '12srem',
+    fontSize: '15rem',
     color: colors.grey40Subtitle2,
+  },
+  cardViewTitleIcon: {
+    color: colors.grey85Text2,
+    fontSize: '20rem',
   },
 });

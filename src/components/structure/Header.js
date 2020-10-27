@@ -1,13 +1,14 @@
-import React, {useState} from 'react';
-import {Text, View, TouchableOpacity, Image, Platform} from 'react-native';
+import React, { useState } from 'react';
+import { Text, View, TouchableOpacity, Image, Platform, Alert } from 'react-native';
 import Modal from 'react-native-modal';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import Icon from '@assets/icon/Ionicons';
-import {WIDTH, HEIGHT} from '@constants/dimensions';
+import { WIDTH, HEIGHT } from '@constants/dimensions';
 import NotiList from '@components/notification/NotificationList';
 
-const Header = ({navigation}) => {
+const Header = ({ navigation }) => {
   const [imageUri, setImageUri] = useState(null);
   const [openModal, setOpenModal] = useState(false);
 
@@ -20,31 +21,41 @@ const Header = ({navigation}) => {
   };
 
   return (
-    <View
-      style={
-        Platform.isPad ? iPadStyles.mainContainer : iPhoneStyles.mainContainer
-      }>
+    <View style={Platform.isPad ? iPadStyles.mainContainer : iPhoneStyles.mainContainer}>
       <TouchableOpacity onPress={navigateProfile.bind()}>
         <Image
           source={require('@assets/img/profile_sample2.png')}
-          style={
-            Platform.isPad ? iPadStyles.profileBtn : iPhoneStyles.profileBtn
-          }
+          style={Platform.isPad ? iPadStyles.profileBtn : iPhoneStyles.profileBtn}
         />
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={toggleModal.bind()}
-        style={{justifyContent: 'center'}}>
+        onPress={() => {
+          Alert.alert('로그아웃 하시겠습니까?', '', [
+            {
+              text: '확인',
+              onPress: async () => {
+                await AsyncStorage.removeItem('userToken');
+                navigation.reset({
+                  index: 0,
+                  routes: [{ name: 'Welcome' }],
+                });
+              },
+            },
+            {
+              text: '취소',
+              style: 'cancel',
+            },
+          ]);
+        }}
+        style={{ justifyContent: 'center' }}
+      >
         <Icon
-          name="ios-notifications-outline"
+          name="ios-exit-outline"
           style={Platform.isPad ? iPadStyles.icon : iPhoneStyles.icon}
         />
       </TouchableOpacity>
 
-      <Modal
-        isVisible={openModal}
-        animationIn="slideInRight"
-        animationOut="slideOutRight">
+      <Modal isVisible={openModal} animationIn="slideInRight" animationOut="slideOutRight">
         <View style={iPadStyles.modalView}>
           <NotiList onPress={toggleModal.bind()} />
         </View>
