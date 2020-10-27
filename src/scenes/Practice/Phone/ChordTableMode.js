@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { Text, View, TouchableOpacity, Animated, FlatList } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import Orientation from 'react-native-orientation';
@@ -20,23 +20,8 @@ import Header from '@components/practice/phone/Header';
 EStyleSheet.build({ $rem: WIDTH / 380 });
 const RATIO = HEIGHT / WIDTH;
 
-// using in chord-table
-let anim = new Animated.Value(0);
-let currentXPosition = 0;
-let frameXPosition = 0;
-let moveCount = 0;
-
-// using in play
-let isYoutubeLoading = false;
-let isPlayStart = false;
-let currentSecond = 0;
-let currentSecondInteger = 0;
 let startTimestamp = 0;
 let youtubeDuration = 0;
-
-let leftNoteArrIdx = 0;
-let rightNoteArrIdx = 0;
-let progress = 0;
 
 let chordTableFirstExecuted = true;
 let chordTableFirstMove = true;
@@ -49,9 +34,22 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
   const [nextKey, setNextKey] = useState([]);
   const [playSync, setPlaySync] = useState(0);
   const [volume, setVolume] = useState(5);
+  const [openModal, setOpenModal] = useState(false);
 
   const scrollViewRef = useRef();
   const youtubeRef = useRef();
+
+  const animationValue = useRef(new Animated.Value(0));
+  const frameXPosition = useRef(0);
+  const currentSecond = useRef(0);
+  const currentSecondInteger = useRef(0);
+  const isYoutubeLoading = useRef(false);
+  const isPlayStart = useRef(false);
+
+  const leftNoteArrIdx = useRef(0);
+  const rightNoteArrIdx = useRef(0);
+  const progress = useRef(0);
+  const moveCount = useRef(0);
 
   useEffect(() => {
     Orientation.lockToLandscape();
@@ -72,66 +70,66 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
   } = params;
 
   const animationStyles = {
-    transform: [{ translateX: anim }],
+    transform: [{ translateX: animationValue.current }],
   };
 
   // using in volume, sync control button
-  const minusVolume = () => {
+  const minusVolume = useCallback(() => {
     if (volume === 0) return;
     setVolume(volume - 1);
     PianoSampler.setVolume((volume - 1) / 10);
-  };
-  const plusVolume = () => {
+  }, [volume]);
+
+  const plusVolume = useCallback(() => {
     if (volume === 10) return;
     setVolume(volume + 1);
     PianoSampler.setVolume((volume + 1) / 10);
-  };
+  }, [volume]);
 
-  const minusPlaySync = () => {
+  const minusPlaySync = useCallback(() => {
     if (playSync === -5) return;
     setPlaySync(playSync - 0.05);
-  };
+  }, [playSync]);
 
-  const plusPlaySync = () => {
+  const plusPlaySync = useCallback(() => {
     if (playSync === 5) return;
     setPlaySync(playSync + 0.05);
-  };
+  }, [playSync]);
 
   // control play
-  const start = async () => {
+  const start = useCallback(() => {
     setYoutubeStart(true);
-  };
+  }, []);
 
-  const pause = async () => {
-    isPlayStart = false;
+  const pause = useCallback(() => {
+    isPlayStart.current = false;
     setYoutubeStart(false);
 
     // stop all note
     for (let i = 21; i <= 108; i += 1) {
       PianoSampler.stopNote(i);
     }
-  };
+  }, []);
 
-  const backwardRewind = () => {
+  const backwardRewind = useCallback(() => {
     // initialize related variables
     currentXPosition = 0;
-    anim = new Animated.Value(0);
-    frameXPosition = 0;
-    moveCount = 0;
+    animationValue.current = new Animated.Value(0);
+    frameXPosition.current = 0;
+    moveCount.current = 0;
 
-    isPlayStart = false;
-    currentSecond = 0;
-    currentSecondInteger = 0;
+    isPlayStart.current = false;
+    currentSecond.current = 0;
+    currentSecondInteger.current = 0;
     startTimestamp = 0;
 
-    leftNoteArrIdx = 0;
-    rightNoteArrIdx = 0;
-    progress = 0;
+    leftNoteArrIdx.current = 0;
+    rightNoteArrIdx.current = 0;
+    progress.current = 0;
 
     chordTableFirstExecuted = true;
     chordTableFirstMove = true;
     youtubeRef.current.seekTo(0);
-    currentSecond = 0;
     setYoutubeStart(false);
     scrollViewRef.current.scrollToIndex({ index: 0 });
 
@@ -142,7 +140,7 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
     for (let i = 21; i <= 108; i += 1) {
       PianoSampler.stopNote(i);
     }
-  };
+  }, []);
 
   /**
    * Seeks to a specified time in the play
@@ -153,14 +151,14 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
    *
    * TODO: 시작 안 했을 때 누르면 시작하도록
    */
-  const seekTo = (second = 0, index = 0) => {
+  const seekTo = useCallback((second = 0, index = 0) => {
     // chord table ScrollView scroll
     const sectionNumber = parseInt(index / 4, 10) - 1;
     currentXPosition = (moveDistance * 4 + 15) * sectionNumber;
     scrollViewRef.current.scrollToIndex({ index });
 
     // move chord table focus
-    frameXPosition = moveDistance * (index % 4);
+    frameXPosition.current = moveDistance * (index % 4);
     // Animated.spring(anim, {
     //   toValue: frameXPosition,
     //   duration: 250,
@@ -168,27 +166,27 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
     // }).start();
 
     // sync with chord table
-    moveCount = index;
+    moveCount.current = index;
 
     // sync with note array
-    if (second > currentSecond) {
+    if (second > currentSecond.current) {
       while (second > rightNoteArr.items[rightNoteArrIdx].second) {
-        rightNoteArrIdx += 1;
+        rightNoteArrIdx.current += 1;
       }
-      while (second > leftNoteArr.items[leftNoteArrIdx].second) {
-        leftNoteArrIdx += 1;
+      while (second > leftNoteArr.items[leftNoteArrIdx.current].second) {
+        leftNoteArrIdx.current += 1;
       }
     } else {
       while (second < rightNoteArr.items[rightNoteArrIdx].second) {
-        rightNoteArrIdx -= 1;
+        rightNoteArrIdx.current -= 1;
       }
-      while (second < leftNoteArr.items[leftNoteArrIdx].second) {
-        leftNoteArrIdx -= 1;
+      while (second < leftNoteArr.items[leftNoteArrIdx.current].second) {
+        leftNoteArrIdx.current -= 1;
       }
     }
 
     // set time to touched point
-    currentSecond = second;
+    currentSecond.current = second;
     startTimestamp = Date.now();
 
     // stop all note
@@ -198,27 +196,30 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
 
     // youtube seek to
     youtubeRef.current.seekTo(second);
-  };
+  }, []);
 
   // TODO: 재생이 끝났을 때의 처리
   // using in GameLoop (call back that execute every 16ms)
-  const updateHandler = async () => {
-    if (!isPlayStart) return;
+  const updateHandler = useCallback(() => {
+    if (!isPlayStart.current) return;
 
     const ST = Date.now();
 
-    currentSecond += (ST - startTimestamp) / 1000;
+    currentSecond.current += (ST - startTimestamp) / 1000;
     startTimestamp = ST;
+
+    // end event
+    if (currentSecond.current > youtubeDuration) backwardRewind();
 
     if (chordTableFirstExecuted) {
       chordTableFirstExecuted = false;
 
       // 시작 전 nextKey setting
       for (let i = 1; i < 50; i += 1) {
-        if (rightNoteArr.items[rightNoteArrIdx + i].key.length !== 0) {
-          if (rightNoteArr.items[rightNoteArrIdx + i].key[0].noteOn === 1) {
+        if (rightNoteArr.items[rightNoteArrIdx.current + i].key.length !== 0) {
+          if (rightNoteArr.items[rightNoteArrIdx.current + i].key[0].noteOn === 1) {
             const tmpArr2 = [];
-            rightNoteArr.items[rightNoteArrIdx + i].key.forEach((key) => {
+            rightNoteArr.items[rightNoteArrIdx.current + i].key.forEach((key) => {
               tmpArr2.push(key.midiNum - 12);
             });
             setNextKey(tmpArr2);
@@ -229,94 +230,105 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
     }
 
     // move progress bar
-    progress = currentSecond / youtubeDuration;
-
-    // end event
-    if (currentSecond > youtubeDuration) pause();
+    progress.current = currentSecond.current / youtubeDuration;
 
     // TODO: focus frame의 작동 방식을 setting에서 정하도록
     // move chord table
-    if (currentSecond >= notes[moveCount].second + playSync) {
-      currentSecondInteger = parseInt(currentSecond, 10);
-      if (chordTableFirstMove) {
-        chordTableFirstMove = false;
-        // moveCount += 1;
-      } else {
-        frameXPosition += moveDistance;
-        moveCount += 1;
-        if (moveCount !== 1 && moveCount % 4 === 1) {
-          frameXPosition = 0;
-          currentXPosition += 15;
-          // scrollViewRef.current.scrollTo({ x: currentXPosition });
+    if (moveCount.current < notes.length) {
+      if (currentSecond.current >= notes[moveCount.current].second + playSync) {
+        currentSecondInteger.current = parseInt(currentSecond.current, 10);
+        if (chordTableFirstMove) {
+          chordTableFirstMove = false;
+          // moveCount.current += 1;
+        } else {
+          // frameXPosition.current += moveDistance / 4;
+          moveCount.current += 1;
+          if (moveCount.current !== 1 && moveCount.current % 4 === 1) {
+            // frameXPosition.current = 0;
+          }
+
+          // Animated.spring(animationValue.current, {
+          //   toValue: frameXPosition.current,
+          //   duration: 250,
+          //   useNativeDriver: true,
+          // }).start();
         }
-        // Animated.spring(anim, {
-        //   toValue: frameXPosition,
-        //   duration: 250,
-        //   useNativeDriver: true,
-        // }).start();
-        currentXPosition += moveDistance;
+        if (moveCount.current < notes.length) {
+          scrollViewRef.current.scrollToIndex({ index: moveCount.current });
+        }
       }
-      scrollViewRef.current.scrollToIndex({ index: moveCount });
     }
 
-    // play chord in right note
-    if (currentSecond >= rightNoteArr.items[rightNoteArrIdx].second + playSync) {
-      if (rightNoteArr.items[rightNoteArrIdx].key.length !== 0) {
-        if (rightNoteArr.items[rightNoteArrIdx].key[0].noteOn === 1) {
-          const tmpArr = [];
-          rightNoteArr.items[rightNoteArrIdx].key.forEach((key) => {
-            PianoSampler.playNote(key.midiNum, 115);
-            tmpArr.push(key.midiNum - 12);
-          });
-          // show touched key in PianoPartView
-          setTouchedKey(tmpArr);
+    if (rightNoteArrIdx.current < rightNoteArr.items.length) {
+      // play chord in right note
+      if (currentSecond.current >= rightNoteArr.items[rightNoteArrIdx.current].second + playSync) {
+        if (rightNoteArr.items[rightNoteArrIdx.current].key.length !== 0) {
+          if (rightNoteArr.items[rightNoteArrIdx.current].key[0].noteOn === 1) {
+            const tmpArr = [];
+            rightNoteArr.items[rightNoteArrIdx.current].key.forEach((key) => {
+              PianoSampler.playNote(key.midiNum, 115);
+              tmpArr.push(key.midiNum - 12);
+            });
+            // show touched key in PianoPartView
+            setTouchedKey(tmpArr);
 
-          for (let i = 1; i < 50 && i < rightNoteArr.items.length; i += 1) {
-            if (rightNoteArr.items[rightNoteArrIdx + i].key.length !== 0) {
-              if (rightNoteArr.items[rightNoteArrIdx + i].key[0].noteOn === 1) {
-                const tmpArr2 = [];
-                rightNoteArr.items[rightNoteArrIdx + i].key.forEach((key) => {
-                  tmpArr2.push(key.midiNum - 12);
-                });
-                // show next key in PianoPartView
-                setNextKey(tmpArr2);
-                break;
+            for (
+              let i = 1;
+              i < 50 && rightNoteArrIdx.current + i < rightNoteArr.items.length;
+              i += 1
+            ) {
+              if (rightNoteArr.items[rightNoteArrIdx.current + i].key.length !== 0) {
+                if (rightNoteArr.items[rightNoteArrIdx.current + i].key[0].noteOn === 1) {
+                  const tmpArr2 = [];
+                  rightNoteArr.items[rightNoteArrIdx.current + i].key.forEach((key) => {
+                    tmpArr2.push(key.midiNum - 12);
+                  });
+                  // show next key in PianoPartView
+                  setNextKey(tmpArr2);
+                  break;
+                }
               }
             }
           }
+        } else {
+          // N chord
+          // FIXME: is cause performance degradation?
+          // setTouchedKey([]);
         }
-      } else {
-        // N chord
-        // FIXME: is cause performance degradation?
-        // setTouchedKey([]);
+        rightNoteArrIdx.current += 1;
       }
-      rightNoteArrIdx += 1;
     }
 
     // play chord in left note
-    if (currentSecond >= leftNoteArr.items[leftNoteArrIdx].second + playSync) {
-      if (leftNoteArr.items[leftNoteArrIdx].key.length !== 0) {
-        if (leftNoteArr.items[leftNoteArrIdx].key[0].noteOn === 1) {
-          leftNoteArr.items[leftNoteArrIdx].key.forEach((key) => {
-            PianoSampler.playNote(key.midiNum, 115);
-          });
+    if (leftNoteArrIdx.current < leftNoteArr.items.length) {
+      if (currentSecond.current >= leftNoteArr.items[leftNoteArrIdx.current].second + playSync) {
+        if (leftNoteArr.items[leftNoteArrIdx.current].key.length !== 0) {
+          if (leftNoteArr.items[leftNoteArrIdx.current].key[0].noteOn === 1) {
+            leftNoteArr.items[leftNoteArrIdx.current].key.forEach((key) => {
+              PianoSampler.playNote(key.midiNum, 115);
+            });
+          }
         }
+        leftNoteArrIdx.current += 1;
       }
-      leftNoteArrIdx += 1;
     }
 
     const FT = Date.now();
     console.log('execute time', FT - ST);
-  };
+  }, []);
 
   return (
     <View style={styles.mainContainer}>
       <GameLoop onUpdate={updateHandler}>
         {React.useMemo(() => {
           return (
-            <Header navigation={navigation} title={params.meta.songName} progress={progress} />
+            <Header
+              navigation={navigation}
+              title={params.meta.songName}
+              progress={progress.current}
+            />
           );
-        }, [params, progress])}
+        }, [params, progress.current])}
 
         <View style={[styles.bodyContainer, { alignItems: 'center' }]}>
           {React.useMemo(() => {
@@ -407,20 +419,28 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
             }, [youtubeStart, volume, playSync])}
 
             {React.useMemo(() => {
-              return <Text style={styles.syncNumberText}>{secondToString(currentSecond)}</Text>;
-            }, [currentSecondInteger])}
+              return (
+                <Text style={styles.syncNumberText}>{secondToString(currentSecond.current)}</Text>
+              );
+            }, [currentSecondInteger.current])}
 
             {React.useMemo(() => {
-              return isPlayStart ? (
+              return isPlayStart.current ? (
                 <TouchableOpacity onPress={pause}>
                   <Feather style={styles.buttonIconLarge} name="pause" />
                 </TouchableOpacity>
               ) : (
-                <TouchableOpacity onPress={start}>
-                  <Feather style={styles.buttonIconLarge} name="play" />
+                <TouchableOpacity onPress={youtubeStart ? null : start}>
+                  <Feather
+                    style={[
+                      styles.buttonIconLarge,
+                      youtubeStart && { color: colors.grey30Dimmed2 },
+                    ]}
+                    name="play"
+                  />
                 </TouchableOpacity>
               );
-            }, [isPlayStart])}
+            }, [youtubeStart, isPlayStart.current])}
           </View>
         </View>
 
@@ -494,8 +514,9 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
                     onChangeState={async (e) => {
                       if (e.state === 'playing') {
                         // youtube preloading
-                        if (!isYoutubeLoading) {
-                          isYoutubeLoading = true;
+                        if (!isYoutubeLoading.current) {
+                          isYoutubeLoading.current = true;
+
                           setYoutubeStart(false);
                           youtubeRef.current.seekTo(0);
                           youtubeDuration = await youtubeRef.current.getDuration();
@@ -503,7 +524,7 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
                         }
                         // currentSecond = await youtubeRef.current.getCurrentTime();
                         startTimestamp = Date.now();
-                        isPlayStart = true;
+                        isPlayStart.current = true;
                       }
                     }}
                     // onChangeQuality={(e) => console.log(e)}

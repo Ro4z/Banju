@@ -1,49 +1,56 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from 'react';
-import { ActivityIndicator, Alert, Image, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, Image, Text, TouchableOpacity, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Modal from 'react-native-modal';
+import AnimatedNumbers from 'react-native-animated-numbers';
+import AnimateNumber from 'react-native-animate-number';
+import AnimatedEllipsis from '@ro4z/react-native-animated-ellipsis';
 import axios from 'axios';
 import he from 'he';
 
 import Base from '@base';
-import { WIDTH } from '@constants/dimensions';
 import Ionicons from '@assets/icon/Ionicons';
 import Feather from '@assets/icon/Feather';
 import { colors } from '@constants/color';
 import truncateString from '@utils/truncateString';
 
+// TODO: 개발 완료 후 삭제
 const TEST_LINK = 'KhZ5DCd7m6s';
+const TEST_TOKEN =
+  'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZlNmFlNTIwLTE1ZTctMTFlYi05YTU5LThiYmMwNGE5OWNlOSIsImlzcyI6Imh0dHA6Ly9hcGkuZGFpbHliYW5qdS5jb20iLCJpYXQiOjE2MDM1MzY5MzR9.Nvk0M4ow4gvKauAxtALzUkq-BPOOpTpiJP8MB3o3TZI';
 
 const ResultListItem = ({ data, isReady, navigation }) => {
   const [openModal, setOpenModal] = useState(false);
   const [showLoading, setShowLoading] = useState(false);
-  console.log(data.convert === 'Banjued' && 'BANJU!');
+  const [isChording, setIsChording] = useState(false);
+  const [animateToNumber, setAnimateToNumber] = useState(0);
+
   const toggleModal = () => {
     setOpenModal(!openModal);
   };
 
   // TODO: 개발 완료 후 default link 삭제
   const pollingGetPlayMeta = (link = 'hHr-tr2Lz_E') => {
-    console.log(link);
-    setShowLoading(true);
+    setIsChording(true);
     const pollingObj = setInterval(() => {
       axios
         .get(Base.GET_PLAYMETA + link, {
           headers: {
             'Content-Type': 'application/json',
+            Authorization: TEST_TOKEN,
           },
         })
         // status: "error" | "working" | "finished"
         .then(({ data, data: { status } }) => {
           if (status === 'working') {
-            console.log('working');
+            if (typeof data.content === 'undefined') return;
+            setAnimateToNumber(data.content.progress);
           } else if (status === 'finished') {
-            console.log('finished');
             clearInterval(pollingObj);
-            setShowLoading(false);
-            setOpenModal(false);
+
+            setIsChording(false);
             const {
               content: { items, meta },
             } = data;
@@ -54,19 +61,55 @@ const ResultListItem = ({ data, isReady, navigation }) => {
               meta,
             });
           } else {
-            console.log('error!');
-            setShowLoading(false);
-            Alert.alert('오류가 발생하였습니다.');
+            // TODO: sentry 연결
             clearInterval(pollingObj);
+            setIsChording(false);
+            Alert.alert('오류가 발생하였습니다.');
           }
         })
         .catch((err) => {
-          console.log('axios error', err);
-          setShowLoading(false);
-          Alert.alert('오류가 발생하였습니다.');
           clearInterval(pollingObj);
+          setIsChording(false);
+          Alert.alert('오류가 발생하였습니다.');
         });
     }, 1000);
+  };
+
+  const getPlaymeta = (link) => {
+    if (typeof link === 'undefined') return;
+    setShowLoading(true);
+    axios
+      .get(Base.GET_PLAYMETA + link, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: TEST_TOKEN,
+        },
+      })
+      // status: "error" | "working" | "finished"
+      .then(({ data, data: { status } }) => {
+        if (status === 'finished') {
+          setOpenModal(false);
+          const {
+            content: { items, meta },
+          } = data;
+          navigation.navigate('Practice', {
+            chord_arr: items.chord,
+            left_note_arr: items.noteLeft,
+            right_note_arr: items.noteRight,
+            meta,
+          });
+        } else {
+          console.log('error!', status);
+          Alert.alert('오류가 발생하였습니다.');
+        }
+      })
+      .catch((err) => {
+        console.log('axios error', err);
+        Alert.alert('오류가 발생하였습니다.');
+      })
+      .finally(() => {
+        setShowLoading(false);
+      });
   };
 
   return (
@@ -90,7 +133,7 @@ const ResultListItem = ({ data, isReady, navigation }) => {
             </TouchableOpacity>
           </View>
           <View style={styles.footerSub2}>
-            <Text style={styles.meta}>Chord G・A・Em7・A7</Text>
+            <Text style={styles.meta}>{typeof data.scale === 'undefined' ? '' : data.scale}</Text>
           </View>
         </View>
 
@@ -126,12 +169,14 @@ const ResultListItem = ({ data, isReady, navigation }) => {
                     <Text style={styles.title}>{truncateString(he.decode(data.title), 40)}</Text>
                   </View>
                   <View style={styles.footerSub2}>
-                    <Text style={styles.meta}>Chord G・A・Em7・A7</Text>
+                    <Text style={styles.meta}>
+                      {typeof data.scale === 'undefined' ? 'Chord G・A・Em7・A7' : data.scale}
+                    </Text>
                   </View>
                 </View>
               </View>
             </View>
-            <View style={styles.modalFooter}>
+            {/* <View style={styles.modalFooter}>
               <View
                 style={{
                   flex: 1,
@@ -253,14 +298,38 @@ const ResultListItem = ({ data, isReady, navigation }) => {
                   반주 연습하기
                 </Text>
               </View>
-            </View>
+            </View> */}
             <TouchableOpacity
-              style={styles.modalPlayBtn}
-              onPress={() => {
-                pollingGetPlayMeta(data.id);
-              }}
+              style={[
+                styles.modalPlayBtn,
+                data.convert === 'Banjued' || { backgroundColor: '#000' },
+              ]}
+              onPress={
+                data.convert === 'Banjued'
+                  ? () => {
+                      getPlaymeta(data.id);
+                    }
+                  : () => {
+                      pollingGetPlayMeta(data.id);
+                    }
+              }
             >
-              <Text style={styles.modalPlayText}>PLAY</Text>
+              {isChording ? (
+                <Text style={styles.modalPlayText}>
+                  CHORDING
+                  <AnimatedEllipsis style={styles.modalPlayText} />
+                  <AnimateNumber
+                    value={animateToNumber}
+                    formatter={(val) => {
+                      return ` ${parseInt(val, 10)} %`;
+                    }}
+                  />
+                </Text>
+              ) : (
+                <Text style={styles.modalPlayText}>
+                  {data.convert === 'Banjued' ? 'PLAY' : 'MAKE CHORD'}
+                </Text>
+              )}
             </TouchableOpacity>
           </View>
         </Modal>
@@ -323,7 +392,7 @@ const styles = EStyleSheet.create({
   // play modal
   modalContainer: {
     width: '112%',
-    height: '50%',
+    height: '40%',
     backgroundColor: colors.grey10Popup2,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
