@@ -12,7 +12,7 @@ import {
 import { ifIphoneX } from 'react-native-iphone-x-helper';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
-import Header from '@components/structure/Header';
+import Header from '@components/main/Header';
 import RecentList from '@components/main/RecentList';
 import NewChordList from '@components/main/NewChordList';
 import TrendList from '@components/main/TrendList';
@@ -45,9 +45,9 @@ const Main = ({ navigation }) => {
                   <Text style={styles.searchInputText}>곡 제목을 검색하세요</Text>
                 </View>
 
-                <TouchableOpacity>
+                {/* <TouchableOpacity>
                   <Feather name="upload" style={[styles.searchIcon, { color: colors.white2 }]} />
-                </TouchableOpacity>
+                </TouchableOpacity> */}
               </View>
             </TouchableOpacity>
           </View>
@@ -60,16 +60,16 @@ const Main = ({ navigation }) => {
                 <Text style={styles.cardViewTitle}>HISTORY</Text>
                 <Text style={styles.cardViewTitleSub}>최근연습곡</Text>
               </View>
-              <TouchableOpacity>
+              {/* <TouchableOpacity>
                 <Ionicons
                   name="ios-chevron-forward"
                   style={{ color: colors.grey85Text2, fontSize: 24 }}
                 />
-              </TouchableOpacity>
+              </TouchableOpacity> */}
             </View>
             <RecentList />
           </View>
-          <View style={styles.cardView}>
+          {/* <View style={styles.cardView}>
             <View style={styles.cardViewTitleView}>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <Text style={styles.cardViewTitle}>NEWCHORDED</Text>
@@ -98,7 +98,7 @@ const Main = ({ navigation }) => {
               </TouchableOpacity>
             </View>
             <TrendList />
-          </View>
+          </View> */}
         </ScrollView>
       </ImageBackground>
     </View>

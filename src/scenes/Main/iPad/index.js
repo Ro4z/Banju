@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   Text,
   View,
@@ -10,31 +10,28 @@ import {
 } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
-import Header from '@components/structure/Header';
+import Header from '@components/main/Header';
 import RecentList from '@components/main/RecentList';
 import NewChordList from '@components/main/NewChordList';
 import TrendList from '@components/main/TrendList';
 import Ionicons from '@assets/icon/Ionicons';
 import Feather from '@assets/icon/Feather';
-import {HEIGHT} from '@constants/dimensions';
-import {BACKGROUND_COLOR} from '@constants/color';
-import {colors} from '@constants/color';
+import { HEIGHT } from '@constants/dimensions';
+import { BACKGROUND_COLOR, colors } from '@constants/color';
 
-const Home = ({navigation}) => {
+const Home = ({ navigation }) => {
   const [searchInput, setSearchInput] = useState('');
 
   return (
     <ScrollView style={styles.mainContainer} alwaysBounceVertical={false}>
       <ImageBackground
         style={styles.imgBackground}
-        source={require('@assets/img/background_home.png')}>
+        source={require('@assets/img/background_home.png')}
+      >
         <Header navigation={navigation} />
 
         <View style={styles.subContainer}>
-          <Image
-            source={require('@assets/img/logo_banju.png')}
-            style={styles.logo}
-          />
+          <Image source={require('@assets/img/logo_banju.png')} style={styles.logo} />
           <Text style={styles.bodyText}>오늘은 어떤 연주로</Text>
           <Text style={styles.bodyText}>하루를 마무리 해볼까요</Text>
         </View>
@@ -45,9 +42,7 @@ const Home = ({navigation}) => {
             placeholder="곡 제목을 검색하세요"
             placeholderTextColor={colors.grey40Subtitle2}
             onChangeText={(text) => setSearchInput(text)}
-            onSubmitEditing={() =>
-              navigation.navigate('Search', {query: searchInput})
-            }
+            onSubmitEditing={() => navigation.navigate('Search', { query: searchInput })}
           />
           <TouchableOpacity>
             <Feather name="upload" style={styles.searchIcon} />
@@ -56,14 +51,14 @@ const Home = ({navigation}) => {
       </ImageBackground>
       <View style={styles.cardView}>
         <View style={styles.cardViewTitleView}>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <Text style={styles.cardViewTitle}>HISTORY</Text>
             <Text style={styles.cardViewTitleSub}>최근연습곡</Text>
           </View>
           <TouchableOpacity>
             <Ionicons
               name="ios-chevron-forward"
-              style={{color: colors.grey85Text2, fontSize: 24}}
+              style={{ color: colors.grey85Text2, fontSize: 24 }}
             />
           </TouchableOpacity>
         </View>
@@ -71,14 +66,14 @@ const Home = ({navigation}) => {
       </View>
       <View style={styles.cardView}>
         <View style={styles.cardViewTitleView}>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <Text style={styles.cardViewTitle}>NEWCHORDED</Text>
             <Text style={styles.cardViewTitleSub}>최신업데이트</Text>
           </View>
           <TouchableOpacity>
             <Ionicons
               name="ios-chevron-forward"
-              style={{color: colors.grey85Text2, fontSize: 24}}
+              style={{ color: colors.grey85Text2, fontSize: 24 }}
             />
           </TouchableOpacity>
         </View>
@@ -86,14 +81,14 @@ const Home = ({navigation}) => {
       </View>
       <View style={styles.cardView}>
         <View style={styles.cardViewTitleView}>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <Text style={styles.cardViewTitle}>TRENDING</Text>
             <Text style={styles.cardViewTitleSub}>인기순위</Text>
           </View>
           <TouchableOpacity>
             <Ionicons
               name="ios-chevron-forward"
-              style={{color: colors.grey85Text2, fontSize: 24}}
+              style={{ color: colors.grey85Text2, fontSize: 24 }}
             />
           </TouchableOpacity>
         </View>
@@ -112,7 +107,7 @@ const styles = EStyleSheet.create({
     backgroundColor: BACKGROUND_COLOR,
     paddingTop: 20,
   },
-  imgBackground: {width: '100%', height: HEIGHT / 2, alignItems: 'center'},
+  imgBackground: { width: '100%', height: HEIGHT / 2, alignItems: 'center' },
   subContainer: {
     alignItems: 'center',
     justifyContent: 'center',
@@ -120,7 +115,7 @@ const styles = EStyleSheet.create({
     marginBottom: '12rem',
   },
 
-  //body
+  // body
   logo: {
     width: '14.25rem',
     height: '9.75rem',
@@ -133,7 +128,7 @@ const styles = EStyleSheet.create({
     textAlign: 'center',
   },
 
-  //search bar
+  // search bar
   searchBarView: {
     width: '50%',
     height: '17rem',
@@ -155,7 +150,7 @@ const styles = EStyleSheet.create({
     marginLeft: '4rem',
   },
 
-  //card view
+  // card view
   cardView: {
     backgroundColor: '#0d0d0d',
     width: '100%',
