@@ -5,20 +5,18 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { ifIphoneX } from 'react-native-iphone-x-helper';
 import Orientation from 'react-native-orientation';
 import Spinner from 'react-native-loading-spinner-overlay';
+import { observer } from 'mobx-react-lite';
 import axios from 'axios';
 
 import ResultList from '@components/search/ResultList';
 import { BACKGROUND_COLOR, colors } from '@constants/color';
 import Ionicons from '@assets/icon/Ionicons';
 import Feather from '@assets/icon/Feather';
+import TokenStore from '@store/tokenStore';
 import Base from '@base';
 
-const TEST_TOKEN =
-  'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZlNmFlNTIwLTE1ZTctMTFlYi05YTU5LThiYmMwNGE5OWNlOSIsImlzcyI6Imh0dHA6Ly9hcGkuZGFpbHliYW5qdS5jb20iLCJpYXQiOjE2MDM1MzY5MzR9.Nvk0M4ow4gvKauAxtALzUkq-BPOOpTpiJP8MB3o3TZI';
-
 const Search = ({ route, navigation }) => {
-  // TODO: 테스트 완료 후 삭제
-  const [searchInput, setSearchInput] = useState('dynamite');
+  const [searchInput, setSearchInput] = useState('');
   const [searchData, setSearchData] = useState([]);
   const [showLoading, setShowLoading] = useState(false);
 
@@ -30,7 +28,6 @@ const Search = ({ route, navigation }) => {
   useEffect(() => {
     Orientation.lockToPortrait();
     // TODO: 테스트 완료 후 삭제
-    fetchGetSearch();
   }, []);
 
   const fetchGetSearch = () => {
@@ -42,7 +39,7 @@ const Search = ({ route, navigation }) => {
     axios
       .get(Base.GET_SEARCH + searchInput, {
         headers: {
-          Authorization: TEST_TOKEN,
+          Authorization: `Bearer ${TokenStore.userToken}`,
         },
       })
       .then((res) => {
@@ -55,6 +52,14 @@ const Search = ({ route, navigation }) => {
         setShowLoading(false);
       });
   };
+
+  const clearSearchInput = React.useCallback(() => {
+    setSearchInput('');
+  });
+
+  const goBack = React.useCallback(() => {
+    navigation.goBack();
+  });
 
   return (
     <>
@@ -72,11 +77,11 @@ const Search = ({ route, navigation }) => {
               onSubmitEditing={() => fetchGetSearch()}
               autoFocus
             />
-            <TouchableOpacity>
+            <TouchableOpacity onPress={clearSearchInput}>
               <Feather name="x" style={styles.searchIcon} />
             </TouchableOpacity>
           </View>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={goBack}>
             <Text style={styles.cancelText}>Cancel</Text>
           </TouchableOpacity>
         </View>

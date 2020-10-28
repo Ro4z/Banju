@@ -9,16 +9,12 @@ import AnimatedEllipsis from '@ro4z/react-native-animated-ellipsis';
 import axios from 'axios';
 import he from 'he';
 
-import Base from '@base';
 import Ionicons from '@assets/icon/Ionicons';
 import Feather from '@assets/icon/Feather';
 import { colors } from '@constants/color';
 import truncateString from '@utils/truncateString';
-
-// TODO: 개발 완료 후 삭제
-const TEST_LINK = 'KhZ5DCd7m6s';
-const TEST_TOKEN =
-  'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZlNmFlNTIwLTE1ZTctMTFlYi05YTU5LThiYmMwNGE5OWNlOSIsImlzcyI6Imh0dHA6Ly9hcGkuZGFpbHliYW5qdS5jb20iLCJpYXQiOjE2MDM1MzY5MzR9.Nvk0M4ow4gvKauAxtALzUkq-BPOOpTpiJP8MB3o3TZI';
+import TokenStore from '@store/tokenStore';
+import Base from '@base';
 
 const ResultListItem = ({ data, isReady, navigation }) => {
   const [openModal, setOpenModal] = useState(false);
@@ -30,15 +26,15 @@ const ResultListItem = ({ data, isReady, navigation }) => {
     setOpenModal(!openModal);
   };
 
-  // TODO: 개발 완료 후 default link 삭제
-  const pollingGetPlayMeta = (link = 'hHr-tr2Lz_E') => {
+  const pollingGetPlayMeta = (link) => {
+    if (typeof link === 'undefined') return;
     setIsChording(true);
     const pollingObj = setInterval(() => {
       axios
         .get(Base.GET_PLAYMETA + link, {
           headers: {
             'Content-Type': 'application/json',
-            Authorization: TEST_TOKEN,
+            Authorization: `Bearer ${TokenStore.userToken}`,
           },
         })
         // status: "error" | "working" | "finished"
@@ -81,7 +77,7 @@ const ResultListItem = ({ data, isReady, navigation }) => {
       .get(Base.GET_PLAYMETA + link, {
         headers: {
           'Content-Type': 'application/json',
-          Authorization: TEST_TOKEN,
+          Authorization: `Bearer ${TokenStore.userToken}`,
         },
       })
       // status: "error" | "working" | "finished"
