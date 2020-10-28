@@ -4,7 +4,6 @@ import { Alert, Image, Text, TouchableOpacity, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Modal from 'react-native-modal';
-import AnimatedNumbers from 'react-native-animated-numbers';
 import AnimateNumber from 'react-native-animate-number';
 import AnimatedEllipsis from '@ro4z/react-native-animated-ellipsis';
 import axios from 'axios';
@@ -49,7 +48,7 @@ const ResultListItem = ({ data, isReady, navigation }) => {
             setAnimateToNumber(data.content.progress);
           } else if (status === 'finished') {
             clearInterval(pollingObj);
-
+            setOpenModal(false);
             setIsChording(false);
             const {
               content: { items, meta },
