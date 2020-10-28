@@ -1,25 +1,24 @@
 import React, { useEffect } from 'react';
-import { AsyncStorage, StyleSheet, Text, View } from 'react-native';
-import { BACKGROUND_COLOR } from '@constants/color';
-import { observer } from 'mobx-react-lite';
+import { StyleSheet, Text, View } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import SplashScreen from 'react-native-splash-screen';
+import { observer } from 'mobx-react-lite';
+
+import { BACKGROUND_COLOR } from '@constants/color';
 
 const Loading = observer(({ navigation }) => {
   useEffect(() => {
     SplashScreen.hide();
-    const getToken = async () => {
-      const token = await AsyncStorage.getItem('userToken');
-      return token;
-    };
 
-    setTimeout(() => {
-      const userToken = getToken();
+    setTimeout(async () => {
+      const userToken = await AsyncStorage.getItem('userToken');
+      console.log(userToken);
       if (userToken === null) {
         navigation.navigate('Welcome');
       } else {
         navigation.navigate('Main');
       }
-    }, 0);
+    }, 500);
   });
   return <View style={styles.mainContainer} />;
 });
