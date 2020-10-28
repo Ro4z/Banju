@@ -1,16 +1,16 @@
 import React from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {ifIphoneX} from 'react-native-iphone-x-helper';
+import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ifIphoneX } from 'react-native-iphone-x-helper';
 import Orientation from 'react-native-orientation';
 import ProgressBar from 'react-native-progress/Bar';
 
-import {colors} from '@constants/color';
+import { colors } from '@constants/color';
 import Feather from '@assets/icon/Feather';
 import Ionicons from '@assets/icon/Ionicons';
 import SimpleLineIcons from '@assets/icon/SimpleLineIcons';
 import truncateString from '@utils/truncateString';
 
-const Header = ({navigation, title, progress = 0}) => {
+const Header = ({ navigation, title, progress = 0 }) => {
   const goBack = () => {
     Orientation.lockToPortrait();
     navigation.navigate('Search');
@@ -19,41 +19,33 @@ const Header = ({navigation, title, progress = 0}) => {
     <>
       <View style={styles.mainContainer}>
         <View style={styles.subContainer}>
-          <TouchableOpacity onPress={null}>
-            <Feather name="settings" style={styles.icon} />
+          <TouchableOpacity onPress={() => Alert.alert('Sorry', '준비 중인 기능입니다.')}>
+            <Feather name="settings" style={() => Alert.alert('Sorry', '준비 중인 기능입니다.')} />
           </TouchableOpacity>
           <TouchableOpacity onPress={null}>
-            <SimpleLineIcons
-              name="pencil"
-              style={[styles.icon, {marginLeft: 20}]}
-            />
+            <SimpleLineIcons name="pencil" style={[styles.icon, { marginLeft: 20 }]} />
           </TouchableOpacity>
         </View>
         <View style={styles.subContainer}>
           {/* TODO: 길이가 긴 제목의 처리 추가 */}
-          <Text style={[styles.title, {marginLeft: 0}]}>
-            {truncateString(title, 55)}
-          </Text>
-          <TouchableOpacity onPress={null}>
+          <Text style={[styles.title, { marginLeft: 0 }]}>{truncateString(title, 55)}</Text>
+          {/* <TouchableOpacity onPress={null}>
             <Ionicons
               style={[styles.icon, {fontSize: 18}]}
               name="ios-ellipsis-vertical-sharp"
             />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
         <View style={styles.subContainer}>
           <TouchableOpacity onPress={goBack.bind()}>
-            <Feather
-              name="x"
-              style={{color: colors.grey85Text2, fontSize: 22, marginRight: 0}}
-            />
+            <Feather name="x" style={{ color: colors.grey85Text2, fontSize: 22, marginRight: 0 }} />
           </TouchableOpacity>
         </View>
       </View>
       <ProgressBar
         width={null}
-        useNativeDriver={true}
-        borderColor={'rgba(0,0,0,0)'}
+        useNativeDriver
+        borderColor="rgba(0,0,0,0)"
         color={colors.neon2}
         progress={progress}
         indeterminateAnimationDuration={250}
@@ -76,7 +68,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    ...ifIphoneX({paddingHorizontal: 60}, {paddingHorizontal: 30}),
+    ...ifIphoneX({ paddingHorizontal: 60 }, { paddingHorizontal: 30 }),
   },
   subContainer: {
     flexDirection: 'row',
