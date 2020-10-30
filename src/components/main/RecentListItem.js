@@ -60,7 +60,7 @@ const RecentListItem = ({ data, navigation }) => {
   };
   return (
     <>
-      <Spinner visible={showLoading} textContent="Loading..." />
+      <Spinner visible={showLoading} />
       <View style={styles.mainContainer}>
         <TouchableOpacity
           onPress={() => {

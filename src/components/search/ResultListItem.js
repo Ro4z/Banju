@@ -125,7 +125,7 @@ const ResultListItem = ({ data, isReady, navigation }) => {
 
   return (
     <>
-      <Spinner visible={showLoading} textContent="Loading..." />
+      <Spinner visible={showLoading} />
       <TouchableOpacity style={styles.mainContainer} onPress={toggleModal}>
         <View style={styles.header}>
           {/* TODO: replace with image */}

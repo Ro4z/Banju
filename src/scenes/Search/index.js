@@ -19,7 +19,7 @@ const Search = ({ route, navigation }) => {
   const [searchInput, setSearchInput] = useState('');
   const [searchData, setSearchData] = useState([]);
   const [showLoading, setShowLoading] = useState(false);
-
+  // console.log('TOKEN', TokenStore.userToken);
   useEffect(() => {
     if (typeof route.params === 'undefined') return;
     Object.prototype.hasOwnProperty.call(setSearchInput(route.params.query), 'query');
@@ -27,7 +27,6 @@ const Search = ({ route, navigation }) => {
 
   useEffect(() => {
     Orientation.lockToPortrait();
-    // TODO: 테스트 완료 후 삭제
   }, []);
 
   const fetchGetSearch = () => {
@@ -63,7 +62,7 @@ const Search = ({ route, navigation }) => {
 
   return (
     <>
-      <Spinner visible={showLoading} textContent="Loading..." />
+      <Spinner visible={showLoading} />
       <View style={styles.mainContainer}>
         <View style={styles.headerContainer}>
           <View style={styles.searchBarView}>
