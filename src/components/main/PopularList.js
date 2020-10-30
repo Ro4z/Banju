@@ -1,23 +1,23 @@
 import React from 'react';
-import {StyleSheet, FlatList, View, Text} from 'react-native';
-import {colors} from '@constants/color';
+import { StyleSheet, FlatList, View, Text } from 'react-native';
+import { colors } from '@constants/color';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
-import Item from './TrendListItem';
+import Item from './PopularListItem';
+
 const DATA = [1, 2, 3, 4, 5, 6, 7];
 
-const TrendList = () => {
+const PopularList = ({ data, navigation }) => {
   return (
     <View style={styles.mainContainer}>
       <FlatList
         horizontal
-        data={DATA}
-        renderItem={({index}) => {
+        data={data}
+        renderItem={({ index, item }) => {
           return (
-            <View style={{flexDirection: 'row'}}>
+            <View style={{ flexDirection: 'row' }}>
               <Text style={styles.number}>{index + 1}</Text>
-
-              <Item />
+              <Item data={item} navigation={navigation} />
             </View>
           );
         }}
@@ -26,11 +26,11 @@ const TrendList = () => {
   );
 };
 
-export default TrendList;
+export default PopularList;
 
 const styles = EStyleSheet.create({
   mainContainer: {
-    flex: 7,
+    flex: 5,
   },
   number: {
     color: colors.neonText2,

@@ -13,7 +13,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import Header from '@components/main/Header';
 import RecentList from '@components/main/RecentList';
 import NewChordList from '@components/main/NewChordList';
-import TrendList from '@components/main/TrendList';
+import PopularList from '@components/main/PopularList';
 import Ionicons from '@assets/icon/Ionicons';
 import Feather from '@assets/icon/Feather';
 import { HEIGHT } from '@constants/dimensions';
@@ -92,7 +92,7 @@ const Home = ({ navigation }) => {
             />
           </TouchableOpacity>
         </View>
-        <TrendList />
+        <PopularList />
       </View>
     </ScrollView>
   );

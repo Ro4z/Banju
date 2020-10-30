@@ -4,24 +4,44 @@ import { ifIphoneX } from 'react-native-iphone-x-helper';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import Orientation from 'react-native-orientation';
 import AsyncStorage from '@react-native-community/async-storage';
+import axios from 'axios';
 
 import Header from '@components/main/Header';
 import RecentList from '@components/main/RecentList';
 import NewChordList from '@components/main/NewChordList';
-import TrendList from '@components/main/TrendList';
+import PopularList from '@components/main/PopularList';
 import { BACKGROUND_COLOR, colors } from '@constants/color';
 import Ionicons from '@assets/icon/Ionicons';
-import Feather from '@assets/icon/Feather';
 import { HEIGHT, WIDTH } from '@constants/dimensions';
+import TokenStore from '@store/tokenStore';
+import Base from '@base';
 
 const Main = ({ navigation }) => {
   const [historyJSON, setHistoryJSON] = useState({});
+  const [popularList, setPopularList] = useState([]);
   useEffect(() => {
     const getHistory = async () => {
       const HISTORY_JSON = JSON.parse(await AsyncStorage.getItem('Practice:history'));
       if (HISTORY_JSON) setHistoryJSON(HISTORY_JSON);
     };
+
+    const fetchPopular = () => {
+      console.log(TokenStore.userToken);
+      axios
+        .get(Base.GET_POPULAR, {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${TokenStore.userToken}`,
+          },
+        })
+        .then((res) => {
+          const { items } = res.data;
+          setPopularList(items);
+        })
+        .catch((err) => console.log(err));
+    };
     getHistory();
+    fetchPopular();
     Orientation.lockToPortrait();
   }, []);
 
@@ -34,75 +54,75 @@ const Main = ({ navigation }) => {
         opacity={0.2}
       >
         <ScrollView>
-          <View style={{ width: WIDTH, height: HEIGHT }}>
-            <View style={styles.bodyContainer}>
-              <View style={styles.bodySubContainer} />
-              <View style={styles.bodySubContainer}>
-                <Image style={styles.logoImage} source={require('@assets/img/logo_banju.png')} />
-                <Text style={styles.bodyText}>오늘은 어떤 연주로</Text>
-                <Text style={styles.bodyText}>하루를 마무리해볼까요</Text>
-                <TouchableOpacity onPress={() => navigation.navigate('Search')} style={{ flex: 1 }}>
-                  <View style={styles.searchBarView}>
-                    <Ionicons name="search" style={styles.searchIcon} />
+          <View style={styles.bodyContainer}>
+            <View style={styles.bodySubContainer} />
+            <View style={styles.bodySubContainer}>
+              <Image style={styles.logoImage} source={require('@assets/img/logo_banju.png')} />
+              <Text style={styles.bodyText}>오늘은 어떤 연주로</Text>
+              <Text style={styles.bodyText}>하루를 마무리해볼까요</Text>
+              <TouchableOpacity onPress={() => navigation.navigate('Search')} style={{ flex: 1 }}>
+                <View style={styles.searchBarView}>
+                  <Ionicons name="search" style={styles.searchIcon} />
 
-                    <View style={styles.searchInputView}>
-                      <Text style={styles.searchInputText}>곡 제목을 검색하세요</Text>
-                    </View>
+                  <View style={styles.searchInputView}>
+                    <Text style={styles.searchInputText}>곡 제목을 검색하세요</Text>
+                  </View>
 
-                    {/* <TouchableOpacity>
+                  {/* <TouchableOpacity>
                   <Feather name="upload" style={[styles.searchIcon, { color: colors.white2 }]} />
                 </TouchableOpacity> */}
-                  </View>
-                </TouchableOpacity>
-              </View>
-              <Header navigation={navigation} />
+                </View>
+              </TouchableOpacity>
             </View>
-            <View style={styles.footerContainer}>
-              <View style={styles.cardView}>
-                <View style={styles.cardViewTitleView}>
-                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <Text style={styles.cardViewTitle}>HISTORY</Text>
-                    <Text style={styles.cardViewTitleSub}>최근연습곡</Text>
-                  </View>
-                  {/* <TouchableOpacity>
+            <Header navigation={navigation} />
+          </View>
+          <View style={styles.footerContainer}>
+            <View style={styles.cardView}>
+              <View style={styles.cardViewTitleView}>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <Text style={styles.cardViewTitle}>HISTORY</Text>
+                  <Text style={styles.cardViewTitleSub}>최근연습곡</Text>
+                </View>
+                {/* <TouchableOpacity>
                 <Ionicons
                   name="ios-chevron-forward"
                   style={{ color: colors.grey85Text2, fontSize: 24 }}
                 />
               </TouchableOpacity> */}
+              </View>
+              <RecentList historyJSON={historyJSON} navigation={navigation} />
+            </View>
+            {/* <View style={styles.cardView}>
+                <View style={styles.cardViewTitleView}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <Text style={styles.cardViewTitle}>NEWCHORDED</Text>
+                    <Text style={styles.cardViewTitleSub}>최신업데이트</Text>
+                  </View>
+                  <TouchableOpacity>
+                    <Ionicons
+                      name="ios-chevron-forward"
+                      style={{ color: colors.grey85Text2, fontSize: 24 }}
+                    />
+                  </TouchableOpacity>
                 </View>
-                <RecentList historyJSON={historyJSON} navigation={navigation} />
-              </View>
-              {/* <View style={styles.cardView}>
-            <View style={styles.cardViewTitleView}>
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Text style={styles.cardViewTitle}>NEWCHORDED</Text>
-                <Text style={styles.cardViewTitleSub}>최신업데이트</Text>
-              </View>
-              <TouchableOpacity>
-                <Ionicons
-                  name="ios-chevron-forward"
-                  style={{ color: colors.grey85Text2, fontSize: 24 }}
-                />
-              </TouchableOpacity>
-            </View>
-            <NewChordList />
+                <NewChordList />
+              </View> */}
           </View>
-          <View style={styles.cardView}>
-            <View style={styles.cardViewTitleView}>
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Text style={styles.cardViewTitle}>TRENDING</Text>
-                <Text style={styles.cardViewTitleSub}>인기순위</Text>
+          <View style={styles.footerContainer}>
+            <View style={styles.cardView}>
+              <View style={styles.cardViewTitleView}>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <Text style={styles.cardViewTitle}>TRENDING</Text>
+                  <Text style={styles.cardViewTitleSub}>인기순위</Text>
+                </View>
+                {/* <TouchableOpacity>
+                  <Ionicons
+                    name="ios-chevron-forward"
+                    style={{ color: colors.grey85Text2, fontSize: 24 }}
+                  />
+                </TouchableOpacity> */}
               </View>
-              <TouchableOpacity>
-                <Ionicons
-                  name="ios-chevron-forward"
-                  style={{ color: colors.grey85Text2, fontSize: 24 }}
-                />
-              </TouchableOpacity>
-            </View>
-            <TrendList />
-          </View> */}
+              <PopularList data={popularList} navigation={navigation} />
             </View>
           </View>
         </ScrollView>
@@ -129,7 +149,8 @@ const styles = EStyleSheet.create({
     height: HEIGHT / 1.5,
   },
   footerContainer: {
-    flex: HEIGHT / 4,
+    height: HEIGHT / 3,
+    marginBottom: 10,
   },
   bodySubContainer: {
     flex: 1,
