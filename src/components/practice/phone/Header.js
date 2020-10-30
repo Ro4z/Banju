@@ -13,7 +13,7 @@ import truncateString from '@utils/truncateString';
 const Header = ({ navigation, title, progress = 0 }) => {
   const goBack = () => {
     Orientation.lockToPortrait();
-    navigation.navigate('Search');
+    navigation.navigate('Main');
   };
   return (
     <>

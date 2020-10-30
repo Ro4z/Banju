@@ -1,16 +1,9 @@
-import React, { useState } from 'react';
-import {
-  TextInput,
-  Text,
-  View,
-  ImageBackground,
-  Image,
-  TouchableOpacity,
-  ScrollView,
-  StatusBar,
-} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { Text, View, ImageBackground, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { ifIphoneX } from 'react-native-iphone-x-helper';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import Orientation from 'react-native-orientation';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import Header from '@components/main/Header';
 import RecentList from '@components/main/RecentList';
@@ -22,7 +15,16 @@ import Feather from '@assets/icon/Feather';
 import { HEIGHT } from '@constants/dimensions';
 
 const Main = ({ navigation }) => {
-  const [searchInput, setSearchInput] = useState('');
+  const [historyJSON, setHistoryJSON] = useState({});
+  useEffect(() => {
+    const getHistory = async () => {
+      const HISTORY_JSON = JSON.parse(await AsyncStorage.getItem('Practice:history'));
+      if (HISTORY_JSON) setHistoryJSON(HISTORY_JSON);
+    };
+    getHistory();
+    Orientation.lockToPortrait();
+  }, []);
+
   return (
     <View style={{ flex: 1, backgroundColor: BACKGROUND_COLOR }}>
       <ImageBackground
@@ -67,7 +69,7 @@ const Main = ({ navigation }) => {
                 />
               </TouchableOpacity> */}
             </View>
-            <RecentList />
+            <RecentList historyJSON={historyJSON} navigation={navigation} />
           </View>
           {/* <View style={styles.cardView}>
             <View style={styles.cardViewTitleView}>

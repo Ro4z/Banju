@@ -5,6 +5,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Modal from 'react-native-modal';
 import AnimateNumber from 'react-native-animate-number';
+import AsyncStorage from '@react-native-community/async-storage';
 import AnimatedEllipsis from '@ro4z/react-native-animated-ellipsis';
 import axios from 'axios';
 import he from 'he';
@@ -22,8 +23,23 @@ const ResultListItem = ({ data, isReady, navigation }) => {
   const [isChording, setIsChording] = useState(false);
   const [animateToNumber, setAnimateToNumber] = useState(0);
 
+  console.log('TokenStore.userToken :>> ', TokenStore.userToken);
   const toggleModal = () => {
     setOpenModal(!openModal);
+  };
+
+  const saveHistory = async (id, title, thumbnail) => {
+    console.log(title, thumbnail);
+    let historyJSON = JSON.parse(await AsyncStorage.getItem('Practice:history'));
+    if (!historyJSON) historyJSON = {};
+    historyJSON[id] = {
+      id,
+      title,
+      thumbnail,
+      playTime: Date.now(),
+    };
+
+    AsyncStorage.setItem('Practice:history', JSON.stringify(historyJSON));
   };
 
   const pollingGetPlayMeta = (link) => {
@@ -123,9 +139,9 @@ const ResultListItem = ({ data, isReady, navigation }) => {
         <View style={styles.footer}>
           <View style={styles.footerSub1}>
             <Text style={styles.title}>{truncateString(he.decode(data.title), 40)}</Text>
-            <TouchableOpacity onPress={() => console.log('info')}>
+            {/* <TouchableOpacity onPress={() => console.log('info')}>
               <Ionicons name="ios-ellipsis-vertical" style={styles.title} />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
           <View style={styles.footerSub2}>
             <Text style={styles.meta}>{typeof data.scale === 'undefined' ? '' : data.scale}</Text>
@@ -302,9 +318,11 @@ const ResultListItem = ({ data, isReady, navigation }) => {
               onPress={
                 data.convert === 'Banjued'
                   ? () => {
+                      saveHistory(data.id, he.decode(data.title), data.thumbnail.url);
                       getPlaymeta(data.id);
                     }
                   : () => {
+                      saveHistory(data.id, he.decode(data.title), data.thumbnail.url);
                       pollingGetPlayMeta(data.id);
                     }
               }
