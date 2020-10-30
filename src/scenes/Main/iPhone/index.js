@@ -12,7 +12,7 @@ import TrendList from '@components/main/TrendList';
 import { BACKGROUND_COLOR, colors } from '@constants/color';
 import Ionicons from '@assets/icon/Ionicons';
 import Feather from '@assets/icon/Feather';
-import { HEIGHT } from '@constants/dimensions';
+import { HEIGHT, WIDTH } from '@constants/dimensions';
 
 const Main = ({ navigation }) => {
   const [historyJSON, setHistoryJSON] = useState({});
@@ -33,45 +33,47 @@ const Main = ({ navigation }) => {
         blurRadius={20}
         opacity={0.2}
       >
-        <View style={styles.bodyContainer}>
-          <View style={styles.bodySubContainer} />
-          <View style={styles.bodySubContainer}>
-            <Image style={styles.logoImage} source={require('@assets/img/logo_banju.png')} />
-            <Text style={styles.bodyText}>오늘은 어떤 연주로</Text>
-            <Text style={styles.bodyText}>하루를 마무리해볼까요</Text>
-            <TouchableOpacity onPress={() => navigation.navigate('Search')} style={{ flex: 1 }}>
-              <View style={styles.searchBarView}>
-                <Ionicons name="search" style={styles.searchIcon} />
+        <ScrollView>
+          <View style={{ width: WIDTH, height: HEIGHT }}>
+            <View style={styles.bodyContainer}>
+              <View style={styles.bodySubContainer} />
+              <View style={styles.bodySubContainer}>
+                <Image style={styles.logoImage} source={require('@assets/img/logo_banju.png')} />
+                <Text style={styles.bodyText}>오늘은 어떤 연주로</Text>
+                <Text style={styles.bodyText}>하루를 마무리해볼까요</Text>
+                <TouchableOpacity onPress={() => navigation.navigate('Search')} style={{ flex: 1 }}>
+                  <View style={styles.searchBarView}>
+                    <Ionicons name="search" style={styles.searchIcon} />
 
-                <View style={styles.searchInputView}>
-                  <Text style={styles.searchInputText}>곡 제목을 검색하세요</Text>
-                </View>
+                    <View style={styles.searchInputView}>
+                      <Text style={styles.searchInputText}>곡 제목을 검색하세요</Text>
+                    </View>
 
-                {/* <TouchableOpacity>
+                    {/* <TouchableOpacity>
                   <Feather name="upload" style={[styles.searchIcon, { color: colors.white2 }]} />
                 </TouchableOpacity> */}
+                  </View>
+                </TouchableOpacity>
               </View>
-            </TouchableOpacity>
-          </View>
-          <Header navigation={navigation} />
-        </View>
-        <ScrollView style={styles.footerContainer}>
-          <View style={styles.cardView}>
-            <View style={styles.cardViewTitleView}>
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Text style={styles.cardViewTitle}>HISTORY</Text>
-                <Text style={styles.cardViewTitleSub}>최근연습곡</Text>
-              </View>
-              {/* <TouchableOpacity>
+              <Header navigation={navigation} />
+            </View>
+            <View style={styles.footerContainer}>
+              <View style={styles.cardView}>
+                <View style={styles.cardViewTitleView}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <Text style={styles.cardViewTitle}>HISTORY</Text>
+                    <Text style={styles.cardViewTitleSub}>최근연습곡</Text>
+                  </View>
+                  {/* <TouchableOpacity>
                 <Ionicons
                   name="ios-chevron-forward"
                   style={{ color: colors.grey85Text2, fontSize: 24 }}
                 />
               </TouchableOpacity> */}
-            </View>
-            <RecentList historyJSON={historyJSON} navigation={navigation} />
-          </View>
-          {/* <View style={styles.cardView}>
+                </View>
+                <RecentList historyJSON={historyJSON} navigation={navigation} />
+              </View>
+              {/* <View style={styles.cardView}>
             <View style={styles.cardViewTitleView}>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <Text style={styles.cardViewTitle}>NEWCHORDED</Text>
@@ -101,6 +103,8 @@ const Main = ({ navigation }) => {
             </View>
             <TrendList />
           </View> */}
+            </View>
+          </View>
         </ScrollView>
       </ImageBackground>
     </View>
@@ -122,10 +126,10 @@ const styles = EStyleSheet.create({
     ),
   },
   bodyContainer: {
-    flex: 2,
+    height: HEIGHT / 1.5,
   },
   footerContainer: {
-    flex: 1,
+    flex: HEIGHT / 4,
   },
   bodySubContainer: {
     flex: 1,
