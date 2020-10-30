@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Text, View, TextInput, TouchableOpacity, Alert } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { ifIphoneX } from 'react-native-iphone-x-helper';
@@ -20,6 +20,9 @@ const Search = ({ route, navigation }) => {
   const [searchData, setSearchData] = useState([]);
   const [showLoading, setShowLoading] = useState(false);
   // console.log('TOKEN', TokenStore.userToken);
+
+  const nextPageToken = useRef('');
+
   useEffect(() => {
     if (typeof route.params === 'undefined') return;
     Object.prototype.hasOwnProperty.call(setSearchInput(route.params.query), 'query');
@@ -37,12 +40,16 @@ const Search = ({ route, navigation }) => {
 
     axios
       .get(Base.GET_SEARCH + searchInput, {
+        params: {
+          pageToken: nextPageToken.current,
+        },
         headers: {
           Authorization: `Bearer ${TokenStore.userToken}`,
         },
       })
       .then((res) => {
-        setSearchData(res.data.items);
+        setSearchData([...searchData, ...res.data.items]);
+        nextPageToken.current = res.data.nextPageToken;
         setShowLoading(false);
       })
       .catch((err) => {
@@ -86,7 +93,7 @@ const Search = ({ route, navigation }) => {
         </View>
 
         <View style={styles.bodyContainer}>
-          <ResultList navigation={navigation} data={searchData} />
+          <ResultList navigation={navigation} data={searchData} onScrollEnd={fetchGetSearch} />
         </View>
       </View>
     </>
