@@ -11,6 +11,8 @@ target 'Banju' do
   pod 'RNSystemtime', :path => '../node_modules/@ro4z/react-native-system-time'
 
   pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
+  
+  pod 'Firebase/Analytics'
 
   target 'BanjuTests' do
     inherit! :complete

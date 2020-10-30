@@ -7,6 +7,9 @@
 #import "Orientation.h"
 #import <RNHomeIndicator.h>
 #import <KakaoOpenSDK/KakaoOpenSDK.h>
+#import <AppCenterReactNative.h>
+#import <AppCenterReactNativeAnalytics.h>
+#import <AppCenterReactNativeCrashes.h>
 #ifdef FB_SONARKIT_ENABLED
 #import <FlipperKit/FlipperClient.h>
 #import <FlipperKitLayoutPlugin/FlipperKitLayoutPlugin.h>
@@ -26,8 +29,10 @@ static void InitializeFlipper(UIApplication *application) {
 }
 #endif
 
-@implementation AppDelegate
+@import UIKit;
+@import Firebase;
 
+@implementation AppDelegate
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
                                       sourceApplication:(NSString *)sourceApplication
                                               annotation:(id)annotation {
@@ -58,6 +63,11 @@ static void InitializeFlipper(UIApplication *application) {
 #ifdef FB_SONARKIT_ENABLED
   InitializeFlipper(application);
 #endif
+  
+  [AppCenterReactNative register];
+  [AppCenterReactNativeAnalytics registerWithInitiallyEnabled:true];
+  [AppCenterReactNativeCrashes registerWithAutomaticProcessing];
+  [FIRApp configure];
 
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
@@ -71,7 +81,6 @@ static void InitializeFlipper(UIApplication *application) {
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
-   [RNSplashScreen show];  // here
   return YES;
 }
 
