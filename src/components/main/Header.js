@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Text, View, TouchableOpacity, Image, Platform, Alert } from 'react-native';
+import { Text, View, TouchableOpacity, Image, Platform, Alert, StyleSheet } from 'react-native';
 import Modal from 'react-native-modal';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import AsyncStorage from '@react-native-community/async-storage';
 
-import Icon from '@assets/icon/Ionicons';
+import Ionicons from '@assets/icon/Ionicons';
+import EvilIcons from '@assets/icon/EvilIcons';
 import { WIDTH, HEIGHT } from '@constants/dimensions';
 import NotiList from '@components/notification/NotificationList';
 
@@ -22,10 +23,14 @@ const Header = ({ navigation }) => {
 
   return (
     <View style={Platform.isPad ? iPadStyles.mainContainer : iPhoneStyles.mainContainer}>
-      <TouchableOpacity onPress={navigateProfile.bind()}>
-        <Image
-          source={require('@assets/img/profile_sample2.png')}
-          style={Platform.isPad ? iPadStyles.profileBtn : iPhoneStyles.profileBtn}
+      <TouchableOpacity
+        onPress={() => {
+          Alert.alert('Sorry', '프로필 기능은 준비 중입니다.');
+        }}
+      >
+        <EvilIcons
+          name="user"
+          style={Platform.isPad ? iPadStyles.profile_icon : iPhoneStyles.profile_icon}
         />
       </TouchableOpacity>
       <TouchableOpacity
@@ -49,9 +54,9 @@ const Header = ({ navigation }) => {
         }}
         style={{ justifyContent: 'center' }}
       >
-        <Icon
+        <Ionicons
           name="ios-exit-outline"
-          style={Platform.isPad ? iPadStyles.icon : iPhoneStyles.icon}
+          style={Platform.isPad ? iPadStyles.logout_icon : iPhoneStyles.logout_icon}
         />
       </TouchableOpacity>
 
@@ -94,7 +99,11 @@ const iPadStyles = EStyleSheet.create({
     color: '#fff',
     margin: 10,
   },
-  icon: {
+  profile_icon: {
+    fontSize: '15rem',
+    color: '#fff',
+  },
+  logout_icon: {
     fontSize: '10rem',
     color: '#fff',
   },
@@ -129,7 +138,12 @@ const iPhoneStyles = EStyleSheet.create({
     color: '#fff',
     margin: 10,
   },
-  icon: {
+
+  profile_icon: {
+    fontSize: '28rem',
+    color: '#fff',
+  },
+  logout_icon: {
     fontSize: '20rem',
     color: '#fff',
   },

@@ -5,20 +5,17 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Modal from 'react-native-modal';
 import AnimateNumber from 'react-native-animate-number';
+import AsyncStorage from '@react-native-community/async-storage';
 import AnimatedEllipsis from '@ro4z/react-native-animated-ellipsis';
 import axios from 'axios';
 import he from 'he';
 
-import Base from '@base';
 import Ionicons from '@assets/icon/Ionicons';
 import Feather from '@assets/icon/Feather';
 import { colors } from '@constants/color';
 import truncateString from '@utils/truncateString';
-
-// TODO: 개발 완료 후 삭제
-const TEST_LINK = 'KhZ5DCd7m6s';
-const TEST_TOKEN =
-  'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZlNmFlNTIwLTE1ZTctMTFlYi05YTU5LThiYmMwNGE5OWNlOSIsImlzcyI6Imh0dHA6Ly9hcGkuZGFpbHliYW5qdS5jb20iLCJpYXQiOjE2MDM1MzY5MzR9.Nvk0M4ow4gvKauAxtALzUkq-BPOOpTpiJP8MB3o3TZI';
+import TokenStore from '@store/tokenStore';
+import Base from '@base';
 
 const ResultListItem = ({ data, isReady, navigation }) => {
   const [openModal, setOpenModal] = useState(false);
@@ -30,15 +27,29 @@ const ResultListItem = ({ data, isReady, navigation }) => {
     setOpenModal(!openModal);
   };
 
-  // TODO: 개발 완료 후 default link 삭제
-  const pollingGetPlayMeta = (link = 'hHr-tr2Lz_E') => {
+  const saveHistory = async (id, title, thumbnail) => {
+    console.log(title, thumbnail);
+    let historyJSON = JSON.parse(await AsyncStorage.getItem('Practice:history'));
+    if (!historyJSON) historyJSON = {};
+    historyJSON[id] = {
+      id,
+      title,
+      thumbnail,
+      playTime: Date.now(),
+    };
+
+    AsyncStorage.setItem('Practice:history', JSON.stringify(historyJSON));
+  };
+
+  const pollingGetPlayMeta = (link) => {
+    if (typeof link === 'undefined') return;
     setIsChording(true);
     const pollingObj = setInterval(() => {
       axios
         .get(Base.GET_PLAYMETA + link, {
           headers: {
             'Content-Type': 'application/json',
-            Authorization: TEST_TOKEN,
+            Authorization: `Bearer ${TokenStore.userToken}`,
           },
         })
         // status: "error" | "working" | "finished"
@@ -81,7 +92,7 @@ const ResultListItem = ({ data, isReady, navigation }) => {
       .get(Base.GET_PLAYMETA + link, {
         headers: {
           'Content-Type': 'application/json',
-          Authorization: TEST_TOKEN,
+          Authorization: `Bearer ${TokenStore.userToken}`,
         },
       })
       // status: "error" | "working" | "finished"
@@ -113,7 +124,7 @@ const ResultListItem = ({ data, isReady, navigation }) => {
 
   return (
     <>
-      <Spinner visible={showLoading} textContent="Loading..." />
+      <Spinner visible={showLoading} />
       <TouchableOpacity style={styles.mainContainer} onPress={toggleModal}>
         <View style={styles.header}>
           {/* TODO: replace with image */}
@@ -127,9 +138,9 @@ const ResultListItem = ({ data, isReady, navigation }) => {
         <View style={styles.footer}>
           <View style={styles.footerSub1}>
             <Text style={styles.title}>{truncateString(he.decode(data.title), 40)}</Text>
-            <TouchableOpacity onPress={() => console.log('info')}>
+            {/* <TouchableOpacity onPress={() => console.log('info')}>
               <Ionicons name="ios-ellipsis-vertical" style={styles.title} />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
           <View style={styles.footerSub2}>
             <Text style={styles.meta}>{typeof data.scale === 'undefined' ? '' : data.scale}</Text>
@@ -306,9 +317,11 @@ const ResultListItem = ({ data, isReady, navigation }) => {
               onPress={
                 data.convert === 'Banjued'
                   ? () => {
+                      saveHistory(data.id, he.decode(data.title), data.thumbnail.url);
                       getPlaymeta(data.id);
                     }
                   : () => {
+                      saveHistory(data.id, he.decode(data.title), data.thumbnail.url);
                       pollingGetPlayMeta(data.id);
                     }
               }

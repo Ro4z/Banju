@@ -1,26 +1,27 @@
 /* eslint-disable react/prop-types */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Text, View, TextInput, TouchableOpacity, Alert } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { ifIphoneX } from 'react-native-iphone-x-helper';
 import Orientation from 'react-native-orientation';
 import Spinner from 'react-native-loading-spinner-overlay';
+import firebase from 'react-native-firebase';
 import axios from 'axios';
 
 import ResultList from '@components/search/ResultList';
 import { BACKGROUND_COLOR, colors } from '@constants/color';
 import Ionicons from '@assets/icon/Ionicons';
 import Feather from '@assets/icon/Feather';
+import TokenStore from '@store/tokenStore';
 import Base from '@base';
 
-const TEST_TOKEN =
-  'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZlNmFlNTIwLTE1ZTctMTFlYi05YTU5LThiYmMwNGE5OWNlOSIsImlzcyI6Imh0dHA6Ly9hcGkuZGFpbHliYW5qdS5jb20iLCJpYXQiOjE2MDM1MzY5MzR9.Nvk0M4ow4gvKauAxtALzUkq-BPOOpTpiJP8MB3o3TZI';
-
 const Search = ({ route, navigation }) => {
-  // TODO: 테스트 완료 후 삭제
-  const [searchInput, setSearchInput] = useState('dynamite');
+  const [searchInput, setSearchInput] = useState('');
   const [searchData, setSearchData] = useState([]);
   const [showLoading, setShowLoading] = useState(false);
+  // console.log('TOKEN', TokenStore.userToken);
+
+  const nextPageToken = useRef('');
 
   useEffect(() => {
     if (typeof route.params === 'undefined') return;
@@ -29,8 +30,6 @@ const Search = ({ route, navigation }) => {
 
   useEffect(() => {
     Orientation.lockToPortrait();
-    // TODO: 테스트 완료 후 삭제
-    fetchGetSearch();
   }, []);
 
   const fetchGetSearch = () => {
@@ -38,15 +37,22 @@ const Search = ({ route, navigation }) => {
     console.log('search');
     if (searchInput === '') return;
     console.log(searchInput);
+    firebase.analytics().logEvent('onSearch', {
+      keyword: searchInput,
+    });
 
     axios
       .get(Base.GET_SEARCH + searchInput, {
+        params: {
+          pageToken: nextPageToken.current,
+        },
         headers: {
-          Authorization: TEST_TOKEN,
+          Authorization: `Bearer ${TokenStore.userToken}`,
         },
       })
       .then((res) => {
-        setSearchData(res.data.items);
+        setSearchData([...searchData, ...res.data.items]);
+        nextPageToken.current = res.data.nextPageToken;
         setShowLoading(false);
       })
       .catch((err) => {
@@ -56,9 +62,17 @@ const Search = ({ route, navigation }) => {
       });
   };
 
+  const clearSearchInput = React.useCallback(() => {
+    setSearchInput('');
+  });
+
+  const goBack = React.useCallback(() => {
+    navigation.goBack();
+  });
+
   return (
     <>
-      <Spinner visible={showLoading} textContent="Loading..." />
+      <Spinner visible={showLoading} />
       <View style={styles.mainContainer}>
         <View style={styles.headerContainer}>
           <View style={styles.searchBarView}>
@@ -72,17 +86,17 @@ const Search = ({ route, navigation }) => {
               onSubmitEditing={() => fetchGetSearch()}
               autoFocus
             />
-            <TouchableOpacity>
+            <TouchableOpacity onPress={clearSearchInput}>
               <Feather name="x" style={styles.searchIcon} />
             </TouchableOpacity>
           </View>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={goBack}>
             <Text style={styles.cancelText}>Cancel</Text>
           </TouchableOpacity>
         </View>
 
         <View style={styles.bodyContainer}>
-          <ResultList navigation={navigation} data={searchData} />
+          <ResultList navigation={navigation} data={searchData} onScrollEnd={fetchGetSearch} />
         </View>
       </View>
     </>

@@ -1,21 +1,21 @@
 import React, { useState } from 'react';
-import { Text, Alert, View, Image, TouchableOpacity } from 'react-native';
+import { Alert, Image, Text, TouchableOpacity, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import Spinner from 'react-native-loading-spinner-overlay';
 import axios from 'axios';
 
 import { WIDTH } from '@constants/dimensions';
+import Ionicons from '@assets/icon/Ionicons';
 import { colors } from '@constants/color';
 import truncateString from '@utils/truncateString';
-import calculateDaybefore from '@utils/calculateDaybefore';
 import TokenStore from '@store/tokenStore';
 import Base from '@base';
 
 const ItemWidth = WIDTH / 3;
-const ImageWidth = WIDTH / 3.5;
-const RecentListItem = ({ data, navigation }) => {
+
+const PopularListItem = ({ data, navigation }) => {
   const [showLoading, setShowLoading] = useState(false);
-  // console.log(data);
+
   const pollingGetPlayMeta = (link) => {
     if (typeof link === 'undefined') return;
     setShowLoading(true);
@@ -31,6 +31,7 @@ const RecentListItem = ({ data, navigation }) => {
         // status: "error" | "working" | "finished"
         .then(({ data, data: { status } }) => {
           if (status === 'working') {
+            console.log('working');
             if (typeof data.content === 'undefined') return;
           } else if (status === 'finished') {
             clearInterval(pollingObj);
@@ -58,58 +59,73 @@ const RecentListItem = ({ data, navigation }) => {
         });
     }, 1000);
   };
+
   return (
     <>
       <Spinner visible={showLoading} />
-      <View style={styles.mainContainer}>
-        <TouchableOpacity
-          onPress={() => {
-            data && pollingGetPlayMeta(data.id);
-          }}
-        >
-          {/* TODO: replace with image */}
-          <View style={styles.thumbnailImageView}>
-            <Image style={styles.thumbnailImage} source={{ uri: data && data.thumbnail }} />
+      <TouchableOpacity onPress={() => pollingGetPlayMeta(data.id)}>
+        <View style={styles.mainContainer}>
+          <View style={styles.header}>
+            <View style={styles.thumbnailImageView}>
+              <Image style={styles.thumbnailImage} source={{ uri: data.thumbnail.url }} />
+            </View>
           </View>
-          <Text style={styles.title}>{data && truncateString(data.title)}</Text>
-          <Text style={styles.meta}>{data && calculateDaybefore(data.playTime)}</Text>
-        </TouchableOpacity>
-      </View>
+          <View style={styles.footer}>
+            <View style={styles.footerSub1}>
+              <Text style={styles.title}>{truncateString(data.title, 27)}</Text>
+              {/* <TouchableOpacity style={{ flex: 1, alignItems: 'center' }}>
+                <Ionicons name="ios-ellipsis-vertical" style={styles.title} />
+              </TouchableOpacity> */}
+            </View>
+            <View style={styles.footerSub2}>
+              <Text style={styles.meta} />
+            </View>
+          </View>
+        </View>
+      </TouchableOpacity>
     </>
   );
 };
 
-export default RecentListItem;
+export default PopularListItem;
 
 const styles = EStyleSheet.create({
   mainContainer: {
     height: '100%',
     width: ItemWidth,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: '5rem',
+    marginRight: '10rem',
   },
   thumbnailImageView: {
-    height: ImageWidth,
-    width: ImageWidth,
-    borderRadius: ImageWidth,
+    width: '100%',
+    height: '100%',
     backgroundColor: 'rgba(255,255,255,0.1)',
   },
   thumbnailImage: {
-    height: ImageWidth,
-    width: ImageWidth,
-    borderRadius: ImageWidth,
+    flex: 1,
+  },
+  header: {
+    flex: 2.7,
+    marginVertical: '10rem',
+  },
+  footer: {
+    flex: 2,
+  },
+  footerSub1: {
+    flex: 1.2,
+    flexDirection: 'row',
+  },
+  footerSub2: {
+    flex: 1,
   },
   title: {
+    flex: 10,
     fontFamily: 'NanumSquareR',
     fontSize: '15rem',
     color: 'rgb(203,203,203)',
-    marginTop: '5.5rem',
-    marginBottom: '3rem',
   },
   meta: {
     fontFamily: 'NanumSquareR',
-    fontSize: '14rem',
+    fontSize: '12rem',
     color: colors.grey40Subtitle2,
   },
 });

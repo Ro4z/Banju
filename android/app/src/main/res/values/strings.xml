@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Banju</string>
+    <string name="kakao_app_key">87f48c15b0a04b923d092410e592d655</string>
 </resources>

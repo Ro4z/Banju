@@ -23,7 +23,9 @@ const Welcome = observer(({ navigation }) => {
             accessToken: res.identityToken,
           })
           .then((resp) => {
-            console.log(resp);
+            TokenStore.setUserToken(resp.data.token);
+            AsyncStorage.setItem('userToken', resp.data.token);
+            navigation.navigate('Main');
           })
           .catch((error) => {
             Alert.alert('Sorry', '로그인 도중 문제가 발생하였습니다.');

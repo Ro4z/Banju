@@ -198,7 +198,6 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
     youtubeRef.current.seekTo(second);
   }, []);
 
-  // TODO: 재생이 끝났을 때의 처리
   // using in GameLoop (call back that execute every 16ms)
   const updateHandler = useCallback(() => {
     if (!isPlayStart.current) return;
@@ -232,7 +231,6 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
     // move progress bar
     progress.current = currentSecond.current / youtubeDuration;
 
-    // TODO: focus frame의 작동 방식을 setting에서 정하도록
     // move chord table
     if (moveCount.current < notes.length) {
       if (currentSecond.current >= notes[moveCount.current].second + playSync) {
@@ -333,11 +331,11 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
         <View style={[styles.bodyContainer, { alignItems: 'center' }]}>
           {React.useMemo(() => {
             return (
-              <TouchableOpacity onPress={null} style={{ flex: 1 }}>
+              <View onPress={null} style={{ flex: 1 }}>
                 <View style={styles.toggleBtnView}>
                   <Text style={styles.toggleBtnText}>CHORD</Text>
                 </View>
-              </TouchableOpacity>
+              </View>
             );
           }, [])}
 
