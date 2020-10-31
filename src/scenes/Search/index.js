@@ -5,7 +5,7 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import { ifIphoneX } from 'react-native-iphone-x-helper';
 import Orientation from 'react-native-orientation';
 import Spinner from 'react-native-loading-spinner-overlay';
-import { observer } from 'mobx-react-lite';
+import firebase from 'react-native-firebase';
 import axios from 'axios';
 
 import ResultList from '@components/search/ResultList';
@@ -37,6 +37,9 @@ const Search = ({ route, navigation }) => {
     console.log('search');
     if (searchInput === '') return;
     console.log(searchInput);
+    firebase.analytics().logEvent('onSearch', {
+      keyword: searchInput,
+    });
 
     axios
       .get(Base.GET_SEARCH + searchInput, {

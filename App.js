@@ -6,6 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import SplashScreen from 'react-native-splash-screen';
 import PrefersHomeIndicatorAutoHidden from 'react-native-home-indicator';
+import * as Sentry from '@sentry/react-native';
 
 import iPadMain from '@scenes/Main/iPad';
 import iPhoneMain from '@scenes/Main/iPhone';
@@ -18,12 +19,16 @@ import Init from '@scenes/Init';
 
 import { WIDTH } from '@constants/dimensions';
 
+Sentry.init({
+  dsn: 'https://7856b48b0ac5455dbf356f040563e939@o463640.ingest.sentry.io/5499071',
+});
+
 EStyleSheet.build({ $rem: WIDTH / 380 });
 const Stack = createStackNavigator();
 const screenDefaultOptions = {
   headerShown: false,
 };
-
+console.disableYellowBox = true;
 StatusBar.setTranslucent(true);
 const App = () => {
   return (
@@ -36,12 +41,22 @@ const App = () => {
         <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
       )}
       <Stack.Navigator initialRouteName="Init">
-        <Stack.Screen name="Init" component={Init} options={screenDefaultOptions} />
+        <Stack.Screen
+          name="Init"
+          component={Init}
+          options={{
+            headerShown: false,
+            gestureEnabled: false,
+          }}
+        />
         <Stack.Screen name="Welcome" component={Welcome} options={screenDefaultOptions} />
         <Stack.Screen
           name="Main"
           component={Platform.isPad ? iPadMain : iPhoneMain}
-          options={screenDefaultOptions}
+          options={{
+            headerShown: false,
+            gestureEnabled: false,
+          }}
         />
         <Stack.Screen
           name="Practice"
