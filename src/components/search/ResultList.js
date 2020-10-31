@@ -5,7 +5,6 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import Item from './ResultListItem';
 
 const ResultList = ({ navigation, data, onScrollEnd }) => {
-  console.log('onScrollEnd :>> ', onScrollEnd);
   const [showLoading, setShowLoading] = useState(false);
 
   const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {

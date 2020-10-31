@@ -23,7 +23,6 @@ const ResultListItem = ({ data, isReady, navigation }) => {
   const [isChording, setIsChording] = useState(false);
   const [animateToNumber, setAnimateToNumber] = useState(0);
 
-  console.log('TokenStore.userToken :>> ', TokenStore.userToken);
   const toggleModal = () => {
     setOpenModal(!openModal);
   };

@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Image, View } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import SplashScreen from 'react-native-splash-screen';
+import LottieView from 'lottie-react-native';
 import { observer } from 'mobx-react-lite';
 
 import { BACKGROUND_COLOR } from '@constants/color';
@@ -12,7 +13,6 @@ const Loading = observer(({ navigation }) => {
     setTimeout(async () => {
       SplashScreen.hide();
       const userToken = await AsyncStorage.getItem('userToken');
-      console.log(userToken);
       if (userToken === null) {
         navigation.navigate('Welcome');
       } else {
