@@ -318,7 +318,7 @@ const ChordTableMode = ({navigation, route: {params}}) => {
 
     // const FT = Date.now();
     // console.log('execute time', FT - ST);
-  }, []);
+  }, [playSync]);
 
   return (
     <View style={styles.mainContainer}>
