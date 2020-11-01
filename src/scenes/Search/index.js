@@ -20,6 +20,7 @@ const Search = ({ route, navigation }) => {
   const [searchData, setSearchData] = useState([]);
   const [showLoading, setShowLoading] = useState(false);
   
+  const textInputRef = useRef()
   const nextPageToken = useRef('');
 
   useEffect(() => {
@@ -84,6 +85,8 @@ const Search = ({ route, navigation }) => {
   }
 
   const clearSearchInput = React.useCallback(() => {
+    textInputRef.current.focus()
+    setSearchData([])
     setSearchInput('');
   });
 
@@ -101,6 +104,7 @@ const Search = ({ route, navigation }) => {
             <TextInput
               style={styles.searchInput}
               placeholder="곡 제목을 검색하세요"
+              ref={textInputRef}
               value={searchInput}
               onChangeText={(text) => setSearchInput(text)}
               placeholderTextColor={colors.grey40Subtitle2}
