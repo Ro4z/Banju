@@ -1,23 +1,23 @@
 /* eslint-disable react/prop-types */
-import React, { useEffect, useRef, useState, useCallback } from 'react';
-import { Text, View, TouchableOpacity, Animated, FlatList } from 'react-native';
+import React, {useEffect, useRef, useState, useCallback} from 'react';
+import {Text, View, TouchableOpacity, Animated, FlatList} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import Orientation from 'react-native-orientation';
-import { ifIphoneX } from 'react-native-iphone-x-helper';
-import { GameLoop } from 'react-native-game-engine';
+import {ifIphoneX} from 'react-native-iphone-x-helper';
+import {GameLoop} from 'react-native-game-engine';
 import PianoSampler from 'react-native-piano-sampler';
 import Youtube from '@ro4z/react-native-youtube';
 
 import Feather from '@assets/icon/Feather';
 import SimpleLineIcons from '@assets/icon/SimpleLineIcons';
-import { BACKGROUND_COLOR, colors } from '@constants/color';
-import { WIDTH, HEIGHT } from '@constants/dimensions';
+import {BACKGROUND_COLOR, colors} from '@constants/color';
+import {WIDTH, HEIGHT} from '@constants/dimensions';
 import secondToString from '@utils/secondToString';
 
 import PianoPartView from '@components/piano/PianoPartView';
 import Header from '@components/practice/phone/Header';
 
-EStyleSheet.build({ $rem: WIDTH / 380 });
+EStyleSheet.build({$rem: WIDTH / 380});
 const RATIO = HEIGHT / WIDTH;
 
 let startTimestamp = 0;
@@ -28,7 +28,7 @@ let chordTableFirstMove = true;
 
 const moveDistance = EStyleSheet.value(`30 * ${RATIO} * $rem `);
 
-const ChordTableMode = ({ navigation, route: { params } }) => {
+const ChordTableMode = ({navigation, route: {params}}) => {
   const [youtubeStart, setYoutubeStart] = useState(false);
   const [touchedKey, setTouchedKey] = useState([]);
   const [nextKey, setNextKey] = useState([]);
@@ -50,6 +50,8 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
   const rightNoteArrIdx = useRef(0);
   const progress = useRef(0);
   const moveCount = useRef(0);
+  const timeoutValue = useRef(0);
+  const moveChordTable = useRef(true);
 
   useEffect(() => {
     Orientation.lockToLandscape();
@@ -64,13 +66,13 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
   }, []);
 
   const {
-    chord_arr: { notes },
+    chord_arr: {notes},
     left_note_arr: leftNoteArr,
     right_note_arr: rightNoteArr,
   } = params;
 
   const animationStyles = {
-    transform: [{ translateX: animationValue.current }],
+    transform: [{translateX: animationValue.current}],
   };
 
   // using in volume, sync control button
@@ -131,7 +133,7 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
     chordTableFirstMove = true;
     youtubeRef.current.seekTo(0);
     setYoutubeStart(false);
-    scrollViewRef.current.scrollToIndex({ index: 0 });
+    scrollViewRef.current.scrollToIndex({index: 0});
 
     setNextKey([]);
     setTouchedKey([]);
@@ -155,10 +157,11 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
     // chord table ScrollView scroll
     const sectionNumber = parseInt(index / 4, 10) - 1;
     currentXPosition = (moveDistance * 4 + 15) * sectionNumber;
-    scrollViewRef.current.scrollToIndex({ index });
+    scrollViewRef.current.scrollToIndex({index});
 
     // move chord table focus
     frameXPosition.current = moveDistance * (index % 4);
+    moveChordTable.current = true;
     // Animated.spring(anim, {
     //   toValue: frameXPosition,
     //   duration: 250,
@@ -170,14 +173,14 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
 
     // sync with note array
     if (second > currentSecond.current) {
-      while (second > rightNoteArr.items[rightNoteArrIdx].second) {
+      while (second > rightNoteArr.items[rightNoteArrIdx.current].second) {
         rightNoteArrIdx.current += 1;
       }
       while (second > leftNoteArr.items[leftNoteArrIdx.current].second) {
         leftNoteArrIdx.current += 1;
       }
     } else {
-      while (second < rightNoteArr.items[rightNoteArrIdx].second) {
+      while (second < rightNoteArr.items[rightNoteArrIdx.current].second) {
         rightNoteArrIdx.current -= 1;
       }
       while (second < leftNoteArr.items[leftNoteArrIdx.current].second) {
@@ -251,8 +254,10 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
           //   useNativeDriver: true,
           // }).start();
         }
-        if (moveCount.current < notes.length) {
-          scrollViewRef.current.scrollToIndex({ index: moveCount.current });
+        if (moveChordTable.current) {
+          if (moveCount.current < notes.length) {
+            scrollViewRef.current.scrollToIndex({index: moveCount.current});
+          }
         }
       }
     }
@@ -311,8 +316,8 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
       }
     }
 
-    const FT = Date.now();
-    console.log('execute time', FT - ST);
+    // const FT = Date.now();
+    // console.log('execute time', FT - ST);
   }, []);
 
   return (
@@ -328,10 +333,10 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
           );
         }, [params, progress.current])}
 
-        <View style={[styles.bodyContainer, { alignItems: 'center' }]}>
+        <View style={[styles.bodyContainer, {alignItems: 'center'}]}>
           {React.useMemo(() => {
             return (
-              <View onPress={null} style={{ flex: 1 }}>
+              <View onPress={null} style={{flex: 1}}>
                 <View style={styles.toggleBtnView}>
                   <Text style={styles.toggleBtnText}>CHORD</Text>
                 </View>
@@ -345,21 +350,20 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
               flexDirection: 'row',
               justifyContent: 'space-between',
               alignItems: 'center',
-            }}
-          >
+            }}>
             {React.useMemo(() => {
               return (
                 <>
                   <View style={styles.syncView}>
                     {/* <Text style={styles.buttonTitleText}>CHORD</Text> */}
                     <SimpleLineIcons
-                      style={[styles.buttonTitleText, { fontSize: 25 }]}
+                      style={[styles.buttonTitleText, {fontSize: 25}]}
                       name="volume-2"
                     />
                     <SimpleLineIcons
                       style={[
                         styles.buttonIconSmall,
-                        youtubeStart && { color: colors.grey30Dimmed2 },
+                        youtubeStart && {color: colors.grey30Dimmed2},
                       ]}
                       name="arrow-left"
                       onPress={minusVolume}
@@ -367,15 +371,14 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
                     <Text
                       style={[
                         styles.syncNumberText,
-                        youtubeStart && { color: colors.grey30Dimmed2 },
-                      ]}
-                    >
+                        youtubeStart && {color: colors.grey30Dimmed2},
+                      ]}>
                       {volume}
                     </Text>
                     <SimpleLineIcons
                       style={[
                         styles.buttonIconSmall,
-                        youtubeStart && { color: colors.grey30Dimmed2 },
+                        youtubeStart && {color: colors.grey30Dimmed2},
                       ]}
                       name="arrow-right"
                       onPress={plusVolume}
@@ -386,7 +389,7 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
                       <SimpleLineIcons
                         style={[
                           styles.buttonIconSmall,
-                          youtubeStart && { color: colors.grey30Dimmed2 },
+                          youtubeStart && {color: colors.grey30Dimmed2},
                         ]}
                         name="arrow-left"
                         onPress={youtubeStart ? null : minusPlaySync}
@@ -394,15 +397,14 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
                       <Text
                         style={[
                           styles.syncNumberText,
-                          youtubeStart && { color: colors.grey30Dimmed2 },
-                        ]}
-                      >
+                          youtubeStart && {color: colors.grey30Dimmed2},
+                        ]}>
                         {playSync.toFixed(2)}
                       </Text>
                       <SimpleLineIcons
                         style={[
                           styles.buttonIconSmall,
-                          youtubeStart && { color: colors.grey30Dimmed2 },
+                          youtubeStart && {color: colors.grey30Dimmed2},
                         ]}
                         name="arrow-right"
                         onPress={youtubeStart ? null : plusPlaySync}
@@ -430,10 +432,7 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
               ) : (
                 <TouchableOpacity onPress={youtubeStart ? null : start}>
                   <Feather
-                    style={[
-                      styles.buttonIconLarge,
-                      youtubeStart && { color: colors.grey30Dimmed2 },
-                    ]}
+                    style={[styles.buttonIconLarge, youtubeStart && {color: colors.grey30Dimmed2}]}
                     name="play"
                   />
                 </TouchableOpacity>
@@ -453,14 +452,21 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
                 data={notes}
                 horizontal
                 ref={scrollViewRef}
+                onTouchStart={() => {
+                  clearTimeout(timeoutValue.current);
+                  moveChordTable.current = false;
+                  timeoutValue.current = setTimeout(() => {
+                    moveChordTable.current = true;
+                  }, 2000);
+                }}
                 keyExtractor={(item) => item.name + item.second}
-                renderItem={({ item, index }) => {
+                renderItem={({item, index}) => {
                   if (index % 4 === 3) {
                     return (
                       <>
                         <View style={styles.chordTableBoxFrame}>
                           {/* FIXME: is this anti pattern..? how to */}
-                          <TouchableOpacity onPress={() => seekTo(item.second, index)}>
+                          <TouchableOpacity onPress={() => seekTo(item.second - 0.7, index)}>
                             <View style={styles.chordTableBox}>
                               <Text style={styles.chordTableText}>{item.name}</Text>
                             </View>
@@ -473,7 +479,7 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
                   return (
                     <>
                       <View style={styles.chordTableBoxFrame}>
-                        <TouchableOpacity onPress={() => seekTo(item.second, index)}>
+                        <TouchableOpacity onPress={() => seekTo(item.second - 0.7, index)}>
                           <View style={styles.chordTableBox}>
                             <Text style={styles.chordTableText}>{item.name}</Text>
                           </View>
@@ -491,15 +497,15 @@ const ChordTableMode = ({ navigation, route: { params } }) => {
           <View style={styles.footSub1}>
             {React.useMemo(() => {
               return (
-                <View style={{ width: '100%', height: '100%' }}>
+                <View style={{width: '100%', height: '100%'}}>
                   <PianoPartView firstKey="f2" touchedKey={touchedKey} nextKey={nextKey} />
                 </View>
               );
             }, [touchedKey, nextKey])}
           </View>
           <View style={styles.footSub2}>
-            <View style={{ flex: 1 }} />
-            <View style={{ flex: 2, backgroundColor: 'purple' }}>
+            <View style={{flex: 1}} />
+            <View style={{flex: 2, backgroundColor: 'purple'}}>
               {React.useMemo(() => {
                 return (
                   <Youtube
@@ -552,14 +558,14 @@ const styles = EStyleSheet.create({
     paddingTop: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    ...ifIphoneX({ paddingHorizontal: 60 }, { paddingHorizontal: 30 }),
+    ...ifIphoneX({paddingHorizontal: 60}, {paddingHorizontal: 30}),
   },
   footContainer: {
     flex: 1.3,
     flexDirection: 'row',
     backgroundColor: '#0d0d0d',
     paddingBottom: 20,
-    ...ifIphoneX({ paddingHorizontal: 60 }, { paddingHorizontal: 30 }),
+    ...ifIphoneX({paddingHorizontal: 60}, {paddingHorizontal: 30}),
   },
   footSub1: {
     flex: 2,
@@ -620,7 +626,7 @@ const styles = EStyleSheet.create({
     borderRadius: 7,
     zIndex: 1,
     top: 10,
-    ...ifIphoneX({ left: 60 }, { left: 30 }),
+    ...ifIphoneX({left: 60}, {left: 30}),
   },
   chordTableBox: {
     width: `27rem * ${RATIO}`,
