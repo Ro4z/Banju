@@ -1,7 +1,7 @@
-import { GoogleSignin } from '@react-native-community/google-signin';
+import {GoogleSignin} from '@react-native-community/google-signin';
 
 GoogleSignin.configure({
-  webClientId: '1070023131367-c3qkivj9heir03lou7ffd0n5fj0frmed.apps.googleusercontent.com',
+  webClientId: '135334536032-6j9qroe5upup9fc09joe247hf7pb0reu.apps.googleusercontent.com',
   offlineAccess: false,
 });
 const fetchGoogleLogin = async () => {
@@ -22,4 +22,4 @@ const fetchGoogleLogin = async () => {
   });
 };
 
-export { fetchGoogleLogin };
+export {fetchGoogleLogin};
