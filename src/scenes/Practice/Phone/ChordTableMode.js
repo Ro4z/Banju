@@ -473,6 +473,7 @@ const ChordTableMode = ({navigation, route: {params}}) => {
                   }, 2000);
                 }}
                 keyExtractor={(item) => item.name + item.second}
+                ListFooterComponent={<View style={styles.emptyBox} />}
                 renderItem={({item, index}) => {
                   if (index % 4 === 3) {
                     return (
@@ -664,6 +665,13 @@ const styles = EStyleSheet.create({
   divider: {
     width: 15,
     height: `40rem * ${RATIO}`,
+    backgroundColor: 'rgb(0,0,0)',
+  },
+  emptyBox: {
+    width: `30rem * ${RATIO * 12}`,
+    height: `30rem * ${RATIO}`,
+    alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: 'rgb(0,0,0)',
   },
 
