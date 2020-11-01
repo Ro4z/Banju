@@ -31,7 +31,7 @@ const Main = ({ navigation }) => {
         .get(Base.GET_POPULAR, {
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${TokenStore.userToken}`,
+            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjgwZjhiMzcwLTEyYzItMTFlYi04M2QzLTNiZGFjOGY1NDUyNSIsImF1dGgiOiJodHRwOi8vYXBpLmRhaWx5YmFuanUuY29tIiwiaWF0IjoxNjA0MTUwOTc5fQ.r_zgjb68ciErFF-JGdhOiqrdTUQ1uBgsuV7evycvstw`,
           },
         })
         .then((res) => {
