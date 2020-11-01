@@ -13,7 +13,7 @@ target 'Banju' do
   pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
   
   pod 'Firebase/Analytics'
-
+  pod 'GoogleSignIn', '~> 5.0.2'
   target 'BanjuTests' do
     inherit! :complete
     # Pods for testing
