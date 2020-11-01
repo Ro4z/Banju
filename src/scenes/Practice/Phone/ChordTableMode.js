@@ -26,6 +26,8 @@ let youtubeDuration = 0;
 let chordTableFirstExecuted = true;
 let chordTableFirstMove = true;
 
+// let leftPlayedKey = [];
+
 const moveDistance = EStyleSheet.value(`30 * ${RATIO} * $rem `);
 
 const ChordTableMode = ({navigation, route: {params}}) => {
@@ -52,6 +54,9 @@ const ChordTableMode = ({navigation, route: {params}}) => {
   const moveCount = useRef(0);
   const timeoutValue = useRef(0);
   const moveChordTable = useRef(true);
+
+  const leftPlayedKey = useRef([]);
+  const rightPlayedKey = useRef([]);
 
   useEffect(() => {
     Orientation.lockToLandscape();
@@ -267,11 +272,15 @@ const ChordTableMode = ({navigation, route: {params}}) => {
       if (currentSecond.current >= rightNoteArr.items[rightNoteArrIdx.current].second + playSync) {
         if (rightNoteArr.items[rightNoteArrIdx.current].key.length !== 0) {
           if (rightNoteArr.items[rightNoteArrIdx.current].key[0].noteOn === 1) {
+            rightPlayedKey.current.forEach((key) => {
+              PianoSampler.stopNote(key.midiNum);
+            });
             const tmpArr = [];
             rightNoteArr.items[rightNoteArrIdx.current].key.forEach((key) => {
               PianoSampler.playNote(key.midiNum, 115);
               tmpArr.push(key.midiNum - 12);
             });
+            rightPlayedKey.current = rightNoteArr.items[rightNoteArrIdx.current].key;
             // show touched key in PianoPartView
             setTouchedKey(tmpArr);
 
@@ -307,9 +316,13 @@ const ChordTableMode = ({navigation, route: {params}}) => {
       if (currentSecond.current >= leftNoteArr.items[leftNoteArrIdx.current].second + playSync) {
         if (leftNoteArr.items[leftNoteArrIdx.current].key.length !== 0) {
           if (leftNoteArr.items[leftNoteArrIdx.current].key[0].noteOn === 1) {
+            leftPlayedKey.current.forEach((key) => {
+              PianoSampler.stopNote(key.midiNum);
+            });
             leftNoteArr.items[leftNoteArrIdx.current].key.forEach((key) => {
               PianoSampler.playNote(key.midiNum, 115);
             });
+            leftPlayedKey.current = leftNoteArr.items[leftNoteArrIdx.current].key;
           }
         }
         leftNoteArrIdx.current += 1;
