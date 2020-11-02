@@ -6,6 +6,7 @@
 #import "RNSplashScreen.h"
 #import "Orientation.h"
 #import <RNHomeIndicator.h>
+#import <RNGoogleSignin/RNGoogleSignin.h>
 #import <KakaoOpenSDK/KakaoOpenSDK.h>
 #import <AppCenterReactNative.h>
 #import <AppCenterReactNativeAnalytics.h>

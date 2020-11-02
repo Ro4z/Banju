@@ -19,8 +19,8 @@ const Search = ({ route, navigation }) => {
   const [searchInput, setSearchInput] = useState('');
   const [searchData, setSearchData] = useState([]);
   const [showLoading, setShowLoading] = useState(false);
-  // console.log('TOKEN', TokenStore.userToken);
-
+  
+  const textInputRef = useRef()
   const nextPageToken = useRef('');
 
   useEffect(() => {
@@ -34,9 +34,7 @@ const Search = ({ route, navigation }) => {
 
   const fetchGetSearch = () => {
     setShowLoading(true);
-    console.log('search');
     if (searchInput === '') return;
-    console.log(searchInput);
     firebase.analytics().logEvent('onSearch', {
       keyword: searchInput,
     });
@@ -47,7 +45,31 @@ const Search = ({ route, navigation }) => {
           pageToken: nextPageToken.current,
         },
         headers: {
-          Authorization: `Bearer ${TokenStore.userToken}`,
+          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjgwZjhiMzcwLTEyYzItMTFlYi04M2QzLTNiZGFjOGY1NDUyNSIsImF1dGgiOiJodHRwOi8vYXBpLmRhaWx5YmFuanUuY29tIiwiaWF0IjoxNjA0MTUwOTc5fQ.r_zgjb68ciErFF-JGdhOiqrdTUQ1uBgsuV7evycvstw`,
+        },
+      })
+      .then((res) => {
+        setSearchData(res.data.items);
+        setShowLoading(false);
+      })
+      .catch((err) => {
+        console.log('GET SEARCH ERR :>>', err);
+        Alert.alert('Sorry', '오류가 발생하였습니다.');
+        setShowLoading(false);
+      });
+  };
+
+  const fetchPagination =() => {
+    setShowLoading(true);
+    if (searchInput === '') return;
+  
+    axios
+      .get(Base.GET_SEARCH + searchInput, {
+        params: {
+          pageToken: nextPageToken.current,
+        },
+        headers: {
+          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjgwZjhiMzcwLTEyYzItMTFlYi04M2QzLTNiZGFjOGY1NDUyNSIsImF1dGgiOiJodHRwOi8vYXBpLmRhaWx5YmFuanUuY29tIiwiaWF0IjoxNjA0MTUwOTc5fQ.r_zgjb68ciErFF-JGdhOiqrdTUQ1uBgsuV7evycvstw`,
         },
       })
       .then((res) => {
@@ -60,9 +82,11 @@ const Search = ({ route, navigation }) => {
         Alert.alert('Sorry', '오류가 발생하였습니다.');
         setShowLoading(false);
       });
-  };
+  }
 
   const clearSearchInput = React.useCallback(() => {
+    textInputRef.current.focus()
+    setSearchData([])
     setSearchInput('');
   });
 
@@ -80,6 +104,7 @@ const Search = ({ route, navigation }) => {
             <TextInput
               style={styles.searchInput}
               placeholder="곡 제목을 검색하세요"
+              ref={textInputRef}
               value={searchInput}
               onChangeText={(text) => setSearchInput(text)}
               placeholderTextColor={colors.grey40Subtitle2}
@@ -96,7 +121,7 @@ const Search = ({ route, navigation }) => {
         </View>
 
         <View style={styles.bodyContainer}>
-          <ResultList navigation={navigation} data={searchData} onScrollEnd={fetchGetSearch} />
+          <ResultList navigation={navigation} data={searchData} onScrollEnd={fetchPagination} />
         </View>
       </View>
     </>

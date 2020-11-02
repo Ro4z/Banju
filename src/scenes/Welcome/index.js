@@ -1,35 +1,39 @@
-import React, { useEffect } from 'react';
-import { Image, Text, View, TouchableOpacity, Alert } from 'react-native';
+import React, {useEffect} from 'react';
+import {Image, Text, View, TouchableOpacity, Alert} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import AsyncStorage from '@react-native-community/async-storage';
 import PropTypes from 'prop-types';
-import { observer } from 'mobx-react-lite';
+import {observer} from 'mobx-react-lite';
 import axios from 'axios';
 
-import { BACKGROUND_COLOR, colors } from '@constants/color';
-import { fetchKakaoLogin } from '@utils/login/kakaoLogin';
-import { fetchGoogleLogin } from '@utils/login/googleLogin';
-import { fetchAppleLogin } from '@utils/login/appleLogin';
+import {BACKGROUND_COLOR, colors} from '@constants/color';
+import {fetchKakaoLogin} from '@utils/login/kakaoLogin';
+import {fetchGoogleLogin} from '@utils/login/googleLogin';
+import {fetchAppleLogin} from '@utils/login/appleLogin';
 import TokenStore from '@store/tokenStore';
 import Base from '@base';
 
-const Welcome = observer(({ navigation }) => {
+const Welcome = observer(({navigation}) => {
   const loginWithApple = () => {
     fetchAppleLogin()
-      .then((res) => {
-        axios
-          .post(Base.POST_USER, {
-            type: 'apple',
-            accessToken: res.identityToken,
-          })
-          .then((resp) => {
-            TokenStore.setUserToken(resp.data.token);
-            AsyncStorage.setItem('userToken', resp.data.token);
-            navigation.navigate('Main');
-          })
-          .catch((error) => {
-            Alert.alert('Sorry', '로그인 도중 문제가 발생하였습니다.');
-          });
+      .then(async (res) => {
+        await AsyncStorage.setItem('userToken', res.authorizationCode);
+        navigation.navigate('Main');
+        console.log('asdf');
+        // axios
+        //   .post(Base.POST_USER, {
+        //     type: 'apple',
+        //     accessToken: res.identityToken,
+        //   })
+        //   .then((resp) => {
+        //     console.log('APPLE');
+        //     TokenStore.setUserToken(resp.data.token);
+
+        //     navigation.navigate('Main');
+        //   })
+        //   .catch((error) => {
+        //     Alert.alert('Sorry2', '로그인 도중 문제가 발생하였습니다.');
+        //   });
       })
       .catch((err) => {
         if (err.message === 'email not found') {
@@ -43,46 +47,52 @@ const Welcome = observer(({ navigation }) => {
 
   const loginWithKakao = () => {
     fetchKakaoLogin()
-      .then((res) => {
-        axios
-          .post(Base.POST_USER, {
-            type: 'kakao',
-            accessToken: res.accessToken,
-          })
-          .then((resp) => {
-            TokenStore.setUserToken(resp.data.token);
-            AsyncStorage.setItem('userToken', resp.data.token);
-            navigation.navigate('Main');
-          })
-          .catch(() => {
-            Alert.alert('Sorry', '로그인 도중 문제가 발생하였습니다.');
-          });
+      .then(async (res) => {
+        await AsyncStorage.setItem('userToken', res.accessToken);
+        navigation.navigate('Main');
+        // console.log('res.accessToken :>> ', res.accessToken);
+        // axios
+        //   .post(Base.POST_USER, {
+        //     type: 'kakao',
+        //     accessToken: res.accessToken,
+        //   })
+        //   .then((resp) => {
+        //     TokenStore.setUserToken(resp.data.token);
+        //     AsyncStorage.setItem('userToken', resp.data.token);
+        //     navigation.navigate('Main');
+        //   })
+        //   .catch((err) => {
+        //     console.log(err.request);
+        //     Alert.alert('Sorry1', '로그인 도중 문제가 발생하였습니다.');
+        //   });
       })
       .catch((err) => {
-        console.log(err);
-        Alert.alert('Sorry', '로그인 도중 문제가 발생하였습니다.');
+        console.log(err.message);
+        Alert.alert('Sorry2', '로그인 도중 문제가 발생하였습니다.');
       });
   };
 
   const loginWithGoogle = () => {
     fetchGoogleLogin()
-      .then((res) => {
-        axios
-          .post(Base.POST_USER, {
-            type: 'google',
-            accessToken: res.accessToken,
-          })
-          .then((resp) => {
-            TokenStore.setUserToken(resp.data.token);
-            AsyncStorage.setItem('userToken', resp.data.token);
-            navigation.navigate('Main');
-          })
-          .catch(() => {
-            Alert.alert('Sorry', '로그인 도중 문제가 발생하였습니다.');
-          });
+      .then(async (res) => {
+        await AsyncStorage.setItem('userToken', res.accessToken);
+        navigation.navigate('Main');
+        // axios
+        //   .post(Base.POST_USER, {
+        //     type: 'google',
+        //     accessToken: res.accessToken,
+        //   })
+        //   .then((resp) => {
+        //     TokenStore.setUserToken(resp.data.token);
+        //     AsyncStorage.setItem('userToken', resp.data.token);
+        //     navigation.navigate('Main');
+        //   })
+        //   .catch(() => {
+        //     Alert.alert('Sorry2', '로그인 도중 문제가 발생하였습니다.');
+        //   });
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err.message);
         Alert.alert('Sorry', '로그인 도중 문제가 발생하였습니다.');
       });
   };
@@ -93,19 +103,19 @@ const Welcome = observer(({ navigation }) => {
 
       {/* background text */}
       <View style={styles.subContainer_1}>
-        <Text style={[styles.backgroundText, { opacity: 0.2 }]}>B</Text>
-        <View style={{ flexDirection: 'row' }}>
-          <Text style={[styles.backgroundText, { opacity: 0.6 }]}>C</Text>
-          <Text style={[styles.backgroundText, { opacity: 0.6, lineHeight: 25, fontSize: 15 }]}>
+        <Text style={[styles.backgroundText, {opacity: 0.2}]}>B</Text>
+        <View style={{flexDirection: 'row'}}>
+          <Text style={[styles.backgroundText, {opacity: 0.6}]}>C</Text>
+          <Text style={[styles.backgroundText, {opacity: 0.6, lineHeight: 25, fontSize: 15}]}>
             #
           </Text>
         </View>
-        <View style={{ flexDirection: 'row' }}>
+        <View style={{flexDirection: 'row'}}>
           <Text style={[styles.backgroundText]}>A</Text>
-          <Text style={[styles.backgroundText, { lineHeight: 25, fontSize: 15 }]}>maj</Text>
+          <Text style={[styles.backgroundText, {lineHeight: 25, fontSize: 15}]}>maj</Text>
         </View>
-        <Text style={[styles.backgroundText, { opacity: 0.6 }]}>G</Text>
-        <Text style={[styles.backgroundText, { opacity: 0.2 }]}>G</Text>
+        <Text style={[styles.backgroundText, {opacity: 0.6}]}>G</Text>
+        <Text style={[styles.backgroundText, {opacity: 0.2}]}>G</Text>
       </View>
 
       <Text style={styles.text_1}>어떤 곡이든 코드 반주로!</Text>
@@ -120,10 +130,10 @@ const Welcome = observer(({ navigation }) => {
         <View style={styles.loginLogoFrame}>
           <Image style={styles.loginLogo} source={require('@assets/img/logo_apple.png')} />
         </View>
-        <View style={{ flex: 1, alignItems: 'center' }}>
+        <View style={{flex: 1, alignItems: 'center'}}>
           <Text style={styles.loginBtnText}>CONTINUE WITH APPLE</Text>
         </View>
-        <View style={[styles.loginLogoFrame, { backgroundColor: null }]} />
+        <View style={[styles.loginLogoFrame, {backgroundColor: null}]} />
       </TouchableOpacity>
 
       {/* GOOGLE LOGIN */}
@@ -131,25 +141,25 @@ const Welcome = observer(({ navigation }) => {
         <View style={styles.loginLogoFrame}>
           <Image style={styles.loginLogo} source={require('@assets/img/logo_google.png')} />
         </View>
-        <View style={{ flex: 1, alignItems: 'center' }}>
+        <View style={{flex: 1, alignItems: 'center'}}>
           <Text style={styles.loginBtnText}>CONTINUE WITH GOOGLE</Text>
         </View>
-        <View style={[styles.loginLogoFrame, { backgroundColor: null }]} />
+        <View style={[styles.loginLogoFrame, {backgroundColor: null}]} />
       </TouchableOpacity>
 
       {/* KAKAO LOGIN */}
       <TouchableOpacity style={styles.loginBtn} onPress={loginWithKakao}>
-        <View style={[styles.loginLogoFrame, { backgroundColor: 'rgb(254,233,76)' }]}>
+        <View style={[styles.loginLogoFrame, {backgroundColor: 'rgb(254,233,76)'}]}>
           {/* TODO: amend kakao logo */}
           <Image
-            style={[styles.loginLogo, { height: 21, width: 21 }]}
+            style={[styles.loginLogo, {height: 21, width: 21}]}
             source={require('@assets/img/logo_kakao.png')}
           />
         </View>
-        <View style={{ flex: 1, alignItems: 'center' }}>
+        <View style={{flex: 1, alignItems: 'center'}}>
           <Text style={styles.loginBtnText}>CONTINUE WITH KAKAO</Text>
         </View>
-        <View style={[styles.loginLogoFrame, { backgroundColor: null }]} />
+        <View style={[styles.loginLogoFrame, {backgroundColor: null}]} />
       </TouchableOpacity>
 
       {/* TODO: 이용 약관 link 추가하기 */}

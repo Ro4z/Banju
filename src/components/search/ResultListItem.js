@@ -49,7 +49,7 @@ const ResultListItem = ({ data, isReady, navigation }) => {
         .get(Base.GET_PLAYMETA + link, {
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${TokenStore.userToken}`,
+            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjgwZjhiMzcwLTEyYzItMTFlYi04M2QzLTNiZGFjOGY1NDUyNSIsImF1dGgiOiJodHRwOi8vYXBpLmRhaWx5YmFuanUuY29tIiwiaWF0IjoxNjA0MTUwOTc5fQ.r_zgjb68ciErFF-JGdhOiqrdTUQ1uBgsuV7evycvstw`,
           },
         })
         // status: "error" | "working" | "finished"
@@ -92,7 +92,7 @@ const ResultListItem = ({ data, isReady, navigation }) => {
       .get(Base.GET_PLAYMETA + link, {
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${TokenStore.userToken}`,
+          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjgwZjhiMzcwLTEyYzItMTFlYi04M2QzLTNiZGFjOGY1NDUyNSIsImF1dGgiOiJodHRwOi8vYXBpLmRhaWx5YmFuanUuY29tIiwiaWF0IjoxNjA0MTUwOTc5fQ.r_zgjb68ciErFF-JGdhOiqrdTUQ1uBgsuV7evycvstw`,
         },
       })
       // status: "error" | "working" | "finished"
@@ -176,7 +176,7 @@ const ResultListItem = ({ data, isReady, navigation }) => {
                 </View>
                 <View style={styles.footer}>
                   <View style={styles.footerSub1}>
-                    <Text style={styles.title}>{truncateString(he.decode(data.title), 40)}</Text>
+                    <Text style={styles.title}>{truncateString(he.decode(data.title), 70)}</Text>
                   </View>
                   <View style={styles.footerSub2}>
                     <Text style={styles.meta}>
@@ -433,7 +433,7 @@ const styles = EStyleSheet.create({
     flexDirection: 'row',
   },
   modalPlayBtn: {
-    flex: 2,
+    flex: 1.4,
     backgroundColor: colors.main2,
     alignItems: 'center',
     justifyContent: 'center',
