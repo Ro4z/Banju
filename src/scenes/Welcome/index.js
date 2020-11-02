@@ -131,7 +131,7 @@ const Welcome = observer(({ navigation }) => {
           <Image style={styles.loginLogo} source={require('@assets/img/logo_apple.png')} />
         </View>
         <View style={{ flex: 1, alignItems: 'center' }}>
-          <Text style={styles.loginBtnText}>CONTINUE WITH APPLE</Text>
+          <Text style={styles.loginBtnText}>Continue with Apple </Text>
         </View>
         <View style={[styles.loginLogoFrame, { backgroundColor: null }]} />
       </TouchableOpacity>
@@ -142,7 +142,7 @@ const Welcome = observer(({ navigation }) => {
           <Image style={styles.loginLogo} source={require('@assets/img/logo_google.png')} />
         </View>
         <View style={{ flex: 1, alignItems: 'center' }}>
-          <Text style={styles.loginBtnText}>CONTINUE WITH GOOGLE</Text>
+          <Text style={styles.loginBtnText}>Continue with Google </Text>
         </View>
         <View style={[styles.loginLogoFrame, { backgroundColor: null }]} />
       </TouchableOpacity>
@@ -152,12 +152,12 @@ const Welcome = observer(({ navigation }) => {
         <View style={[styles.loginLogoFrame, { backgroundColor: 'rgb(254,233,76)' }]}>
           {/* TODO: amend kakao logo */}
           <Image
-            style={[styles.loginLogo, { height: 21, width: 21 }]}
+            style={[styles.loginLogo, { height: 15, width: 15 }]}
             source={require('@assets/img/logo_kakao.png')}
           />
         </View>
         <View style={{ flex: 1, alignItems: 'center' }}>
-          <Text style={styles.loginBtnText}>CONTINUE WITH KAKAO</Text>
+          <Text style={styles.loginBtnText}>Continue with Kakao</Text>
         </View>
         <View style={[styles.loginLogoFrame, { backgroundColor: null }]} />
       </TouchableOpacity>
@@ -211,31 +211,32 @@ const styles = EStyleSheet.create({
   loginBtn: {
     width: '80%',
     height: 45,
-    borderWidth: 1,
     borderRadius: 30,
-    borderColor: colors.grey152,
+    backgroundColor: '#fff',
     flexDirection: 'row',
     alignItems: 'center',
     paddingLeft: 10,
-    marginBottom: 7,
+    marginBottom: 15,
   },
   loginLogoFrame: {
     height: 28,
     width: 28,
     borderRadius: 28,
-    backgroundColor: colors.grey952,
+    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    marginBottom: 2,
   },
   loginLogo: {
-    height: 18,
-    width: 18,
+    height: 20,
+    width: 20,
+    resizeMode: 'contain',
   },
   loginBtnText: {
     fontFamily: 'OpenSauceSans-Regular',
-    fontSize: '11rem',
+    fontSize: '14rem',
     fontWeight: '600',
-    color: colors.grey85Text2,
+    color: '#000',
   },
   termsText: {
     fontFamily: 'OpenSauceSans-Regular',
