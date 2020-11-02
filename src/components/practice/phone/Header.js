@@ -19,12 +19,12 @@ const Header = ({ navigation, title, progress = 0 }) => {
     <>
       <View style={styles.mainContainer}>
         <View style={styles.subContainer}>
-          <TouchableOpacity onPress={() => Alert.alert('Sorry', '준비 중인 기능입니다.')}>
+          {/* <TouchableOpacity onPress={() => Alert.alert('Sorry', '준비 중인 기능입니다.')}>
             <Feather name="settings" style={() => Alert.alert('Sorry', '준비 중인 기능입니다.')} />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => Alert.alert('Sorry', '준비 중인 기능입니다.')}>
             <SimpleLineIcons name="pencil" style={[styles.icon, { marginLeft: 20 }]} />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
         <View style={styles.subContainer}>
           {/* TODO: 길이가 긴 제목의 처리 추가 */}
