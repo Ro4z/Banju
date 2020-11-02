@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Image, Text, View, TouchableOpacity, Alert } from 'react-native';
+import { Image, Text, View, TouchableOpacity, Alert, Linking } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import AsyncStorage from '@react-native-community/async-storage';
 import PropTypes from 'prop-types';
@@ -12,6 +12,7 @@ import { fetchGoogleLogin } from '@utils/login/googleLogin';
 import { fetchAppleLogin } from '@utils/login/appleLogin';
 import TokenStore from '@store/tokenStore';
 import Base from '@base';
+import { Link } from '@react-navigation/native';
 
 const Welcome = observer(({ navigation }) => {
   const loginWithApple = () => {
@@ -150,7 +151,6 @@ const Welcome = observer(({ navigation }) => {
       {/* KAKAO LOGIN */}
       <TouchableOpacity style={styles.loginBtn} onPress={loginWithKakao}>
         <View style={[styles.loginLogoFrame, { backgroundColor: 'rgb(254,233,76)' }]}>
-          {/* TODO: amend kakao logo */}
           <Image
             style={[styles.loginLogo, { height: 15, width: 15 }]}
             source={require('@assets/img/logo_kakao.png')}
@@ -162,8 +162,7 @@ const Welcome = observer(({ navigation }) => {
         <View style={[styles.loginLogoFrame, { backgroundColor: null }]} />
       </TouchableOpacity>
 
-      {/* TODO: 이용 약관 link 추가하기 */}
-      <TouchableOpacity onPress={null}>
+      <TouchableOpacity onPress={() => Linking.openURL('http://dailybanju.com/terms')}>
         <Text style={styles.termsText}>Terms and conditions</Text>
       </TouchableOpacity>
     </View>
