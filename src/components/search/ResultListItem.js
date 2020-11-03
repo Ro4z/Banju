@@ -180,7 +180,7 @@ const ResultListItem = ({ data, isReady, navigation }) => {
                   </View>
                   <View style={styles.footerSub2}>
                     <Text style={styles.meta}>
-                      {typeof data.scale === 'undefined' ? 'Chord G・A・Em7・A7' : data.scale}
+                      {typeof data.scale === 'undefined' ? '' : data.scale}
                     </Text>
                   </View>
                 </View>

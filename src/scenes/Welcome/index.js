@@ -1,19 +1,20 @@
-import React, {useEffect} from 'react';
-import {Image, Text, View, TouchableOpacity, Alert} from 'react-native';
+import React, { useEffect } from 'react';
+import { Image, Text, View, TouchableOpacity, Alert, Linking } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import AsyncStorage from '@react-native-community/async-storage';
 import PropTypes from 'prop-types';
-import {observer} from 'mobx-react-lite';
+import { observer } from 'mobx-react-lite';
 import axios from 'axios';
 
-import {BACKGROUND_COLOR, colors} from '@constants/color';
-import {fetchKakaoLogin} from '@utils/login/kakaoLogin';
-import {fetchGoogleLogin} from '@utils/login/googleLogin';
-import {fetchAppleLogin} from '@utils/login/appleLogin';
+import { BACKGROUND_COLOR, colors } from '@constants/color';
+import { fetchKakaoLogin } from '@utils/login/kakaoLogin';
+import { fetchGoogleLogin } from '@utils/login/googleLogin';
+import { fetchAppleLogin } from '@utils/login/appleLogin';
 import TokenStore from '@store/tokenStore';
 import Base from '@base';
+import { Link } from '@react-navigation/native';
 
-const Welcome = observer(({navigation}) => {
+const Welcome = observer(({ navigation }) => {
   const loginWithApple = () => {
     fetchAppleLogin()
       .then(async (res) => {
@@ -103,19 +104,19 @@ const Welcome = observer(({navigation}) => {
 
       {/* background text */}
       <View style={styles.subContainer_1}>
-        <Text style={[styles.backgroundText, {opacity: 0.2}]}>B</Text>
-        <View style={{flexDirection: 'row'}}>
-          <Text style={[styles.backgroundText, {opacity: 0.6}]}>C</Text>
-          <Text style={[styles.backgroundText, {opacity: 0.6, lineHeight: 25, fontSize: 15}]}>
+        <Text style={[styles.backgroundText, { opacity: 0.2 }]}>B</Text>
+        <View style={{ flexDirection: 'row' }}>
+          <Text style={[styles.backgroundText, { opacity: 0.6 }]}>C</Text>
+          <Text style={[styles.backgroundText, { opacity: 0.6, lineHeight: 25, fontSize: 15 }]}>
             #
           </Text>
         </View>
-        <View style={{flexDirection: 'row'}}>
+        <View style={{ flexDirection: 'row' }}>
           <Text style={[styles.backgroundText]}>A</Text>
-          <Text style={[styles.backgroundText, {lineHeight: 25, fontSize: 15}]}>maj</Text>
+          <Text style={[styles.backgroundText, { lineHeight: 25, fontSize: 15 }]}>maj</Text>
         </View>
-        <Text style={[styles.backgroundText, {opacity: 0.6}]}>G</Text>
-        <Text style={[styles.backgroundText, {opacity: 0.2}]}>G</Text>
+        <Text style={[styles.backgroundText, { opacity: 0.6 }]}>G</Text>
+        <Text style={[styles.backgroundText, { opacity: 0.2 }]}>G</Text>
       </View>
 
       <Text style={styles.text_1}>어떤 곡이든 코드 반주로!</Text>
@@ -130,10 +131,10 @@ const Welcome = observer(({navigation}) => {
         <View style={styles.loginLogoFrame}>
           <Image style={styles.loginLogo} source={require('@assets/img/logo_apple.png')} />
         </View>
-        <View style={{flex: 1, alignItems: 'center'}}>
-          <Text style={styles.loginBtnText}>CONTINUE WITH APPLE</Text>
+        <View style={{ flex: 1, alignItems: 'center' }}>
+          <Text style={styles.loginBtnText}>Continue with Apple </Text>
         </View>
-        <View style={[styles.loginLogoFrame, {backgroundColor: null}]} />
+        <View style={[styles.loginLogoFrame, { backgroundColor: null }]} />
       </TouchableOpacity>
 
       {/* GOOGLE LOGIN */}
@@ -141,29 +142,27 @@ const Welcome = observer(({navigation}) => {
         <View style={styles.loginLogoFrame}>
           <Image style={styles.loginLogo} source={require('@assets/img/logo_google.png')} />
         </View>
-        <View style={{flex: 1, alignItems: 'center'}}>
-          <Text style={styles.loginBtnText}>CONTINUE WITH GOOGLE</Text>
+        <View style={{ flex: 1, alignItems: 'center' }}>
+          <Text style={styles.loginBtnText}>Continue with Google </Text>
         </View>
-        <View style={[styles.loginLogoFrame, {backgroundColor: null}]} />
+        <View style={[styles.loginLogoFrame, { backgroundColor: null }]} />
       </TouchableOpacity>
 
       {/* KAKAO LOGIN */}
       <TouchableOpacity style={styles.loginBtn} onPress={loginWithKakao}>
-        <View style={[styles.loginLogoFrame, {backgroundColor: 'rgb(254,233,76)'}]}>
-          {/* TODO: amend kakao logo */}
+        <View style={[styles.loginLogoFrame, { backgroundColor: 'rgb(254,233,76)' }]}>
           <Image
-            style={[styles.loginLogo, {height: 21, width: 21}]}
+            style={[styles.loginLogo, { height: 15, width: 15 }]}
             source={require('@assets/img/logo_kakao.png')}
           />
         </View>
-        <View style={{flex: 1, alignItems: 'center'}}>
-          <Text style={styles.loginBtnText}>CONTINUE WITH KAKAO</Text>
+        <View style={{ flex: 1, alignItems: 'center' }}>
+          <Text style={styles.loginBtnText}>Continue with Kakao</Text>
         </View>
-        <View style={[styles.loginLogoFrame, {backgroundColor: null}]} />
+        <View style={[styles.loginLogoFrame, { backgroundColor: null }]} />
       </TouchableOpacity>
 
-      {/* TODO: 이용 약관 link 추가하기 */}
-      <TouchableOpacity onPress={null}>
+      <TouchableOpacity onPress={() => Linking.openURL('http://dailybanju.com/terms')}>
         <Text style={styles.termsText}>Terms and conditions</Text>
       </TouchableOpacity>
     </View>
@@ -211,31 +210,32 @@ const styles = EStyleSheet.create({
   loginBtn: {
     width: '80%',
     height: 45,
-    borderWidth: 1,
     borderRadius: 30,
-    borderColor: colors.grey152,
+    backgroundColor: '#fff',
     flexDirection: 'row',
     alignItems: 'center',
     paddingLeft: 10,
-    marginBottom: 7,
+    marginBottom: 15,
   },
   loginLogoFrame: {
     height: 28,
     width: 28,
     borderRadius: 28,
-    backgroundColor: colors.grey952,
+    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    marginBottom: 2,
   },
   loginLogo: {
-    height: 18,
-    width: 18,
+    height: 20,
+    width: 20,
+    resizeMode: 'contain',
   },
   loginBtnText: {
     fontFamily: 'OpenSauceSans-Regular',
-    fontSize: '11rem',
+    fontSize: '14rem',
     fontWeight: '600',
-    color: colors.grey85Text2,
+    color: '#000',
   },
   termsText: {
     fontFamily: 'OpenSauceSans-Regular',

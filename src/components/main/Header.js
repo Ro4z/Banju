@@ -23,16 +23,14 @@ const Header = ({ navigation }) => {
 
   return (
     <View style={Platform.isPad ? iPadStyles.mainContainer : iPhoneStyles.mainContainer}>
-      <TouchableOpacity
-        onPress={() => {
-          Alert.alert('Sorry', '프로필 기능은 준비 중입니다.');
-        }}
+      {/* <TouchableOpacity
+        onPress={null}
       >
         <EvilIcons
           name="user"
           style={Platform.isPad ? iPadStyles.profile_icon : iPhoneStyles.profile_icon}
         />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       <TouchableOpacity
         onPress={() => {
           Alert.alert('로그아웃 하시겠습니까?', '', [
@@ -115,7 +113,7 @@ const iPhoneStyles = EStyleSheet.create({
     height: '20rem',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
     backgroundColor: 'transparent',
     paddingHorizontal: '22rem',
     marginTop: '50rem',
