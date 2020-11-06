@@ -158,6 +158,7 @@ const ResultListItem = ({ data: banjuData, isReady, navigation }) => {
           style={{ alignItems: 'center' }}
           animationIn="slideInUp"
           animationOut="slideOutDown"
+          onBackdropPress={() => setOpenModal(false)}
         >
           <Spinner visible={showLoading} animation="fade" overlayColor="rgba(0,0,0,0.7)" />
           <View style={styles.modalContainer}>
