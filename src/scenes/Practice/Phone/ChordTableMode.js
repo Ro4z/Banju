@@ -62,7 +62,7 @@ const ChordTableMode = ({navigation, route: {params}}) => {
 
   useEffect(() => {
     if (!bluetoothHeadset) {
-      setPlaySync(2.5);
+      setPlaySync(0.25);
       console.log('no headset');
     } else {
       setPlaySync(0);
