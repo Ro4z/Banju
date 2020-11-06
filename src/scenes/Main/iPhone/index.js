@@ -19,14 +19,10 @@ import Base from '@base';
 const Main = ({ navigation }) => {
   const [historyJSON, setHistoryJSON] = useState({});
   const [popularList, setPopularList] = useState([]);
-  useEffect(() => {
-    const getHistory = async () => {
-      const HISTORY_JSON = JSON.parse(await AsyncStorage.getItem('Practice:history'));
-      if (HISTORY_JSON) setHistoryJSON(HISTORY_JSON);
-    };
 
+  // fetch popular list
+  useEffect(() => {
     const fetchPopular = () => {
-      console.log(TokenStore.userToken);
       axios
         .get(Base.GET_POPULAR, {
           headers: {
@@ -40,10 +36,20 @@ const Main = ({ navigation }) => {
         })
         .catch((err) => console.log(err));
     };
-    getHistory();
+
     fetchPopular();
-    Orientation.lockToPortrait();
   }, []);
+
+  // get practice history when main screen focusing
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', async () => {
+      Orientation.lockToPortrait();
+      const HISTORY_JSON = JSON.parse(await AsyncStorage.getItem('Practice:history'));
+      if (HISTORY_JSON) setHistoryJSON(HISTORY_JSON);
+    });
+
+    return unsubscribe;
+  }, [navigation]);
 
   return (
     <View style={{ flex: 1, backgroundColor: BACKGROUND_COLOR }}>
