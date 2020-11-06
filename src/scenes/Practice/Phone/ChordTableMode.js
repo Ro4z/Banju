@@ -61,6 +61,7 @@ const ChordTableMode = ({navigation, route: {params}}) => {
   useEffect(() => {
     Orientation.lockToLandscape();
     // start one time for youtube preloading
+    PianoSampler.prepare();
     setYoutubeStart(true);
     return () => {
       // stop all note
