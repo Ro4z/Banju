@@ -7,7 +7,7 @@ import { BACKGROUND_COLOR } from '../../constants/color';
 
 PianoSampler.prepare();
 
-const PianoPartView = ({ touchedKey, nextKey, firstKey = 'f2', lastKey = 'b4' }) => {
+const PianoPartView = ({ touchedKey, nextKey, firstKey = 'f3', lastKey = 'b5' }) => {
   // const x = position[0];
   // const y = position[1];
 

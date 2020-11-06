@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Text, Alert, View, Image, TouchableOpacity } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import Spinner from 'react-native-loading-spinner-overlay';
+import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
 
 import { WIDTH } from '@constants/dimensions';
@@ -15,7 +16,19 @@ const ItemWidth = WIDTH / 3;
 const ImageWidth = WIDTH / 3.5;
 const RecentListItem = ({ data, navigation }) => {
   const [showLoading, setShowLoading] = useState(false);
-  // console.log(data);
+
+  const saveHistory = async (id, title, thumbnail) => {
+    let historyJSON = JSON.parse(await AsyncStorage.getItem('Practice:history'));
+    if (!historyJSON) historyJSON = {};
+    historyJSON[id] = {
+      id,
+      title,
+      thumbnail,
+      playTime: Date.now(),
+    };
+    AsyncStorage.setItem('Practice:history', JSON.stringify(historyJSON));
+  };
+
   const pollingGetPlayMeta = (link) => {
     if (typeof link === 'undefined') return;
     setShowLoading(true);
@@ -58,13 +71,16 @@ const RecentListItem = ({ data, navigation }) => {
         });
     }, 1000);
   };
+
   return (
     <>
       <Spinner visible={showLoading} />
       <View style={styles.mainContainer}>
         <TouchableOpacity
           onPress={() => {
-            data && pollingGetPlayMeta(data.id);
+            if (!data) return;
+            pollingGetPlayMeta(data.id);
+            saveHistory(data.id, data.title, data.thumbnail);
           }}
         >
           {/* TODO: replace with image */}

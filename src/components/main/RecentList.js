@@ -1,24 +1,36 @@
-import React from 'react';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+/* eslint-disable no-nested-ternary */
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, FlatList } from 'react-native';
 
 import Item from './RecentListItem';
 
-const TEST_DATA = [
-  { title: "BTS (방탄소년단) 'Dynamite'" },
-  { title: '악동뮤지션 - 다이너소어(DINOSAUR)' },
-  { title: 'HYUKOH(혁오) - TOMBOY' },
-];
-
 const RecentList = ({ historyJSON = {}, navigation }) => {
-  console.log('Object.keys(historyJSON).length :>> ', Object.keys(historyJSON).length);
+  const [historyArr, setHistoryArr] = useState([]);
+
+  useEffect(() => {
+    console.log('RECENT LIST');
+    const tmp = Object.keys(historyJSON).map((key) => {
+      return historyJSON[key];
+    });
+    tmp.sort((a, b) => {
+      return a.playTime < b.playTime ? 1 : a.playTime > b.playTime ? -1 : 0;
+    });
+    setHistoryArr(tmp);
+  }, [historyJSON]);
+
   return (
     <View style={styles.mainContainer}>
       {Object.keys(historyJSON).length !== 0 ? (
-        <ScrollView horizontal>
-          {Object.keys(historyJSON).map((key) => {
-            return <Item data={historyJSON[key]} navigation={navigation} />;
-          })}
-        </ScrollView>
+        <>
+          <FlatList
+            horizontal
+            data={historyArr}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => {
+              return <Item data={item} navigation={navigation} />;
+            }}
+          />
+        </>
       ) : (
         <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}>
           <Text style={{ color: '#fff', textAlign: 'center' }}>

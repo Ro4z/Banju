@@ -15,8 +15,8 @@ class Piano extends Component {
     super(props);
     this.state = {
       noteRange: {
-        first: MidiNumbers.fromNote('f2'),
-        last: MidiNumbers.fromNote('b4'),
+        first: MidiNumbers.fromNote('f3'),
+        last: MidiNumbers.fromNote('b5'),
       },
     };
   }

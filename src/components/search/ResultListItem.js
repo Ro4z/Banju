@@ -17,7 +17,7 @@ import truncateString from '@utils/truncateString';
 import TokenStore from '@store/tokenStore';
 import Base from '@base';
 
-const ResultListItem = ({ data, isReady, navigation }) => {
+const ResultListItem = ({ data: banjuData, isReady, navigation }) => {
   const [openModal, setOpenModal] = useState(false);
   const [showLoading, setShowLoading] = useState(false);
   const [isChording, setIsChording] = useState(false);
@@ -58,6 +58,7 @@ const ResultListItem = ({ data, isReady, navigation }) => {
             if (typeof data.content === 'undefined') return;
             setAnimateToNumber(data.content.progress);
           } else if (status === 'finished') {
+            saveHistory(banjuData.id, he.decode(banjuData.title), banjuData.thumbnail.url);
             clearInterval(pollingObj);
             setOpenModal(false);
             setIsChording(false);
@@ -99,6 +100,7 @@ const ResultListItem = ({ data, isReady, navigation }) => {
       .then(({ data, data: { status } }) => {
         if (status === 'finished') {
           setOpenModal(false);
+          saveHistory(banjuData.id, he.decode(banjuData.title), banjuData.thumbnail.url);
           const {
             content: { items, meta },
           } = data;
@@ -128,22 +130,24 @@ const ResultListItem = ({ data, isReady, navigation }) => {
       <TouchableOpacity style={styles.mainContainer} onPress={toggleModal}>
         <View style={styles.header}>
           {/* TODO: replace with image */}
-          {data.convert === 'Banjued' && (
+          {banjuData.convert === 'Banjued' && (
             <Image source={require('@assets/img/ready.png')} style={styles.ready} />
           )}
           <View style={styles.thumbnailImageView}>
-            <Image style={styles.thumbnailImage} source={{ uri: data.thumbnail.url }} />
+            <Image style={styles.thumbnailImage} source={{ uri: banjuData.thumbnail.url }} />
           </View>
         </View>
         <View style={styles.footer}>
           <View style={styles.footerSub1}>
-            <Text style={styles.title}>{truncateString(he.decode(data.title), 40)}</Text>
+            <Text style={styles.title}>{truncateString(he.decode(banjuData.title), 40)}</Text>
             {/* <TouchableOpacity onPress={() => console.log('info')}>
               <Ionicons name="ios-ellipsis-vertical" style={styles.title} />
             </TouchableOpacity> */}
           </View>
           <View style={styles.footerSub2}>
-            <Text style={styles.meta}>{typeof data.scale === 'undefined' ? '' : data.scale}</Text>
+            <Text style={styles.meta}>
+              {typeof banjuData.scale === 'undefined' ? '' : banjuData.scale}
+            </Text>
           </View>
         </View>
 
@@ -171,16 +175,21 @@ const ResultListItem = ({ data, isReady, navigation }) => {
                     <Image source={require('@assets/img/ready.png')} style={styles.ready} />
                   )}
                   <View style={styles.thumbnailImageView}>
-                    <Image style={styles.thumbnailImage} source={{ uri: data.thumbnail.url }} />
+                    <Image
+                      style={styles.thumbnailImage}
+                      source={{ uri: banjuData.thumbnail.url }}
+                    />
                   </View>
                 </View>
                 <View style={styles.footer}>
                   <View style={styles.footerSub1}>
-                    <Text style={styles.title}>{truncateString(he.decode(data.title), 70)}</Text>
+                    <Text style={styles.title}>
+                      {truncateString(he.decode(banjuData.title), 70)}
+                    </Text>
                   </View>
                   <View style={styles.footerSub2}>
                     <Text style={styles.meta}>
-                      {typeof data.scale === 'undefined' ? '' : data.scale}
+                      {typeof banjuData.scale === 'undefined' ? '' : banjuData.scale}
                     </Text>
                   </View>
                 </View>
@@ -312,17 +321,15 @@ const ResultListItem = ({ data, isReady, navigation }) => {
             <TouchableOpacity
               style={[
                 styles.modalPlayBtn,
-                data.convert === 'Banjued' || { backgroundColor: '#000' },
+                banjuData.convert === 'Banjued' || { backgroundColor: '#000' },
               ]}
               onPress={
-                data.convert === 'Banjued'
+                banjuData.convert === 'Banjued'
                   ? () => {
-                      saveHistory(data.id, he.decode(data.title), data.thumbnail.url);
-                      getPlaymeta(data.id);
+                      getPlaymeta(banjuData.id);
                     }
                   : () => {
-                      saveHistory(data.id, he.decode(data.title), data.thumbnail.url);
-                      pollingGetPlayMeta(data.id);
+                      pollingGetPlayMeta(banjuData.id);
                     }
               }
             >
@@ -339,7 +346,7 @@ const ResultListItem = ({ data, isReady, navigation }) => {
                 </Text>
               ) : (
                 <Text style={styles.modalPlayText}>
-                  {data.convert === 'Banjued' ? 'PLAY' : 'MAKE CHORD'}
+                  {banjuData.convert === 'Banjued' ? 'PLAY' : 'MAKE CHORD'}
                 </Text>
               )}
             </TouchableOpacity>
