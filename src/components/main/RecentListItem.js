@@ -56,6 +56,7 @@ const RecentListItem = ({ data, navigation }) => {
               left_note_arr: items.noteLeft,
               right_note_arr: items.noteRight,
               meta,
+              previous_screen: 'Main',
             });
           } else {
             // TODO: sentry 연결

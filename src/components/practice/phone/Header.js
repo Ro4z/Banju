@@ -10,10 +10,12 @@ import Ionicons from '@assets/icon/Ionicons';
 import SimpleLineIcons from '@assets/icon/SimpleLineIcons';
 import truncateString from '@utils/truncateString';
 
-const Header = ({ navigation, title, progress = 0 }) => {
+const Header = ({ navigation, title, progress = 0, params }) => {
   const goBack = () => {
     Orientation.lockToPortrait();
-    navigation.navigate('Main');
+    console.log(params.previous_screen);
+    if (params.previous_screen === 'Search') navigation.navigate('Search');
+    else navigation.navigate('Main');
   };
   return (
     <>

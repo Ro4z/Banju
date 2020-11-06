@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Alert, Image, Text, TouchableOpacity, View } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import Spinner from 'react-native-loading-spinner-overlay';
+import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
 
 import { WIDTH } from '@constants/dimensions';
@@ -15,6 +16,18 @@ const ItemWidth = WIDTH / 3;
 
 const PopularListItem = ({ data, navigation }) => {
   const [showLoading, setShowLoading] = useState(false);
+
+  const saveHistory = async (id, title, thumbnail) => {
+    let historyJSON = JSON.parse(await AsyncStorage.getItem('Practice:history'));
+    if (!historyJSON) historyJSON = {};
+    historyJSON[id] = {
+      id,
+      title,
+      thumbnail,
+      playTime: Date.now(),
+    };
+    AsyncStorage.setItem('Practice:history', JSON.stringify(historyJSON));
+  };
 
   const pollingGetPlayMeta = (link) => {
     if (typeof link === 'undefined') return;
@@ -44,6 +57,7 @@ const PopularListItem = ({ data, navigation }) => {
               left_note_arr: items.noteLeft,
               right_note_arr: items.noteRight,
               meta,
+              previous_screen: 'Main',
             });
           } else {
             // TODO: sentry 연결
@@ -63,7 +77,12 @@ const PopularListItem = ({ data, navigation }) => {
   return (
     <>
       <Spinner visible={showLoading} />
-      <TouchableOpacity onPress={() => pollingGetPlayMeta(data.id)}>
+      <TouchableOpacity
+        onPress={() => {
+          pollingGetPlayMeta(data.id);
+          saveHistory(data.id, data.title, data.thumbnail.url);
+        }}
+      >
         <View style={styles.mainContainer}>
           <View style={styles.header}>
             <View style={styles.thumbnailImageView}>
