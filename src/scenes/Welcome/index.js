@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Image, Text, View, TouchableOpacity, Alert, Linking } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import Orientation from 'react-native-orientation';
 import AsyncStorage from '@react-native-community/async-storage';
 import PropTypes from 'prop-types';
 import { observer } from 'mobx-react-lite';
@@ -12,29 +13,32 @@ import { fetchGoogleLogin } from '@utils/login/googleLogin';
 import { fetchAppleLogin } from '@utils/login/appleLogin';
 import TokenStore from '@store/tokenStore';
 import Base from '@base';
-import { Link } from '@react-navigation/native';
 
 const Welcome = observer(({ navigation }) => {
+  useEffect(() => {
+    Orientation.lockToPortrait();
+  }, []);
+
   const loginWithApple = () => {
     fetchAppleLogin()
       .then(async (res) => {
         await AsyncStorage.setItem('userToken', res.authorizationCode);
         navigation.navigate('Main');
         console.log('asdf');
-        // axios
-        //   .post(Base.POST_USER, {
-        //     type: 'apple',
-        //     accessToken: res.identityToken,
-        //   })
-        //   .then((resp) => {
-        //     console.log('APPLE');
-        //     TokenStore.setUserToken(resp.data.token);
+        axios
+          .post(Base.POST_USER, {
+            type: 'apple',
+            accessToken: res.identityToken,
+          })
+          .then((resp) => {
+            console.log('APPLE');
+            TokenStore.setUserToken(resp.data.token);
 
-        //     navigation.navigate('Main');
-        //   })
-        //   .catch((error) => {
-        //     Alert.alert('Sorry2', '로그인 도중 문제가 발생하였습니다.');
-        //   });
+            navigation.navigate('Main');
+          })
+          .catch((error) => {
+            Alert.alert('Sorry2', '로그인 도중 문제가 발생하였습니다.');
+          });
       })
       .catch((err) => {
         if (err.message === 'email not found') {
