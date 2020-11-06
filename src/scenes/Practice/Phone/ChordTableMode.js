@@ -7,6 +7,7 @@ import {ifIphoneX} from 'react-native-iphone-x-helper';
 import {GameLoop} from 'react-native-game-engine';
 import PianoSampler from 'react-native-piano-sampler';
 import Youtube from '@ro4z/react-native-youtube';
+import { useBluetoothHeadsetDetection } from 'react-native-bluetooth-headset-detect';
 
 import Feather from '@assets/icon/Feather';
 import SimpleLineIcons from '@assets/icon/SimpleLineIcons';
@@ -37,6 +38,7 @@ const ChordTableMode = ({navigation, route: {params}}) => {
   const [playSync, setPlaySync] = useState(0);
   const [volume, setVolume] = useState(5);
   const [openModal, setOpenModal] = useState(false);
+  const bluetoothHeadset = useBluetoothHeadsetDetection();
 
   const scrollViewRef = useRef();
   const youtubeRef = useRef();
@@ -57,6 +59,16 @@ const ChordTableMode = ({navigation, route: {params}}) => {
 
   const leftPlayedKey = useRef([]);
   const rightPlayedKey = useRef([]);
+
+  useEffect(() => {
+    if (!bluetoothHeadset) {
+      setPlaySync(0.25);
+      console.log('no headset');
+    } else {
+      setPlaySync(0);
+      console.log('connect headset');
+    }
+  }, [bluetoothHeadset]);
 
   useEffect(() => {
     Orientation.lockToLandscape();
@@ -228,7 +240,7 @@ const ChordTableMode = ({navigation, route: {params}}) => {
           if (rightNoteArr.items[rightNoteArrIdx.current + i].key[0].noteOn === 1) {
             const tmpArr2 = [];
             rightNoteArr.items[rightNoteArrIdx.current + i].key.forEach((key) => {
-              tmpArr2.push(key.midiNum - 12);
+              tmpArr2.push(key.midiNum);
             });
             setNextKey(tmpArr2);
             break;
@@ -279,7 +291,7 @@ const ChordTableMode = ({navigation, route: {params}}) => {
             const tmpArr = [];
             rightNoteArr.items[rightNoteArrIdx.current].key.forEach((key) => {
               PianoSampler.playNote(key.midiNum, 115);
-              tmpArr.push(key.midiNum - 12);
+              tmpArr.push(key.midiNum);
             });
             rightPlayedKey.current = rightNoteArr.items[rightNoteArrIdx.current].key;
             // show touched key in PianoPartView
@@ -294,7 +306,7 @@ const ChordTableMode = ({navigation, route: {params}}) => {
                 if (rightNoteArr.items[rightNoteArrIdx.current + i].key[0].noteOn === 1) {
                   const tmpArr2 = [];
                   rightNoteArr.items[rightNoteArrIdx.current + i].key.forEach((key) => {
-                    tmpArr2.push(key.midiNum - 12);
+                    tmpArr2.push(key.midiNum);
                   });
                   // show next key in PianoPartView
                   setNextKey(tmpArr2);
@@ -513,7 +525,7 @@ const ChordTableMode = ({navigation, route: {params}}) => {
             {React.useMemo(() => {
               return (
                 <View style={{width: '100%', height: '100%'}}>
-                  <PianoPartView firstKey="f2" touchedKey={touchedKey} nextKey={nextKey} />
+                  <PianoPartView firstKey="f3" touchedKey={touchedKey} nextKey={nextKey} />
                 </View>
               );
             }, [touchedKey, nextKey])}
