@@ -70,6 +70,7 @@ const ResultListItem = ({ data: banjuData, isReady, navigation }) => {
               left_note_arr: items.noteLeft,
               right_note_arr: items.noteRight,
               meta,
+              previous_screen: 'Search',
             });
           } else {
             // TODO: sentry 연결
@@ -109,6 +110,7 @@ const ResultListItem = ({ data: banjuData, isReady, navigation }) => {
             left_note_arr: items.noteLeft,
             right_note_arr: items.noteRight,
             meta,
+            previous_screen: 'Search',
           });
         } else {
           console.log('error!', status);
