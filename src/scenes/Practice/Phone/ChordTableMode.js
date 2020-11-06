@@ -572,14 +572,14 @@ const styles = EStyleSheet.create({
     paddingTop: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    ...ifIphoneX({paddingHorizontal: 60}, {paddingHorizontal: 30}),
+    ...ifIphoneX({ paddingHorizontal: 60 }, { paddingHorizontal: 30 }),
   },
   footContainer: {
     flex: 1.3,
     flexDirection: 'row',
     backgroundColor: '#0d0d0d',
     paddingBottom: 20,
-    ...ifIphoneX({paddingHorizontal: 60}, {paddingHorizontal: 30}),
+    ...ifIphoneX({ paddingHorizontal: 60 }, { paddingHorizontal: 30 }),
   },
   footSub1: {
     flex: 2,
@@ -606,15 +606,15 @@ const styles = EStyleSheet.create({
   },
   buttonIconLarge: {
     color: colors.neonText2,
-    fontSize: 35,
+    fontSize: '35rem',
   },
   buttonIconSmall: {
     color: colors.neonText2,
-    fontSize: 27,
+    fontSize: '27rem',
   },
   buttonTitleText: {
     fontFamily: 'OpenSauceSans-Black',
-    fontSize: 18,
+    fontSize: '18rem',
     color: colors.grey152,
     marginRight: 5,
     marginLeft: 8,
@@ -625,7 +625,7 @@ const styles = EStyleSheet.create({
   },
   syncNumberText: {
     fontFamily: 'OpenSauceSans-Light',
-    fontSize: 18,
+    fontSize: '16rem',
     color: colors.grey952,
     marginHorizontal: 7,
   },
@@ -640,7 +640,7 @@ const styles = EStyleSheet.create({
     borderRadius: 7,
     zIndex: 1,
     top: 10,
-    ...ifIphoneX({left: 60}, {left: 30}),
+    ...ifIphoneX({ left: 60 }, { left: 30 }),
   },
   chordTableBox: {
     width: `27rem * ${RATIO}`,
