@@ -10,14 +10,15 @@ const TEST_DATA = [
 ];
 
 const RecentList = ({ historyJSON = {}, navigation }) => {
-  console.log('Object.keys(historyJSON).length :>> ', Object.keys(historyJSON).length);
   return (
     <View style={styles.mainContainer}>
       {Object.keys(historyJSON).length !== 0 ? (
         <ScrollView horizontal>
-          {Object.keys(historyJSON).map((key) => {
-            return <Item data={historyJSON[key]} navigation={navigation} />;
-          })}
+          {Object.keys(historyJSON)
+            .reverse()
+            .map((key) => {
+              return <Item data={historyJSON[key]} navigation={navigation} />;
+            })}
         </ScrollView>
       ) : (
         <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}>
