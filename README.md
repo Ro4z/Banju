@@ -1,9 +1,12 @@
 # :musical_keyboard: Banju
 ***AI기반 피아노 코드반주 학습 서비스***
 
+[![appstore](https://img.shields.io/itunes/v/1538267047?label=app%20store&logo=apple)](https://apple.co/2GqGtrL)
+
 > This project was bootstrapped with [react-native-cli](https://www.npmjs.com/package/react-native-cli) (2.0.1)
 
 **Software Maestro 11기 TEAM forte 🎼김성환 유인성 김하균**
+
 [<img src="./thisisbanju.png">](https://apple.co/2GqGtrL)
 
 ## 👀 Introduction
